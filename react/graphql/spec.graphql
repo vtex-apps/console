@@ -1,0 +1,3 @@
+query GetSpec ($name: String!) {
+  spec (name: $name)
+}

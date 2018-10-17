@@ -1,0 +1,65 @@
+{
+  "routes": {
+    "admin/console": {
+      "path": "/admin/console"
+    },
+    "admin/console/metrics": {
+      "path": "/admin/console/metrics"
+    },
+    "admin/console/errors": {
+      "path": "/admin/console/errors"
+    },
+    "admin/console/evidences": {
+      "path": "/admin/console/evidences"
+    }
+  },
+  "extensions": {
+    "admin/console": {
+      "component": "vtex.render-runtime/LayoutContainer",
+      "props": {
+        "elements": [
+          "__children__"
+        ]
+      }
+    },
+    "admin/console/metrics": {
+      "component": "Metrics"
+    },
+    "admin/console/errors": {
+      "component": "Metrics"
+    },
+    "admin/console/evidences": {
+      "component": "Metrics"
+    },
+    "admin/console/builds": {
+      "component": "Metrics"
+    },
+    "admin/navigation/analytics/developer": {
+      "component": "vtex.admin/InjectNavigationData",
+      "props": {
+        "icon": "extensions-ic",
+        "id": "38",
+        "subItems": [
+          {
+            "labelId": "console.submenu.metrics",
+            "path": "/admin/console/metrics"
+          },
+          {
+            "labelId": "console.submenu.errors",
+            "path": "/admin/console/errors"
+          },
+          {
+            "labelId": "console.submenu.builds",
+            "path": "/admin/console/builds"
+          },
+          {
+            "labelId": "console.submenu.evidences",
+            "path": "/admin/console/evidences"
+          }
+        ],
+        "tag": "appframe.new",
+        "titleId": "console.menu.title"
+      }
+    }
+  }
+}
