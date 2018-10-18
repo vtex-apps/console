@@ -1,0 +1,6 @@
+query AvailableSpecs {
+  specs {
+    appId
+    specName
+  }
+}

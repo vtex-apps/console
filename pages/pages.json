@@ -9,8 +9,8 @@
     "admin/console/errors": {
       "path": "/admin/console/errors"
     },
-    "admin/console/evidences": {
-      "path": "/admin/console/evidences"
+    "admin/console/kpis": {
+      "path": "/admin/console/kpis"
     }
   },
   "extensions": {
@@ -28,7 +28,7 @@
     "admin/console/errors": {
       "component": "Metrics"
     },
-    "admin/console/evidences": {
+    "admin/console/kpis": {
       "component": "Metrics"
     },
     "admin/console/builds": {
@@ -53,8 +53,8 @@
             "path": "/admin/console/builds"
           },
           {
-            "labelId": "console.submenu.evidences",
-            "path": "/admin/console/evidences"
+            "labelId": "console.submenu.kpis",
+            "path": "/admin/console/kpis"
           }
         ],
         "tag": "appframe.new",
