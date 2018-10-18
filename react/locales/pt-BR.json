@@ -7,5 +7,6 @@
   "console.admin.metrics.datePicker.startDateTitle": "Data inicial",
   "console.admin.metrics.datePicker.endDateTitle": "Data final",
   "console.admin.tabs.metrics": "Métricas",
-  "console.admin.tabs.errors": "Erros"
+  "console.admin.tabs.errors": "Erros",
+  "console.admin.tabs.builds": "Build"
 }

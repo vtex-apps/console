@@ -47,9 +47,11 @@ const fields: Fields = {
     path: 'errors',
     titleId: 'console.admin.tabs.errors',
   },
+  builds: {
+    path: 'builds',
+    titleId: 'console.admin.tabs.builds',
+  },
 }
-
-
 
 class Metrics extends Component<{}, State> {
   public static contextTypes = {
@@ -129,30 +131,36 @@ class Metrics extends Component<{}, State> {
                  </Fragment>
 
                  <div className="pH7">
-                     <Tabs>
-                         {values(
-                            mapObjIndexed((info: FieldInfo, key: string) => {
-                              return (
-                                <Tab
-                                  key={key}
-                                  label={intl.formatMessage({ id: info.titleId })}
-                                  active={
-                                    path.startsWith(info.path) &&
-                                    (path === '' ? path === info.path : true)
-                                  }
-                                  onClick={() => {
-                                      navigate({ to: '/admin/console/' + info.path })
-                                  }}
-                                />
-                              )
-                            }, fields),
-                         )}
-                     </Tabs>
+                     <StylesContainer>
+                         <Tabs>
+                             {values(
+                                mapObjIndexed((info: FieldInfo, key: string) => {
+                                  return (
+                                    <Tab
+                                      key={key}
+                                      label={intl.formatMessage({ id: info.titleId })}
+                                      active={
+                                        path.startsWith(info.path) &&
+                                        (path === '' ? path === info.path : true)
+                                      }
+                                      onClick={() => {
+                                          navigate({ to: '/admin/console/' + info.path })
+                                      }}
+                                    />
+                                  )
+                                }, fields),
+                             )}
+                         </Tabs>
+                     </StylesContainer>
                  </div>
-                 <View
-                   appId={this.state.chosenAppId}
-                   name={'sample'}
-                 />
+                 <div className="pH7">
+                     <StylesContainer>
+                         <View
+                           appId={this.state.chosenAppId}
+                           name={'sample'}
+                         />
+                     </StylesContainer>
+                 </div>
              </div>
           ) : null}
       </Query>
