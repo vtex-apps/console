@@ -1,0 +1,11 @@
+{
+  "console.menu.title": "Console",
+  "console.submenu.metrics": "Métricas",
+  "console.submenu.errors": "Erros",
+  "console.submenu.evidences": "Evidências",
+  "console.submenu.builds": "Builds",
+  "console.admin.metrics.datePicker.startDateTitle": "Data inicial",
+  "console.admin.metrics.datePicker.endDateTitle": "Data final",
+  "console.admin.tabs.metrics": "Métricas",
+  "console.admin.tabs.errors": "Erros"
+}
