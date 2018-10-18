@@ -1,8 +1,7 @@
-query GetData ($appId: String!, $name: String!, $fromTime: Float, $toTime: Float) {
-  data (
-    appId: $appId,
-    name: $name,
-    fromTime: $fromTime,
-    toTime: $toTime
+query GetData($appId: String!, $name: String!, $params:StoreDashInput) {
+  data(
+    appId:$appId,
+    name:$name,
+    params: $params
   )
 }

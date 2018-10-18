@@ -3,7 +3,7 @@ import { Query } from 'react-apollo'
 import * as Datetime from 'react-datetime'
 import { ExtensionContainer } from 'render'
 import { Dropdown } from 'vtex.styleguide'
-import { VegaView } from './components/vegaView'
+import { View } from './components/view'
 
 import appsQuery from './graphql/apps.graphql'
 
@@ -31,9 +31,9 @@ export default class Metrics extends Component<{}, State> {
           onChange={(_: Event, chosenAppId: string) => this.setState({chosenAppId})}
         />
         <Datetime />
-        <VegaView
+        <View
           appId={this.state.chosenAppId}
-          name={'graphql'}
+          name={'sample'}
         />
         <ExtensionContainer id="extensions" />
       </Fragment>

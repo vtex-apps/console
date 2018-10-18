@@ -1,7 +1,17 @@
 {
   "$schema": "https://vega.github.io/schema/vega/v3.0.json",
   "storedash": {
-    "name": "graphql"
+    "name":"paymentauthorization",
+    "params": {
+      "aggregateBy": ["data.paymentsystem", "unit"],
+      "fields": ["count", "sum"],
+      "from": "now-1h",
+      "interval": "1m",
+      "operation": "sum",
+      "size": 1,
+      "timezone": "-03:00",
+      "to": "now"
+    }
   },
   "width": 400,
   "height": 200,
