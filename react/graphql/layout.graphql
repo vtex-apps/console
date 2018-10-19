@@ -1,0 +1,11 @@
+query Layout($appName: String!) {
+  layout (
+    appName:$appName
+  ) {
+    spec
+    specLocator {
+      appId
+      specName
+    }
+  }
+}
