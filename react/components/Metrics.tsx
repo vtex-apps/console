@@ -1,20 +1,21 @@
-import { path } from 'ramda'
+import { path, pluck } from 'ramda'
 import React, { Component, Fragment } from 'react'
-import { Query } from 'react-apollo'
+import { Mutation, Query } from 'react-apollo'
 import { FormattedMessage } from 'react-intl'
 import { Button, EmptyState } from 'vtex.styleguide'
 
 import layoutQuery from '../graphql/layout.graphql'
+import saveLayoutMutation from '../graphql/saveLayout.graphql'
 import AddSpecs from './addSpec'
 import MetricsControllers from './ControllersWrapper'
-import { Render } from './render'
+import Render from './render'
 
 interface State {
   controllers: Controllers
   mode: 'view' | 'edit' | 'add'
 }
 
-const getAppName = (controllers: Controllers) => {
+const getAppId = (controllers: Controllers) => {
   const {
     chosenAppName,
     chosenMajor,
@@ -50,7 +51,17 @@ export default class Metrics extends Component<{}, State> {
     this.setState({mode: 'edit'})
   }
 
-  public saveLayout = () => {
+  public saveLayout = async (saveLayout: any, layoutContainer: LayoutContainer) => {
+    const layout = layoutContainer && layoutContainer.layout
+    const specLocators = layout && pluck('specLocator', layout)
+    if (specLocators) {
+      await saveLayout({
+        variables: {
+          appName: this.state.controllers.chosenAppName,
+          specLocators
+        }
+      })
+    }
     this.setState({mode: 'view'})
   }
 
@@ -67,9 +78,7 @@ export default class Metrics extends Component<{}, State> {
   }
 
   public render = () => {
-    const { controllers } = this.state
-
-    const appName = getAppName(controllers)
+    const { controllers: {chosenAppName: appName} } = this.state
 
     return (
       <div className="flex w-100">
@@ -80,66 +89,70 @@ export default class Metrics extends Component<{}, State> {
           <div className="w-80">
           { appName
             ? (
-              <Query query={layoutQuery} ssr={false} variables={{appName}}>
-              {({loading, data, updateQuery}) => {
-                const layout = path(['layout', 'layout'], data)
-                return (
-                  <Fragment>
-                    <div className="flex justify-end">
-                      {this.state.mode !== 'view' && <div className="ph4">
-                        <Button variation="tertiary" onClick={this.cancelEdit} size="small">
-                          <FormattedMessage id="console.admin.metrics.button.cancel" />
-                        </Button>
-                      </div>}
-                      {this.state.mode !== 'view' && (
-                          <Button variation="secondary" onClick={this.saveLayout} size="small">
-                            <FormattedMessage id="console.admin.metrics.button.save" />
-                          </Button>
-                      )}
-                      <div className="ph4">
-                        <Button variation="secondary" onClick={this.setEditMode} size="small" disabled={this.state.mode !== 'view'}>
-                          <FormattedMessage id="console.admin.metrics.button.edit" />
-                        </Button>
-                      </div>
-                      {<div className="ph4">
-                        <Button variation="secondary" onClick={this.setAddSpecs} size="small">
-                          <FormattedMessage id="console.admin.metrics.button.add" />
-                        </Button>
-                      </div>}
-                    </div>
+              <Mutation mutation={saveLayoutMutation}>
+                {(saveLayout: any) => (
+                  <Query query={layoutQuery} ssr={false} variables={{appName}}>
+                  {({loading, data, updateQuery}) => {
+                    const layout = path(['layout', 'layout'], data)
+                    return (
+                      <Fragment>
+                        <div className="flex justify-end">
+                          {this.state.mode !== 'view' && <div className="ph4">
+                            <Button variation="primary" onClick={this.cancelEdit} size="small">
+                              <FormattedMessage id="console.admin.metrics.button.cancel" />
+                            </Button>
+                          </div>}
+                          {this.state.mode !== 'view' && (
+                              <Button variation="danger" onClick={() => this.saveLayout(saveLayout, data && data.layout)} size="small">
+                                <FormattedMessage id="console.admin.metrics.button.save" />
+                              </Button>
+                          )}
+                          <div className="ph4">
+                            <Button variation="secondary" onClick={this.setEditMode} size="small" disabled={this.state.mode !== 'view'}>
+                              <FormattedMessage id="console.admin.metrics.button.edit" />
+                            </Button>
+                          </div>
+                          {<div className="ph4">
+                            <Button variation="secondary" onClick={this.setAddSpecs} size="small">
+                              <FormattedMessage id="console.admin.metrics.button.add" />
+                            </Button>
+                          </div>}
+                        </div>
 
-                    {this.state.mode === 'add' && <AddSpecs
-                      updateLayout={updateQuery}
-                      mode={this.state.mode}
-                      closedAddSpec={this.closeAddSpecs}
-                    />}
+                        {this.state.mode === 'add' && <AddSpecs
+                          updateLayout={updateQuery}
+                          mode={this.state.mode}
+                          closedAddSpec={this.closeAddSpecs}
+                        />}
 
-                    <div className="flex flex-wrap pa7">
-                      {!loading && Array.isArray(layout) && layout.map(
-                        ({spec}) => {
-                          const specJSON = JSON.parse(spec)
-                          const {
-                            storedash: {
-                              name,
-                              params
+                        <div className="flex flex-wrap">
+                          {!loading && Array.isArray(layout) && layout.map(
+                            ({spec}) => {
+                              const specJSON = JSON.parse(spec)
+                              const {
+                                storedash: {
+                                  name,
+                                  params
+                                }
+                              } = specJSON
+                              return (
+                                <div className="w-45 pa3 mr2">
+                                    <Render
+                                      appId={getAppId(this.state.controllers) || ''}
+                                      name={name}
+                                      params={params}
+                                      spec={specJSON}
+                                    />
+                                </div>
+                              )
                             }
-                          } = specJSON
-                          return (
-                            <div className="br3 bg-base pa5 ma5">
-                                <Render
-                                  appId={appName}
-                                  name={name}
-                                  params={params}
-                                  spec={specJSON}
-                                />
-                            </div>
-                          )
-                        }
-                      )}
-                    </div>
-                  </Fragment>
-              )}}
-              </Query>
+                          )}
+                        </div>
+                      </Fragment>
+                  )}}
+                  </Query>
+                )}
+              </Mutation>
             ) : (
               <EmptyState title="Please select an app">
                 <p>

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Query } from 'react-apollo'
 import { Spinner } from 'vtex.styleguide'
-import { Render } from './render'
+import Render from './render'
 
 import specQuery from '../graphql/spec.graphql'
 

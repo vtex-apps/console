@@ -5,7 +5,14 @@ import { Spinner } from 'vtex.styleguide'
 
 import dataQuery from '../graphql/data.graphql'
 
-export class Render extends Component {
+interface Props {
+  name: string
+  appId: string
+  params: any
+  spec: string
+}
+
+export default class Render extends Component<Props> {
   public render = () => {
     const {name, appId, params, spec} = this.props
 

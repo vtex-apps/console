@@ -1,5 +1,5 @@
 mutation AddSpecToLayout($appName: String!, $specLocatorInput: SpecLocatorInput!) {
-  addSpecToLayout(appName: $appName, specLocators: ) {
+  addSpecToLayout(appName: $appName, $specLocators: $specLocatorInput) {
     cacheId
     layout {
       spec
