@@ -3,7 +3,7 @@
   "console.submenu.metrics": "Metrics",
   "console.submenu.errors": "Errors",
   "console.submenu.evidences": "Evidences",
-  "console.submenu.builds": "Builds",
+  "console.submenu.publishes": "Publishes",
   "console.admin.metrics.datePicker.startDateTitle": "Start date",
   "console.admin.metrics.datePicker.endDateTitle": "End date",
   "console.admin.tabs.metrics": "Metrics",
