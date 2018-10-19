@@ -4,6 +4,7 @@ import React, { Component, Fragment } from 'react'
 import AppPicker from './appPicker'
 import EnvPicker from './envPicker'
 import RegionPicker from './regionPicker'
+import VersionInput from './versionInput'
 
 interface Props {
   controllers: Controllers
@@ -14,13 +15,16 @@ export default class ControllersWrapper extends Component<Props> {
   public render = () => (
     <div className="ph8">
       <div className="flex">
-        <div className="w-33 pa3 mr2">
+        <div className="w-25 pa3 mr2">
           <AppPicker controllers={this.props.controllers} setControllers={this.props.setControllers} />
         </div>
-        <div className="w-33 pa3 mr2">
+        <div className="w-25 pa3 mr2">
+          <VersionInput controllers={this.props.controllers} setControllers={this.props.setControllers} />
+        </div>
+        <div className="w-25 pa3 mr2">
           <RegionPicker controllers={this.props.controllers} setControllers={this.props.setControllers} />
         </div>
-        <div className="w-33 pa3 mr2">
+        <div className="w-25 pa3 mr2">
           <EnvPicker controllers={this.props.controllers} setControllers={this.props.setControllers} />
         </div>
       </div>

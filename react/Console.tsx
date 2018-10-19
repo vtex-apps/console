@@ -67,7 +67,7 @@ class Console extends Component<Props, State> {
     }
   }
 
-  public setControllers = (controllers: State['controllers']) => this.setState({controllers})
+  public setControllers = (controllers: Controllers) => this.setState({controllers})
 
   public render = () => {
     const {
