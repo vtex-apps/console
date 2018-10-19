@@ -1,17 +1,18 @@
 import { concat, head, map, path } from 'ramda'
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import { ApolloConsumer, Query } from 'react-apollo'
-import { Button, Dropdown, EmptyState, ModalDialog, Spinner } from 'vtex.styleguide'
+import { Dropdown, ModalDialog, Spinner } from 'vtex.styleguide'
 
 import getSpecSchema from '../graphql/spec.graphql'
 import availableSpecs from '../graphql/specs.graphql'
 
 interface Props {
   updateLayout: any
+  mode: 'view' | 'edit' | 'add'
+  closedAddSpec: any
 }
 
 interface State {
-  selectingNewSpec: boolean
   selectedSpec?: Spec
 }
 
@@ -43,11 +44,8 @@ export default class AddSpecs extends Component<Props, State> {
     super(props)
     this.state = {
       selectedSpec: undefined,
-      selectingNewSpec: false,
     }
   }
-
-  public selectingNewSpec = () => this.setState({selectingNewSpec: true})
 
   public specSelected = async (apolloClient: any) => {
     const {selectedSpec} = this.state
@@ -79,50 +77,41 @@ export default class AddSpecs extends Component<Props, State> {
         }
       })
     }
-    this.setState({selectingNewSpec: false})
+    this.props.closedAddSpec()
   }
 
   public render = () => (
-    <Fragment>
-      <EmptyState>
-        <div className="pt5">
-          <Button variation="tertiary" size="small" onClick={this.selectingNewSpec}>
-            <span className="flex align-baseline">Select New</span>
-          </Button>
-        </div>
-      </EmptyState>
-      <Query query={availableSpecs} ssr={false}>
-      {({loading, data}) => (
-        <ApolloConsumer>
-          {apolloClient => (
-            <ModalDialog
-                centered
-                confirmation={{
-                  label: 'Select',
-                  onClick: () => this.specSelected(apolloClient),
-                }}
-                cancelation={{
-                  label: 'Cancel',
-                  onClick: () => this.specSelected(apolloClient),
-                }}
-                isOpen={this.state.selectingNewSpec}
-                onClose={() => this.specSelected(apolloClient)}
-              >
-              <h1>Select Spec</h1>
-              {loading || !data || !Array.isArray(data.specs)
-                ? <Spinner/>
-                : <Dropdown
-                    label="Specs"
-                    options={specsToDropdownOptions(data.specs)}
-                    onChange={(_: string, selectedSpec: string) => this.setState({selectedSpec: parseSpec(selectedSpec)})}
-                    value={specToString(this.state.selectedSpec)}
-                  />
-              }
-            </ModalDialog>
-          )}
-        </ApolloConsumer>
-      )}
-      </Query>
-    </Fragment>
+    <Query query={availableSpecs} ssr={false}>
+    {({loading, data}) => (
+      <ApolloConsumer>
+        {apolloClient => (
+          <ModalDialog
+              centered
+              confirmation={{
+                label: 'Select',
+                onClick: () => this.specSelected(apolloClient),
+              }}
+              cancelation={{
+                label: 'Cancel',
+                onClick: () => this.specSelected(apolloClient),
+              }}
+              isOpen={this.props.mode === 'add'}
+              onClose={() => this.specSelected(apolloClient)}
+            >
+            <h1>Select Spec</h1>
+            {loading || !data || !Array.isArray(data.specs)
+              ? <Spinner/>
+              : <Dropdown
+                  label="Specs"
+                  options={specsToDropdownOptions(data.specs)}
+                  onChange={(_: string, selectedSpec: string) => this.setState({selectedSpec: parseSpec(selectedSpec)})}
+                  value={specToString(this.state.selectedSpec)}
+                />
+            }
+          </ModalDialog>
+        )}
+      </ApolloConsumer>
+    )}
+    </Query>
   )
 }
