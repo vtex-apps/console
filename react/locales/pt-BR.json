@@ -11,5 +11,6 @@
   "console.admin.tabs.builds": "Build",
   "console.admin.metrics.button.edit": "Editar",
   "console.admin.metrics.button.save": "Salvar",
-  "console.admin.metrics.button.cancel": "Cancelar"
+  "console.admin.metrics.button.cancel": "Cancelar",
+  "console.admin.metrics.button.add": "Adicionar Novo"
 }

@@ -11,7 +11,7 @@ import { Render } from './render'
 
 interface State {
   controllers: Controllers
-  editMode: boolean
+  mode: 'view' | 'edit' | 'add'
 }
 
 const getAppName = (controllers: Controllers) => {
@@ -40,22 +40,26 @@ export default class Metrics extends Component<{}, State> {
         region: 'Any',
         startDate: undefined,
       },
-      editMode: false
+      mode: 'view',
     }
   }
 
   public setControllers = (controllers: Controllers) => this.setState({controllers})
 
   public setEditMode = () => {
-    this.setState({editMode: true})
+    this.setState({mode: 'edit'})
   }
 
   public saveLayout = () => {
-    this.setState({editMode: false})
+    this.setState({mode: 'view'})
   }
 
   public cancelEdit = () => {
-    this.setState({editMode: false})
+    this.setState({mode: 'view'})
+  }
+
+  public setAddSpecs = () => {
+    this.setState({mode: 'add'})
   }
 
   public render = () => {
@@ -72,19 +76,24 @@ export default class Metrics extends Component<{}, State> {
           />
 
           <div className="flex justify-end">
-            {this.state.editMode && <div className="ph4">
+            {this.state.mode === 'edit' && <div className="ph4">
               <Button variation="primary" onClick={this.cancelEdit} size="small">
                 <FormattedMessage id="console.admin.metrics.button.cancel" />
               </Button>
             </div>}
-            {this.state.editMode && (
+            {this.state.mode === 'edit' && (
                 <Button variation="danger" onClick={this.saveLayout} size="small">
                   <FormattedMessage id="console.admin.metrics.button.save" />
                 </Button>
             )}
             <div className="ph4">
-              <Button variation="secondary" onClick={this.setEditMode} size="small" disabled={this.state.editMode}>
+              <Button variation="secondary" onClick={this.setEditMode} size="small" disabled={this.state.mode !== 'view'}>
                 <FormattedMessage id="console.admin.metrics.button.edit" />
+              </Button>
+            </div>
+            <div className="ph4">
+              <Button variation="secondary" onClick={this.setAddSpecs} size="small">
+                <FormattedMessage id="console.admin.metrics.button.add" />
               </Button>
             </div>
           </div>
@@ -118,7 +127,7 @@ export default class Metrics extends Component<{}, State> {
                   }
                 )
                 : []
-                const editComponent = this.state.editMode
+                const editComponent = this.state.mode === 'add'
                   ? [(
                     <div className="w-45 pa3 mr2">
                       <AddSpecs updateLayout={updateQuery} />

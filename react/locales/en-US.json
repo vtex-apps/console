@@ -12,5 +12,6 @@
   "console.submenu.kpis": "Kpis",
   "console.admin.metrics.button.edit": "Edit",
   "console.admin.metrics.button.save": "Save",
-  "console.admin.metrics.button.cancel": "Cancel"
+  "console.admin.metrics.button.cancel": "Cancel",
+  "console.admin.metrics.button.add": "Add New"
 }
