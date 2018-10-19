@@ -5,7 +5,7 @@ interface Props {
 }
 
 const StylesContainer = (props: Props) => (
-  <div className="w100 mw9 mv6 ph6 mr-auto ml-auto">{props.children}</div>
+  <div className="w-90 mv6 ph6 mr-auto ml-auto">{props.children}</div>
 )
 
 export default StylesContainer

@@ -87,12 +87,12 @@ export default class Metrics extends Component<{}, State> {
                   <Fragment>
                     <div className="flex justify-end">
                       {this.state.mode !== 'view' && <div className="ph4">
-                        <Button variation="primary" onClick={this.cancelEdit} size="small">
+                        <Button variation="tertiary" onClick={this.cancelEdit} size="small">
                           <FormattedMessage id="console.admin.metrics.button.cancel" />
                         </Button>
                       </div>}
                       {this.state.mode !== 'view' && (
-                          <Button variation="danger" onClick={this.saveLayout} size="small">
+                          <Button variation="secondary" onClick={this.saveLayout} size="small">
                             <FormattedMessage id="console.admin.metrics.button.save" />
                           </Button>
                       )}

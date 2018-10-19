@@ -9,7 +9,7 @@ import MetricsControllers from './components/ControllersWrapper'
 import Errors from './components/Errors'
 import Metrics from './components/Metrics'
 import StylesContainer from './components/StylesContainer'
-
+var DivHeight = { minHeight: 'calc(100vh - 3em)'};
 type Props = {
   runtime: RenderContext
 } & ReactIntl.InjectedIntlProps
@@ -64,7 +64,7 @@ class Console extends Component<Props, {}> {
     }
 
     return (
-      <div className="bg-near-white">
+      <div className="bg-near-white" style={DivHeight}>
         <PageHeader title="IO Console" />
         <Tabs>
         {fields.map(({name, path, titleId}: Field) => (
@@ -76,7 +76,7 @@ class Console extends Component<Props, {}> {
           />
         ))}
         </Tabs>
-        <div className="ph7">
+        <div>
           <StylesContainer>
             {tab === 'metrics' && <Metrics />}
             {tab === 'errors' && <Errors />}
