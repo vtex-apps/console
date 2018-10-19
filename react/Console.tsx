@@ -64,7 +64,7 @@ class Console extends Component<Props, {}> {
     }
 
     return (
-      <Fragment>
+      <div className="bg-near-white calc--height vh-100">
         <PageHeader title="IO Console" />
         <Tabs>
         {fields.map(({name, path, titleId}: Field) => (
@@ -83,7 +83,7 @@ class Console extends Component<Props, {}> {
             {tab === 'builds' && <Builds />}
           </StylesContainer>
         </div>
-      </Fragment>
+      </div>
     )
   }
 
