@@ -9,5 +9,7 @@
   "console.admin.tabs.metrics": "Metrics",
   "console.admin.tabs.errors": "Errors",
   "console.admin.tabs.builds": "Build",
-  "console.submenu.kpis": "Kpis"
+  "console.submenu.kpis": "Kpis",
+  "console.admin.metrics.button.edit": "Edit",
+  "console.admin.metrics.button.save": "Save"
 }

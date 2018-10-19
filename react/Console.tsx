@@ -67,7 +67,19 @@ class Console extends Component<Props, State> {
     }
   }
 
+  public componentDidMount () {
+    window.postMessage({ action: { type: 'STOP_LOADING' } }, '*')
+  }
+
   public setControllers = (controllers: Controllers) => this.setState({controllers})
+
+  public setEditMode = () => {
+    this.setState({editMode: true})
+  }
+
+  public saveLayout = () => {
+    this.setState({editMode: false})
+  }
 
   public render = () => {
     const {
@@ -83,7 +95,13 @@ class Console extends Component<Props, State> {
     return (
       <Fragment>
         <PageHeader title="IO Console" />
-        <ControllersWrapper controllers={this.state.controllers} setControllers={this.setControllers} />
+        <ControllersWrapper
+          controllers={this.state.controllers}
+          setControllers={this.setControllers}
+          setEditMode={this.setEditMode}
+          saveLayout={this.saveLayout}
+          editMode={this.state.editMode}
+        />
         <div className="ph7">
           <StylesContainer>
             <Tabs>

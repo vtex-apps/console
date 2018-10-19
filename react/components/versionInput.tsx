@@ -28,21 +28,14 @@ export default class VersionInput extends Component<Props, State> {
     }
   }
 
-  public render = () => this.state.inputIsNotSemver
-    ? (
-      <Input
-       placeholder="Ex: 1.0.x"
-        label="Version"
-        onChange={(event: any) => this.parseInputAndSetState(event.target.value)}
-        errorMessage={'Version is not in the SemVer spec'}
-      />
-    ) : (
-      <Input
-       placeholder="Ex: 1.0.x"
-        label="Version"
-        onChange={(event: any) => this.parseInputAndSetState(event.target.value)}
-      />
-    )
+  public render = () => (
+    <Input
+      placeholder="Ex: 1.0.x"
+      label="Version"
+      onChange={(event: any) => this.parseInputAndSetState(event.target.value)}
+      errorMessage={this.state.inputIsNotSemver && 'Version is not in the SemVer spec'}
+    />
+  )
 
   private parseInputAndSetState = async (version: string) => {
     const isValid = isValidVersion(version)

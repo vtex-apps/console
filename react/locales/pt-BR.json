@@ -8,5 +8,7 @@
   "console.admin.metrics.datePicker.endDateTitle": "Data final",
   "console.admin.tabs.metrics": "Métricas",
   "console.admin.tabs.errors": "Erros",
-  "console.admin.tabs.builds": "Build"
+  "console.admin.tabs.builds": "Build",
+  "console.admin.metrics.button.edit": "Editar",
+  "console.admin.metrics.button.save": "Salvar"
 }
