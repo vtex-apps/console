@@ -64,7 +64,8 @@ class Console extends Component<Props, {}> {
     }
 
     return (
-      <div className="bg-near-white" style={DivHeight}>
+      <div className="bg-muted-5" style={DivHeight}>
+        <div className="w-90 center">
         <PageHeader title="IO Console" />
         <Tabs>
         {fields.map(({name, path, titleId}: Field) => (
@@ -76,6 +77,7 @@ class Console extends Component<Props, {}> {
           />
         ))}
         </Tabs>
+      </div>
         <div>
           <StylesContainer>
             {tab === 'metrics' && <Metrics />}
