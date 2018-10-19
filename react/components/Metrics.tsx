@@ -1,18 +1,17 @@
+import { path } from 'ramda'
 import React, { Component, Fragment } from 'react'
 import { Query } from 'react-apollo'
 import { FormattedMessage } from 'react-intl'
 import { Button, EmptyState } from 'vtex.styleguide'
 
-import { path } from 'ramda'
 import layoutQuery from '../graphql/layout.graphql'
 import AddSpecs from './addSpec'
+import MetricsControllers from './ControllersWrapper'
 import { Render } from './render'
 
-interface Props {
+interface State {
   controllers: Controllers
   editMode: boolean
-  saveLayout: any
-  setEditMode: any
 }
 
 const getAppName = (controllers: Controllers) => {
@@ -27,31 +26,69 @@ const getAppName = (controllers: Controllers) => {
          null
 }
 
-export default class Metrics extends Component<Props> {
+export default class Metrics extends Component<{}, State> {
   constructor(props: any) {
     super(props)
+    this.state = {
+      controllers: {
+        chosenAppName: undefined,
+        chosenMajor: '',
+        chosenMinor: '',
+        chosenPatch: '',
+        endDate: undefined,
+        production: 'true',
+        region: 'Any',
+        startDate: undefined,
+      },
+      editMode: false
+    }
+  }
+
+  public setControllers = (controllers: Controllers) => this.setState({controllers})
+
+  public setEditMode = () => {
+    this.setState({editMode: true})
+  }
+
+  public saveLayout = () => {
+    this.setState({editMode: false})
+  }
+
+  public cancelEdit = () => {
+    this.setState({editMode: false})
   }
 
   public render = () => {
-    const { controllers } = this.props
+    const { controllers } = this.state
 
     const appName = getAppName(controllers)
 
     return (
       <Fragment>
-        <div className="flex justify-end">
-          {this.props.editMode && (
+        <div className="ph8">
+          <MetricsControllers
+            controllers={this.state.controllers}
+            setControllers={this.setControllers}
+          />
+
+          <div className="flex justify-end">
+            {this.state.editMode && <div className="ph4">
+              <Button variation="primary" onClick={this.cancelEdit} size="small">
+                <FormattedMessage id="console.admin.metrics.button.cancel" />
+              </Button>
+            </div>}
+            {this.state.editMode && (
+                <Button variation="danger" onClick={this.saveLayout} size="small">
+                  <FormattedMessage id="console.admin.metrics.button.save" />
+                </Button>
+            )}
             <div className="ph4">
-              <Button variation="danger" onClick={this.props.saveLayout} size="small">
-                <FormattedMessage id="console.admin.metrics.button.save" />
+              <Button variation="secondary" onClick={this.setEditMode} size="small" disabled={this.state.editMode}>
+                <FormattedMessage id="console.admin.metrics.button.edit" />
               </Button>
             </div>
-          )}
-          <div className="ph4">
-            <Button variation="secondary" onClick={this.props.setEditMode} size="small" disabled={this.props.editMode}>
-              <FormattedMessage id="console.admin.metrics.button.edit" />
-            </Button>
           </div>
+
         </div>
         {appName
         ? (
@@ -81,7 +118,7 @@ export default class Metrics extends Component<Props> {
                   }
                 )
                 : []
-                const editComponent = this.props.editMode
+                const editComponent = this.state.editMode
                   ? [(
                     <div className="w-45 pa3 mr2">
                       <AddSpecs updateLayout={updateQuery} />

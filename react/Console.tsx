@@ -5,7 +5,7 @@ import { withRuntimeContext } from 'render'
 import { PageHeader, Tab, Tabs } from 'vtex.styleguide'
 
 import Builds from './components/Builds'
-import ControllersWrapper from './components/ControllersWrapper'
+import MetricsControllers from './components/ControllersWrapper'
 import Errors from './components/Errors'
 import Metrics from './components/Metrics'
 import StylesContainer from './components/StylesContainer'
@@ -17,11 +17,6 @@ type Props = {
   params: {
     tab: string
   }
-}
-
-interface State {
-  controllers: Controllers
-  editMode: boolean
 }
 
 interface Field {
@@ -48,36 +43,13 @@ const fields: Field[] = [
   }
 ]
 
-class Console extends Component<Props, State> {
+class Console extends Component<Props, {}> {
   constructor(props: any) {
     super(props)
-    this.state = {
-      controllers: {
-        chosenAppName: undefined,
-        chosenMajor: '',
-        chosenMinor: '',
-        chosenPatch: '',
-        endDate: undefined,
-        production: 'true',
-        region: 'Any',
-        startDate: undefined,
-      },
-      editMode: false
-    }
   }
 
   public componentDidMount () {
     window.postMessage({ action: { type: 'STOP_LOADING' } }, '*')
-  }
-
-  public setControllers = (controllers: Controllers) => this.setState({controllers})
-
-  public setEditMode = () => {
-    this.setState({editMode: true})
-  }
-
-  public saveLayout = () => {
-    this.setState({editMode: false})
   }
 
   public render = () => {
@@ -94,28 +66,19 @@ class Console extends Component<Props, State> {
     return (
       <Fragment>
         <PageHeader title="IO Console" />
-        <ControllersWrapper
-          controllers={this.state.controllers}
-          setControllers={this.setControllers}
-        />
+        <Tabs>
+        {fields.map(({name, path, titleId}: Field) => (
+          <Tab
+            key={name}
+            label={intl.formatMessage({ id: titleId })}
+            active={tab === path}
+            onClick={() => navigate({ to: `/admin/console/${path}` })}
+          />
+        ))}
+        </Tabs>
         <div className="ph7">
           <StylesContainer>
-            <Tabs>
-            {fields.map(({name, path, titleId}: Field) => (
-              <Tab
-                key={name}
-                label={intl.formatMessage({ id: titleId })}
-                active={tab === path}
-                onClick={() => navigate({ to: `/admin/console/${path}` })}
-              />
-            ))}
-            </Tabs>
-            {tab === 'metrics' && <Metrics
-              controllers={this.state.controllers}
-              editMode={this.state.editMode}
-              setEditMode={this.setEditMode}
-              saveLayout={this.saveLayout}
-            />}
+            {tab === 'metrics' && <Metrics />}
             {tab === 'errors' && <Errors />}
             {tab === 'builds' && <Builds />}
           </StylesContainer>

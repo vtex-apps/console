@@ -11,5 +11,6 @@
   "console.admin.tabs.builds": "Build",
   "console.submenu.kpis": "Kpis",
   "console.admin.metrics.button.edit": "Edit",
-  "console.admin.metrics.button.save": "Save"
+  "console.admin.metrics.button.save": "Save",
+  "console.admin.metrics.button.cancel": "Cancel"
 }
