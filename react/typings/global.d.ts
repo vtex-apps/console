@@ -31,3 +31,18 @@ interface Controllers {
   chosenMinor: string
   chosenPatch: string
 }
+
+interface LayoutContainer {
+  cacheId: String
+  layout: Layout[]
+}
+
+interface Layout {
+  spec: String
+  specLocator: SpecLocator
+}
+
+interface SpecLocator {
+  appId: string
+  specName: string
+}

@@ -9,7 +9,7 @@
     "vtex.admin": "1.x",
     "vtex.console-graphql": "0.x",
     "vtex.render-runtime": "7.x",
-    "vtex.styleguide": "6.x",
+    "vtex.styleguide": "7.x",
     "vtex.builder-log": "0.x"
   },
   "scripts": {

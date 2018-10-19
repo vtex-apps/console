@@ -1,26 +1,84 @@
+import { concat, map, path } from 'ramda'
 import React, { Component, Fragment } from 'react'
-import { Button, EmptyState, Modal, ModalDialog } from 'vtex.styleguide'
+import { Query } from 'react-apollo'
+import { Button, Dropdown, EmptyState, ModalDialog, Spinner } from 'vtex.styleguide'
+
+import availableSpecs from '../graphql/specs.graphql'
 
 interface Props {
-  controllers: Controllers
-  setControllers: any
+  updateLayout: any
 }
 
 interface State {
   selectingNewSpec: boolean
+  selectedSpec?: Spec
 }
 
-export default class AddSpecs extends Component<{}, State> {
+interface Spec {
+  appId: string
+  specName: string
+}
+
+const parseSpec = (parsed: string | void) => {
+  if (!parsed) {
+    return
+  }
+  const [appId, specName] = parsed.split('/')
+  return {
+    appId,
+    specName
+  }
+}
+
+const specToString = (spec: Spec | void) => spec && `${spec.appId}/${spec.specName}`
+
+const specsToDropdownOptions = (specs: Spec[]) => Array.isArray(specs) && map(
+  (spec: Spec) => ({value: specToString(spec), label: specToString(spec)}),
+  specs
+)
+
+export default class AddSpecs extends Component<Props, State> {
   constructor(props: Props) {
     super(props)
     this.state = {
-      selectingNewSpec: false
+      selectedSpec: undefined,
+      selectingNewSpec: false,
     }
   }
 
   public selectingNewSpec = () => this.setState({selectingNewSpec: true})
 
-  public specSelected = () => this.setState({selectingNewSpec: false})
+  public specSelected = () => {
+    const {selectedSpec} = this.state
+    const {updateLayout} = this.props
+    if (selectedSpec) {
+      updateLayout((previousResult: {layout: LayoutContainer}) => {
+        const specLocator = {
+          ...selectedSpec,
+          __typename: ''
+        }
+        const newLayout = {spec: '', specLocator, __typename: ''}
+        const layout = path<Layout[]>(['layout', 'layout'], previousResult) || []
+
+        console.log({
+          ...previousResult,
+          layout: {
+            ...previousResult.layout,
+            layout: concat(layout, [newLayout])
+          }
+        })
+
+        return {
+          ...previousResult,
+          layout: {
+            ...previousResult.layout,
+            layout: concat(layout, [newLayout])
+          }
+        }
+      })
+    }
+    this.setState({selectingNewSpec: false})
+  }
 
   public render = () => (
     <Fragment>
@@ -31,42 +89,34 @@ export default class AddSpecs extends Component<{}, State> {
           </Button>
         </div>
       </EmptyState>
-      {/* <ModalDialog
-          centered
-          confirmation={{
-            label: 'Select',
-            onClick: this.specSelected,
-          }}
-          cancelation={{
-            label: 'Cancel',
-            onClick: this.specSelected,
-          }}
-          isOpen={this.state.selectingNewSpec}
-          onClose={this.specSelected}
-        >
-        <h1>Confirm?</h1>
-        <p>
-          Some child content before the action buttons. Lorem ipsum dolor sit
-          amet, consectetur adipiscing elit. Praesent semper eget magna sit
-          amet maximus. In rutrum, justo sodales euismod dignissim, justo orci
-          venenatis lectus, vel semper turpis nunc a justo.
-        </p>
-      </ModalDialog> */}
-       {/* <Modal
-          centered
-          isOpen={this.state.selectingNewSpec}
-          onClose={() => this.setState({selectingNewSpec: false})}
-        >
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat. Duis aute irure dolor in
-            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-            culpa qui officia deserunt mollit anim id est laborum.
-          </p>
-        </Modal> */}
+      <Query query={availableSpecs} ssr={false}>
+      {({loading, data}) => (
+        <ModalDialog
+            centered
+            confirmation={{
+              label: 'Select',
+              onClick: this.specSelected,
+            }}
+            cancelation={{
+              label: 'Cancel',
+              onClick: this.specSelected,
+            }}
+            isOpen={this.state.selectingNewSpec}
+            onClose={this.specSelected}
+          >
+          <h1>Select Spec?</h1>
+          {loading || !data || !Array.isArray(data.specs)
+            ? <Spinner/>
+            : <Dropdown
+                label="Specs"
+                options={specsToDropdownOptions(data.specs)}
+                onChange={(_: string, selectedSpec: string) => this.setState({selectedSpec: parseSpec(selectedSpec)})}
+                value={specToString(this.state.selectedSpec)}
+              />
+          }
+        </ModalDialog>
+      )}
+      </Query>
     </Fragment>
   )
 }

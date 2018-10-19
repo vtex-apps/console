@@ -1,7 +1,8 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { Query } from 'react-apollo'
 import { EmptyState } from 'vtex.styleguide'
 
+import { path } from 'ramda'
 import layoutQuery from '../graphql/layout.graphql'
 import AddSpecs from './addSpec'
 import { Render } from './render'
@@ -37,7 +38,8 @@ export default class Metrics extends Component<Props> {
       appName ?
       (
         <Query query={layoutQuery} ssr={false} variables={{appName}}>
-            {({loading, data: {layout}}) => {
+            {({loading, data, updateQuery}) => {
+              const layout = path(['layout', 'layout'], data)
               const renderedSpecs = (!loading && Array.isArray(layout))
               ? layout.map(
                 ({spec}) => {
@@ -64,7 +66,7 @@ export default class Metrics extends Component<Props> {
               const editComponent = this.props.editMode
                 ? [(
                   <div className="w-45 pa3 mr2">
-                    <AddSpecs />
+                    <AddSpecs updateLayout={updateQuery} />
                   </div>
                 )]
                 : []
