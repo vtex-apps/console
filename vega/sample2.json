@@ -1,7 +1,7 @@
 {
   "$schema": "https://vega.github.io/schema/vega/v3.0.json",
   "storedash": {
-    "name":"paymentauthorization",
+    "name":"Requests",
     "params": {
       "aggregateBy": ["data.paymentsystem", "unit"],
       "fields": ["count", "sum"],

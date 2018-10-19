@@ -12,6 +12,17 @@ interface Props {
   spec: string
 }
 
+const crazySpec = {
+  '$schema': 'https://vega.github.io/schema/vega-lite/v2.json',
+  'description': 'A scatterplot showing horsepower and miles per gallons for various cars.',
+  'data': {'url': 'https://vega.github.io/editor/data/cars.json'},
+  'mark': 'point',
+  'encoding': {
+    'x': {'field': 'Horsepower','type': 'quantitative'},
+    'y': {'field': 'Miles_per_Gallon','type': 'quantitative'}
+  }
+}
+
 export default class Render extends Component<Props> {
   public render = () => {
     const {name, appId, params, spec} = this.props

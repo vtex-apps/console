@@ -1,15 +1,14 @@
 import { pluck } from 'ramda'
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import { injectIntl } from 'react-intl'
 import { withRuntimeContext } from 'render'
 import { PageHeader, Tab, Tabs } from 'vtex.styleguide'
 
-import Builds from './components/Builds'
-import MetricsControllers from './components/ControllersWrapper'
 import Errors from './components/Errors'
 import Metrics from './components/Metrics'
 import StylesContainer from './components/StylesContainer'
-var DivHeight = { minHeight: 'calc(100vh - 3em)'};
+
+const DivHeight = { minHeight: 'calc(100vh - 3em)'}
 type Props = {
   runtime: RenderContext
 } & ReactIntl.InjectedIntlProps
@@ -30,11 +29,6 @@ const fields: Field[] = [
     name: 'metrics',
     path: 'metrics',
     titleId: 'console.admin.tabs.metrics',
-  },
-  {
-    name: 'builds',
-    path: 'builds',
-    titleId: 'console.admin.tabs.builds',
   },
   {
     name: 'errors',
@@ -82,7 +76,6 @@ class Console extends Component<Props, {}> {
           <StylesContainer>
             {tab === 'metrics' && <Metrics />}
             {tab === 'errors' && <Errors />}
-            {tab === 'builds' && <Builds />}
           </StylesContainer>
         </div>
       </div>

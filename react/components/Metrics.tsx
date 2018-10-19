@@ -8,7 +8,7 @@ import layoutQuery from '../graphql/layout.graphql'
 import saveLayoutMutation from '../graphql/saveLayout.graphql'
 import AddSpecs from './addSpec'
 import MetricsControllers from './ControllersWrapper'
-import Render from './render'
+import { RenderContainer } from './RenderContainer'
 
 interface State {
   controllers: Controllers
@@ -143,14 +143,12 @@ export default class Metrics extends Component<{}, State> {
                                 }
                               } = specJSON
                               return (
-                                <div className="w-45 pa3 mr2">
-                                    <Render
-                                      appId={getAppId(this.state.controllers) || ''}
-                                      name={name}
-                                      params={paramsFromSpecAndControllers(params, this.state.controllers)}
-                                      spec={specJSON}
-                                    />
-                                </div>
+                                <RenderContainer
+                                  appId={getAppId(this.state.controllers) || ''}
+                                  name={name}
+                                  params={paramsFromSpecAndControllers(params, this.state.controllers)}
+                                  spec={specJSON}
+                                />
                               )
                             }
                           )}
