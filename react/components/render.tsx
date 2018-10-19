@@ -17,7 +17,7 @@ export default class Render extends Component<Props> {
     const {name, appId, params, spec} = this.props
 
     return (
-      <Query query={dataQuery} ssr={false} variables={{appId, name, params}}>
+      <Query query={dataQuery} ssr={false} variables={{appId, name, params: JSON.stringify(params)}}>
       {({loading, data: rawData}) => {
         const { data = '{}' } = rawData || {}
         return loading

@@ -27,6 +27,13 @@ const getAppId = (controllers: Controllers) => {
          null
 }
 
+const paramsFromSpecAndControllers = (params: any, controllers: Controllers) => {
+  return {
+    ...params,
+    ...controllers
+  }
+}
+
 export default class Metrics extends Component<{}, State> {
   constructor(props: any) {
     super(props)
@@ -107,11 +114,11 @@ export default class Metrics extends Component<{}, State> {
                                 <FormattedMessage id="console.admin.metrics.button.save" />
                               </Button>
                           )}
-                          <div className="ph4">
-                            <Button variation="secondary" onClick={this.setEditMode} size="small" disabled={this.state.mode !== 'view'}>
+                          {this.state.mode === 'view' && <div className="ph4">
+                            <Button variation="secondary" onClick={this.setEditMode} size="small">
                               <FormattedMessage id="console.admin.metrics.button.edit" />
                             </Button>
-                          </div>
+                          </div>}
                           {<div className="ph4">
                             <Button variation="secondary" onClick={this.setAddSpecs} size="small">
                               <FormattedMessage id="console.admin.metrics.button.add" />
@@ -140,7 +147,7 @@ export default class Metrics extends Component<{}, State> {
                                     <Render
                                       appId={getAppId(this.state.controllers) || ''}
                                       name={name}
-                                      params={params}
+                                      params={paramsFromSpecAndControllers(params, this.state.controllers)}
                                       spec={specJSON}
                                     />
                                 </div>

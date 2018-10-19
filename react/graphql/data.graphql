@@ -1,4 +1,5 @@
-query GetData($appId: String!, $name: String!, $params:StoreDashInput) {
+# query GetData($appId: String!, $name: String!, $params:StoreDashInput) {
+query GetData($appId: String!, $name: String!, $params: String) {
   data(
     appId:$appId,
     name:$name,
