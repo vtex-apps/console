@@ -113,7 +113,7 @@ class Console extends Component<Props, State> {
               />
             ))}
             </Tabs>
-            {tab === 'metrics' && <Metrics controllers={this.state.controllers} />}
+            {tab === 'metrics' && <Metrics controllers={this.state.controllers} editMode={this.state.editMode} />}
             {tab === 'errors' && <Errors />}
             {tab === 'builds' && <Builds />}
           </StylesContainer>
