@@ -3,6 +3,9 @@
     "admin/console": {
       "path": "/admin/console"
     },
+    "admin/console/publishes": {
+      "path": "/admin/console/publishes"
+    },
     "admin/console/tab": {
       "path": "/admin/console/*tab"
     }
@@ -19,14 +22,26 @@
     "admin/console/tab": {
       "component": "Console"
     },
+    "admin/console/publishes": {
+      "component": "vtex.builder-log/Publishes"
+    },
     "admin/navigation/analytics/console": {
       "component": "vtex.admin/InjectNavigationData",
       "props": {
         "icon": "extensions-ic",
         "id": "38",
-        "path": "/admin/console/metrics",
         "tag": "appframe.new",
-        "titleId": "console.menu.title"
+        "titleId": "console.menu.title",
+        "subItems": [
+          {
+            "labelId": "console.submenu.metrics",
+            "path": "/admin/console/metrics"
+          },
+          {
+            "labelId": "console.submenu.publishes",
+            "path": "/admin/console/publishes"
+          }
+        ]
       }
     }
   }
