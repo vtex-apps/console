@@ -1,4 +1,3 @@
-import moment, { Moment } from 'moment'
 import { pluck } from 'ramda'
 import React, { Component, Fragment } from 'react'
 import { injectIntl } from 'react-intl'
