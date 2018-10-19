@@ -3,13 +3,7 @@ import React, { Component } from 'react'
 import { EmptyState } from 'vtex.styleguide'
 
 interface Props {
-  controllers: {
-    chosenAppName?: string
-    endDate?: Moment
-    startDate?: Moment
-    region: string
-    production: string
-  }
+  controllers: Controllers
 }
 
 export default class Metrics extends Component<Props> {

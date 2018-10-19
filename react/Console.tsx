@@ -6,7 +6,7 @@ import { withRuntimeContext } from 'render'
 import { PageHeader, Tab, Tabs } from 'vtex.styleguide'
 
 import Builds from './components/Builds'
-import Controllers from './components/Controllers'
+import ControllersWrapper from './components/ControllersWrapper'
 import Errors from './components/Errors'
 import Metrics from './components/Metrics'
 import StylesContainer from './components/StylesContainer'
@@ -21,16 +21,7 @@ type Props = {
 }
 
 interface State {
-  controllers: {
-    chosenAppName?: string
-    endDate?: Moment
-    startDate?: Moment
-    region: string
-    production: string
-    chosenMajor: string
-    chosenMinor: string
-    chosenPatch: string
-  }
+  controllers: Controllers
   editMode: boolean
 }
 
@@ -92,7 +83,7 @@ class Console extends Component<Props, State> {
     return (
       <Fragment>
         <PageHeader title="IO Console" />
-        <Controllers controllers={this.state.controllers} setControllers={this.setControllers} />
+        <ControllersWrapper controllers={this.state.controllers} setControllers={this.setControllers} />
         <div className="ph7">
           <StylesContainer>
             <Tabs>

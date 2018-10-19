@@ -7,13 +7,7 @@ import { Dropdown } from 'vtex.styleguide'
 import appsQuery from '../graphql/apps.graphql'
 
 interface Props {
-  controllers: {
-    chosenAppName?: string
-    endDate?: Moment
-    startDate?: Moment
-    region: string
-    production: string
-  }
+  controllers: Controllers
   setControllers: any
 }
 

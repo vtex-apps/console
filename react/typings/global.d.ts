@@ -20,3 +20,14 @@ interface RenderContext {
   updateRuntime: (options?: PageContextOptions) => Promise<void>
   workspace: RenderRuntime['workspace']
 }
+
+interface Controllers {
+  chosenAppName?: string
+  endDate?: Moment
+  startDate?: Moment
+  region: string
+  production: string
+  chosenMajor: string
+  chosenMinor: string
+  chosenPatch: string
+}

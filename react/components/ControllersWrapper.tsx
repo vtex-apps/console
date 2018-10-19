@@ -6,17 +6,11 @@ import EnvPicker from './envPicker'
 import RegionPicker from './regionPicker'
 
 interface Props {
-  controllers: {
-    chosenAppName?: string
-    endDate?: Moment
-    startDate?: Moment
-    region: string
-    production: string
-  }
+  controllers: Controllers
   setControllers: any
 }
 
-export default class Controllers extends Component<Props> {
+export default class ControllersWrapper extends Component<Props> {
   public render = () => (
     <div className="ph8">
       <div className="flex">
