@@ -1,4 +1,4 @@
-import { concat, map, path } from 'ramda'
+import { concat, map, path, head } from 'ramda'
 import React, { Component, Fragment } from 'react'
 import { Query } from 'react-apollo'
 import { Button, Dropdown, EmptyState, ModalDialog, Spinner } from 'vtex.styleguide'
@@ -53,20 +53,16 @@ export default class AddSpecs extends Component<Props, State> {
     const {updateLayout} = this.props
     if (selectedSpec) {
       updateLayout((previousResult: {layout: LayoutContainer}) => {
+        const layout = path<Layout[]>(['layout', 'layout'], previousResult) || []
         const specLocator = {
           ...selectedSpec,
-          __typename: ''
+          __typename: path(['specLocator', '__typename'], head<any>(layout)),
         }
-        const newLayout = {spec: '', specLocator, __typename: ''}
-        const layout = path<Layout[]>(['layout', 'layout'], previousResult) || []
-
-        console.log({
-          ...previousResult,
-          layout: {
-            ...previousResult.layout,
-            layout: concat(layout, [newLayout])
-          }
-        })
+        const newLayout = {
+          __typename: path(['__typename'], head<any>(layout)),
+          spec: '{}',
+          specLocator,
+        }
 
         return {
           ...previousResult,
