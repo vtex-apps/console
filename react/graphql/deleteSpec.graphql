@@ -1,0 +1,3 @@
+mutation DeleteSpec($specName: String!) {
+  deleteSpec(specName: $specName)
+}
