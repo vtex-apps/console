@@ -64,7 +64,7 @@ class Console extends Component<Props, {}> {
     }
 
     return (
-      <div className="bg-near-white calc--height vh-100">
+      <div className="bg-near-white">
         <PageHeader title="IO Console" />
         <Tabs>
         {fields.map(({name, path, titleId}: Field) => (

@@ -114,7 +114,7 @@ export default class Metrics extends Component<{}, State> {
                       closedAddSpec={this.closeAddSpecs}
                     />}
 
-                    <div className="flex flex-wrap">
+                    <div className="flex flex-wrap pa7">
                       {!loading && Array.isArray(layout) && layout.map(
                         ({spec}) => {
                           const specJSON = JSON.parse(spec)
@@ -125,7 +125,7 @@ export default class Metrics extends Component<{}, State> {
                             }
                           } = specJSON
                           return (
-                            <div className="w-45 pa3 mr2">
+                            <div className="br3 bg-base pa5 ma5">
                                 <Render
                                   appId={appName}
                                   name={name}
