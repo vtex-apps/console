@@ -10,9 +10,6 @@ import VersionInput from './versionInput'
 interface Props {
   controllers: Controllers
   setControllers: any
-  setEditMode: any
-  saveLayout: any
-  editMode: boolean
 }
 
 export default class ControllersWrapper extends Component<Props> {
@@ -32,7 +29,7 @@ export default class ControllersWrapper extends Component<Props> {
           <EnvPicker controllers={this.props.controllers} setControllers={this.props.setControllers} />
         </div>
       </div>
-      <div className="flex justify-end">
+      {/* <div className="flex justify-end">
         {this.props.editMode && (
           <div className="ph4">
             <Button variation="danger" onClick={this.props.saveLayout} size="small">
@@ -45,7 +42,7 @@ export default class ControllersWrapper extends Component<Props> {
             <FormattedMessage id="console.admin.metrics.button.edit" />
           </Button>
         </div>
-      </div>
+      </div> */}
     </div>
   )
 }

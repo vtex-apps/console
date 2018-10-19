@@ -97,9 +97,6 @@ class Console extends Component<Props, State> {
         <ControllersWrapper
           controllers={this.state.controllers}
           setControllers={this.setControllers}
-          setEditMode={this.setEditMode}
-          saveLayout={this.saveLayout}
-          editMode={this.state.editMode}
         />
         <div className="ph7">
           <StylesContainer>
@@ -113,7 +110,12 @@ class Console extends Component<Props, State> {
               />
             ))}
             </Tabs>
-            {tab === 'metrics' && <Metrics controllers={this.state.controllers} editMode={this.state.editMode} />}
+            {tab === 'metrics' && <Metrics
+              controllers={this.state.controllers}
+              editMode={this.state.editMode}
+              setEditMode={this.setEditMode}
+              saveLayout={this.saveLayout}
+            />}
             {tab === 'errors' && <Errors />}
             {tab === 'builds' && <Builds />}
           </StylesContainer>
