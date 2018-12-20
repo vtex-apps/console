@@ -6,6 +6,7 @@ import AppPicker from './appPicker'
 import EnvPicker from './envPicker'
 import RegionPicker from './regionPicker'
 import VersionInput from './versionInput'
+import WorkspacePicker from './workspacePicker'
 
 interface Props {
   controllers: Controllers
@@ -27,6 +28,7 @@ export default class MetricsControllers extends Component<Props> {
       <div className="w-100 pa4 mr2">
         <EnvPicker controllers={this.props.controllers} setControllers={this.props.setControllers} />
       </div>
+
     </div>
   )
 }

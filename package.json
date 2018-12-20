@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "apollo-client": "^2.4.8"
+  }
+}

@@ -23,13 +23,20 @@ interface RenderContext {
 
 interface Controllers {
   chosenAppName?: string
-  endDate?: Moment
   startDate?: Moment
-  region: string
-  production: string
+  endDate?: Moment
   chosenMajor: string
   chosenMinor: string
   chosenPatch: string
+  region: string
+  production: string
+  chosenWorkspaceName?: string
+}
+
+interface WorkspaceResponse {
+  name: string,
+  weight: number,
+  production: boolean,
 }
 
 interface LayoutContainer {
