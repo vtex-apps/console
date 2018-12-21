@@ -6,17 +6,12 @@ import { Dropdown } from 'vtex.styleguide'
 
 import appsQuery from '../graphql/apps.graphql'
 
+import { dropdownOptions } from '../common/utils'
+
 interface Props {
   controllers: Controllers
   setControllers: any
 }
-
-const strEq = (str1: string, str2: string) => str1 === str2
-
-const appWithStatsToDropdownOptions = (appsWithStats: string[]) => compose(
-  map((appName: string) => ({ value: appName, label: appName })),
-  uniqWith(strEq)
-)(appsWithStats)
 
 export default class AppPicker extends Component<Props> {
   public render = () => (
@@ -25,7 +20,7 @@ export default class AppPicker extends Component<Props> {
       <Dropdown
         value={this.props.controllers.chosenAppName}
         label="Available Apps"
-        options={appWithStatsToDropdownOptions(appsWithStats)}
+        options={dropdownOptions(appsWithStats)}
         onChange={(_: Event, chosenAppName: string) => this.props.setControllers({
           ...this.props.controllers,
           chosenAppName

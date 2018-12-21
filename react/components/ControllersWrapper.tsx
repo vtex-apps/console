@@ -28,7 +28,9 @@ export default class MetricsControllers extends Component<Props> {
       <div className="w-100 pa4 mr2">
         <EnvPicker controllers={this.props.controllers} setControllers={this.props.setControllers} />
       </div>
-
+      <div className="w-100 pa4 mr2">
+        <WorkspacePicker controllers={this.props.controllers} setControllers={this.props.setControllers} />
+      </div>
     </div>
   )
 }
