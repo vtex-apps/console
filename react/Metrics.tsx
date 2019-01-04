@@ -155,6 +155,7 @@ class Metrics extends Component<{}, State> {
                  </div>
                  <div className="pH7">
                      <StylesContainer>
+                      VIEW COMPONENT
                          <View
                            appId={this.state.chosenAppId}
                            name={'sample'}

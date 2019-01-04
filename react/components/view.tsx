@@ -17,13 +17,15 @@ export class View extends Component<Props> {
       name
     } = this.props
 
+    console.log('\nAPPID\n', appId, '\nAPPID\nNAME\n', name, '\nNAME\n')
     if (!appId || !name) {
       return null
     }
 
     return (
-      <Query query={specQuery} ssr={false} variables={{name}}>
+      <Query query={specQuery} ssr={false} variables={{name, appId}}>
       {({loading, data: specData}) => {
+        console.log('\nSPECDATA\n', specData, '\nSPECDATA\n')
         const { spec: specStr = null } = specData || {}
 
         if (!specStr) {
