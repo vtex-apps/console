@@ -1,5 +1,0 @@
-query incomeQuery {
-  income {
-    date
-  }
-}

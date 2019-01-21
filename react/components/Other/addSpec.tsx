@@ -3,11 +3,11 @@ import React, { Component } from 'react'
 import { ApolloConsumer, Query } from 'react-apollo'
 import { Dropdown, ModalDialog, Spinner } from 'vtex.styleguide'
 
-import getSpecSchema from '../graphql/spec.graphql'
-import availableSpecs from '../graphql/specs.graphql'
+import getSpecSchema from '../../graphql/spec.graphql'
+import availableSpecs from '../../graphql/specs.graphql'
 
 interface Props {
-  updateLayout: any
+  updateLayoutWithSpecs: any
   mode: 'view' | 'edit' | 'add'
   closedAddSpec: any
 }
@@ -49,30 +49,30 @@ export default class AddSpecs extends Component<Props, State> {
 
   public specSelected = async (apolloClient: any) => {
     const {selectedSpec} = this.state
-    const {updateLayout} = this.props
+    const {updateLayoutWithSpecs} = this.props
     if (selectedSpec) {
       const spec = await apolloClient.query({
         query: getSpecSchema,
         variables: selectedSpec,
       }).then(path(['data', 'spec']))
 
-      updateLayout((previousResult: {layout: LayoutContainer}) => {
-        const layout = path<Layout[]>(['layout', 'layout'], previousResult) || []
+      updateLayoutWithSpecs((previousResult: {layoutWithSpecs: LayoutWithSpecsContainer}) => {
+        const layoutWithSpecs = path<LayoutWithSpecs[]>(['layoutWithSpecs', 'layoutWithSpecs'], previousResult) || []
         const specLocator = {
           ...selectedSpec,
-          __typename: path(['specLocator', '__typename'], head<any>(layout)),
+          __typename: path(['specLocator', '__typename'], head<any>(layoutWithSpecs)),
         }
-        const newLayout = {
-          __typename: path(['__typename'], head<any>(layout)),
+        const newLayoutWithSpecs = {
+          __typename: path(['__typename'], head<any>(layoutWithSpecs)),
           spec,
           specLocator,
         }
 
         return {
           ...previousResult,
-          layout: {
-            ...previousResult.layout,
-            layout: concat(layout, [newLayout])
+          layoutWithSpecs: {
+            ...previousResult.layoutWithSpecs,
+            layoutWithSpecs: concat(layoutWithSpecs, [newLayoutWithSpecs])
           }
         }
       })

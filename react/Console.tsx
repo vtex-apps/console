@@ -2,21 +2,21 @@ import { pluck } from 'ramda'
 import React, { Component } from 'react'
 import { injectIntl } from 'react-intl'
 import { withRuntimeContext } from 'render'
-import { PageHeader, Tab, Tabs } from 'vtex.styleguide'
+import { Layout, PageHeader, Tab, Tabs } from 'vtex.styleguide'
 
-import Errors from './components/Errors'
 import Metrics from './components/Metrics'
-import StylesContainer from './components/StylesContainer'
+import Errors from './components/Other/Errors'
+import StylesContainer from './components/Other/StylesContainer'
 
-const DivHeight = { minHeight: 'calc(100vh - 3em)'}
+const DivHeight = { minHeight: 'calc(100vh - 3em)' }
 type Props = {
   runtime: RenderContext
 } & ReactIntl.InjectedIntlProps
-& {
-  params: {
-    tab: string
+  & {
+    params: {
+      tab: string
+    }
   }
-}
 
 interface Field {
   path: string
@@ -42,36 +42,36 @@ class Console extends Component<Props, {}> {
     super(props)
   }
 
-  public componentDidMount () {
+  public componentDidMount() {
     window.postMessage({ action: { type: 'STOP_LOADING' } }, '*')
   }
 
   public render = () => {
     const {
-      params: {tab},
+      params: { tab },
       intl,
       runtime: { navigate },
     } = this.props
 
-    if (!pluck('name',fields).includes(tab)) {
+    if (!pluck('name', fields).includes(tab)) {
       navigate({ to: '/admin/console/metrics' })
     }
 
     return (
       <div className="bg-muted-5" style={DivHeight}>
         <div className="w-90 center">
-        <PageHeader title="IO Console" />
-        <Tabs>
-        {fields.map(({name, path, titleId}: Field) => (
-          <Tab
-            key={name}
-            label={intl.formatMessage({ id: titleId })}
-            active={tab === path}
-            onClick={() => navigate({ to: `/admin/console/${path}` })}
-          />
-        ))}
-        </Tabs>
-      </div>
+          <PageHeader title="IO Console" />
+          <Tabs>
+            {fields.map(({ name, path, titleId }: Field) => (
+              <Tab
+                key={name}
+                label={intl.formatMessage({ id: titleId })}
+                active={tab === path}
+                onClick={() => navigate({ to: `/admin/console/${path}` })}
+              />
+            ))}
+          </Tabs>
+        </div>
         <div>
           <StylesContainer>
             {tab === 'metrics' && <Metrics />}

@@ -1,0 +1,12 @@
+mutation SaveLayoutWithSpecs($appName: String!, $specLocators: [SpecLocatorInput!]!) {
+  saveLayoutWithSpecs(appName:$appName, specLocators: $specLocators) {
+    cacheId
+    layoutWithSpecs {
+      spec
+      specLocator {
+        appId
+        specName
+      }
+    }
+  }
+}

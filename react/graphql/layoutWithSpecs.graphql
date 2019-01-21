@@ -1,9 +1,9 @@
-query Layout($appName: String!) {
-  layout (
+query LayoutWithSpecs($appName: String!) {
+  layoutWithSpecs (
     appName:$appName
   ) {
     cacheId
-    layout {
+    layoutWithSpecs {
       spec
       specLocator {
         appId

@@ -1,14 +1,14 @@
-import { path, pluck } from 'ramda'
+import { map, path, pluck } from 'ramda'
 import React, { Component, Fragment } from 'react'
-import { Mutation, Query } from 'react-apollo'
+import { Mutation, Query, withApollo } from 'react-apollo'
 import { FormattedMessage } from 'react-intl'
 import { Button, EmptyState } from 'vtex.styleguide'
 
-import layoutQuery from '../graphql/layout.graphql'
-import saveLayoutMutation from '../graphql/saveLayout.graphql'
-import AddSpecs from './addSpec'
-import MetricsControllers from './ControllersWrapper'
-import { RenderContainer } from './RenderContainer'
+import layoutContent from '../../common/layoutContent'
+
+import Controller from './Controller'
+import DataAnalysis from './DataAnalysis'
+
 
 interface State {
   controllers: Controllers
@@ -23,8 +23,8 @@ const getAppId = (controllers: Controllers) => {
     chosenPatch,
   } = controllers
   return chosenAppName ?
-         `${chosenAppName}@${chosenMajor}.${chosenMinor}.${chosenPatch}` :
-         null
+    `${chosenAppName}@${chosenMajor}.${chosenMinor}.${chosenPatch}` :
+    null
 }
 
 const paramsFromSpecAndControllers = (params: any, controllers: Controllers) => {
@@ -34,7 +34,7 @@ const paramsFromSpecAndControllers = (params: any, controllers: Controllers) => 
   }
 }
 
-export default class Metrics extends Component<{}, State> {
+class Metrics extends Component<{}, State> {
   constructor(props: any) {
     super(props)
     this.state = {
@@ -47,61 +47,80 @@ export default class Metrics extends Component<{}, State> {
         endDate: undefined,
         region: 'Any',
         production: 'true',
-        chosenWorkspaceName: undefined,
       },
       mode: 'view',
     }
   }
 
-  public setControllers = (controllers: Controllers) => this.setState({controllers})
+  public setControllers = (controllers: Controllers) => this.setState({ controllers })
 
   public setEditMode = () => {
-    this.setState({mode: 'edit'})
+    this.setState({ mode: 'edit' })
   }
 
-  public saveLayout = async (saveLayout: any, layoutContainer: LayoutContainer) => {
-    const layout = layoutContainer && layoutContainer.layout
-    const specLocators = layout && pluck('specLocator', layout)
+  public saveLayoutWithSpecs = async (saveLayoutWithSpecs: any, layoutWithSpecsContainer: LayoutWithSpecsContainer) => {
+    const layoutWithSpecs = layoutWithSpecsContainer && layoutWithSpecsContainer.layoutWithSpecs
+    const specLocators = layoutWithSpecs && pluck('specLocator', layoutWithSpecs)
     if (specLocators) {
-      await saveLayout({
+      await saveLayoutWithSpecs({
         variables: {
           appName: this.state.controllers.chosenAppName,
           specLocators
         }
       })
     }
-    this.setState({mode: 'view'})
+    this.setState({ mode: 'view' })
   }
 
   public cancelEdit = () => {
-    this.setState({mode: 'view'})
+    this.setState({ mode: 'view' })
   }
 
   public setAddSpecs = () => {
-    this.setState({mode: 'add'})
+    this.setState({ mode: 'add' })
   }
 
   public closeAddSpecs = () => {
-    this.setState({mode: 'edit'})
+    this.setState({ mode: 'edit' })
   }
 
   public render = () => {
-    const { controllers: {chosenAppName: appName} } = this.state
+    const { controllers: { chosenAppName: appName, chosenMajor: versionMajor } } = this.state
 
     return (
-      <div className="flex w-100">
-          <MetricsControllers
-            controllers={this.state.controllers}
-            setControllers={this.setControllers}
-          />
+      <div className="flex flex-wrap w-100">
+        <Controller
+          controllers={this.state.controllers}
+          setControllers={this.setControllers}
+        />
+
+        <div className="w-80">
+          {appName && versionMajor && Array.isArray(layoutContent)
+            ? (
+              <DataAnalysis
+                appId={getAppId(this.state.controllers) || ''}
+                layout={layoutContent}
+              />
+            ) : (
+              <EmptyState title="Please select an app">
+                <p>
+                  Please select an app to see its corresponding version
+                </p>
+              </EmptyState>
+            )
+          }
+        </div>
+
+        {/* quando for fazer com mutation
           <div className="w-80">
           { appName
             ? (
-              <Mutation mutation={saveLayoutMutation}>
-                {(saveLayout: any) => (
-                  <Query query={layoutQuery} ssr={false} variables={{appName}}>
+              <Mutation mutation={saveLayoutWithSpecsMutation}>
+                {(saveLayoutWithSpecs: any) => (
+                  <Query query={layoutWithSpecsQuery} ssr={false} variables={{appName}}>
                   {({loading, data, updateQuery}) => {
-                    const layout = path(['layout', 'layout'], data)
+                    const layoutWithSpecs = path(['layoutWithSpecs', 'layoutWithSpecs'], data)
+                    console.log('\nLAYOUT\n', layoutWithSpecs, '\nLAYOUT\n')
                     return (
                       <Fragment>
                         <div className="flex justify-end">
@@ -111,7 +130,7 @@ export default class Metrics extends Component<{}, State> {
                             </Button>
                           </div>}
                           {this.state.mode !== 'view' && (
-                              <Button variation="danger" onClick={() => this.saveLayout(saveLayout, data && data.layout)} size="small">
+                              <Button variation="danger" onClick={() => this.saveLayoutWithSpecs(saveLayoutWithSpecs, data && data.layoutWithSpecs)} size="small">
                                 <FormattedMessage id="console.admin.metrics.button.save" />
                               </Button>
                           )}
@@ -128,13 +147,13 @@ export default class Metrics extends Component<{}, State> {
                         </div>
 
                         {this.state.mode === 'add' && <AddSpecs
-                          updateLayout={updateQuery}
+                          updateLayoutWithSpecs={updateQuery}
                           mode={this.state.mode}
                           closedAddSpec={this.closeAddSpecs}
                         />}
 
                         <div className="flex flex-wrap">
-                          {!loading && Array.isArray(layout) && layout.map(
+                          {!loading && Array.isArray(layoutWithSpecs) && layoutWithSpecs.map(
                             ({spec}) => {
                               const specJSON = JSON.parse(spec)
                               const {
@@ -167,8 +186,10 @@ export default class Metrics extends Component<{}, State> {
               </EmptyState>
             )
           }
-        </div>
-    </div>
+        </div> */}
+      </div>
     )
   }
 }
+
+export default withApollo(Metrics)

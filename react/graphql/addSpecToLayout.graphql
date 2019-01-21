@@ -1,7 +1,7 @@
-mutation AddSpecToLayout($appName: String!, $specLocatorInput: SpecLocatorInput!) {
-  addSpecToLayout(appName: $appName, $specLocators: $specLocatorInput) {
+mutation AddSpecToLayoutWithSpecs($appName: String!, $specLocatorInput: SpecLocatorInput!) {
+  addSpecToLayoutWithSpecs(appName: $appName, $specLocators: $specLocatorInput) {
     cacheId
-    layout {
+    layoutWithSpecs {
       spec
       specLocator {
         appId
