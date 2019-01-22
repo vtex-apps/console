@@ -21,16 +21,19 @@ interface RenderContext {
   workspace: RenderRuntime['workspace']
 }
 
-interface Controllers {
+interface EnvController {
   chosenAppName?: string
-  startDate?: Moment
-  endDate?: Moment
   chosenMajor: string
   chosenMinor: string
   chosenPatch: string
   region: string
   production: string
-  chosenWorkspaceName?: string
+}
+
+interface TimeController {
+  startDate: Moment
+  endDate: Moment
+  rangeStep: string
 }
 
 interface LayoutWithSpecsContainer {

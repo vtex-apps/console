@@ -3,8 +3,8 @@ import React, { Component } from 'react'
 import { Dropdown } from 'vtex.styleguide'
 
 interface Props {
-  controllers: Controllers
-  setControllers: any
+  envControllers: EnvController
+  setEnvControllers: any
 }
 
 const options = [
@@ -25,11 +25,11 @@ const options = [
 export default class RegionPicker extends Component<Props> {
   public render = () => (
     <Dropdown
-      value={this.props.controllers.region}
+      value={this.props.envControllers.region}
       label="Region"
       options={options}
-      onChange={(_: Event, region: string) => this.props.setControllers({
-        ...this.props.controllers,
+      onChange={(_: Event, region: string) => this.props.setEnvControllers({
+        ...this.props.envControllers,
         region
       })}
     />

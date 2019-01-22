@@ -4,8 +4,8 @@ import * as semver from 'semver'
 import { Input } from 'vtex.styleguide'
 
 interface Props {
-  controllers: Controllers
-  setControllers: any
+  envControllers: EnvController
+  setEnvControllers: any
 }
 
 interface State {
@@ -58,8 +58,8 @@ export default class VersionInput extends Component<Props, State> {
         chosenPatch = patch
       }
 
-      this.props.setControllers({
-        ...this.props.controllers,
+      this.props.setEnvControllers({
+        ...this.props.envControllers,
         chosenMajor,
         chosenMinor,
         chosenPatch,

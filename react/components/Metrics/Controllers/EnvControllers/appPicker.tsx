@@ -9,8 +9,8 @@ import appsQuery from '../../../../graphql/apps.graphql'
 import { dropdownOptions } from '../../../../common/utils'
 
 interface Props {
-  controllers: Controllers
-  setControllers: any
+  envControllers: EnvController
+  setEnvControllers: any
 }
 
 export default class AppPicker extends Component<Props> {
@@ -18,11 +18,11 @@ export default class AppPicker extends Component<Props> {
     <Query query={appsQuery} ssr={false}>
     {({loading, data: {appsWithStats}}) => !loading && appsWithStats &&
       <Dropdown
-        value={this.props.controllers.chosenAppName}
+        value={this.props.envControllers.chosenAppName}
         label="Available Apps"
         options={dropdownOptions(appsWithStats)}
-        onChange={(_: Event, chosenAppName: string) => this.props.setControllers({
-          ...this.props.controllers,
+        onChange={(_: Event, chosenAppName: string) => this.props.setEnvControllers({
+          ...this.props.envControllers,
           chosenAppName
         })}
       />

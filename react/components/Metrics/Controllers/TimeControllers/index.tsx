@@ -5,18 +5,13 @@ import DateRange from './DateRange'
 import Relative from './Relative'
 
 
-interface Props {
-  controllers: Controllers
-  setControllers: any
-}
-
 interface State {
   mode: 'DateRange' | 'Relative' | 'Empty'
 }
 
 
-export default class TimeController extends Component<Props, State> {
-  constructor(props: Props) {
+export default class TimeController extends Component<{}, State> {
+  constructor(props: {}) {
     super(props)
     this.state = {
       mode: 'DateRange'
@@ -40,7 +35,7 @@ export default class TimeController extends Component<Props, State> {
             </EmptyState>
           ) : (
             <div className="flex flex-wrap mh1">
-              <div className="w-40 pa2 mr2">
+              <div className="w-40 pa2 mr1">
                 <RadioGroup
                   name="timeController"
                   options={[

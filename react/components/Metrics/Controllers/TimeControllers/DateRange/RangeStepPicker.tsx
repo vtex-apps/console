@@ -6,7 +6,8 @@ import { RangeStep } from './typings'
 
 
 interface Props {
-  handleRangeStep: (step: string) => void
+  rangeStep: string
+  handleRangeStep: (rangeStep: string) => void
 }
 
 interface State {
@@ -19,8 +20,8 @@ export default class PeriodPicker extends Component<Props, State> {
   constructor(props: Props) {
     super(props)
     this.state = {
-      stepSize: 1,
-      stepModifier: 'Days'
+      stepSize: 0,
+      stepModifier: 'None'
     }
   }
 
@@ -32,6 +33,7 @@ export default class PeriodPicker extends Component<Props, State> {
 
   public constructRangeStep = () => {
     const mapTime = {
+      'None': 'n',
       'Seconds': 's',
       'Minutes': 'm',
       'Hours': 'h',
@@ -40,11 +42,18 @@ export default class PeriodPicker extends Component<Props, State> {
       'Years': 'y'
     }
     const rangeStep = this.state.stepSize + mapTime[this.state.stepModifier]
-    this.props.handleRangeStep(rangeStep)
+    // Convenção (por enquanto): se não definir step (rangeStep == 0n), coloca interval como vazio
+    if (this.state.stepModifier === 'None') {
+      this.props.handleRangeStep('')
+    } else {
+      this.props.handleRangeStep(rangeStep)
+    }
+
   }
 
   public render = () => {
     const stepModifierOptions: string[] = [
+      'None',
       'Seconds',
       'Minutes',
       'Hours',
@@ -54,7 +63,7 @@ export default class PeriodPicker extends Component<Props, State> {
     ]
 
     return (
-      <div className="flex flex-colunm items-end pa4 mh1">
+      <div className="flex flex-colunm items-end pa4 mh0">
         <NumericStepper
           label="Step"
           size="small"

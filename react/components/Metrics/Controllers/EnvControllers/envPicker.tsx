@@ -2,10 +2,12 @@ import moment, { Moment } from 'moment'
 import React, { Component } from 'react'
 import { Dropdown } from 'vtex.styleguide'
 
+
 interface Props {
-  controllers: Controllers
-  setControllers: any
+  envControllers: EnvController
+  setEnvControllers: any
 }
+
 
 const options = [
   {
@@ -21,11 +23,11 @@ const options = [
 export default class EnvPicker extends Component<Props> {
   public render = () => (
     <Dropdown
-      value={this.props.controllers.production}
+      value={this.props.envControllers.production}
       label="Env"
       options={options}
-      onChange={(_: Event, production: string) => this.props.setControllers({
-        ...this.props.controllers,
+      onChange={(_: Event, production: string) => this.props.setEnvControllers({
+        ...this.props.envControllers,
         production,
       })}
     />
