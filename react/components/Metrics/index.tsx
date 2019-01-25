@@ -71,7 +71,7 @@ class Metrics extends Component<{}, State> {
             setEnvControllers={this.setEnvControllers}
           />
 
-          <div className="w-80">
+          <div className="w-100">
             {appName && versionMajor && Array.isArray(layoutContent)
               ? (
                 <DataAnalysis

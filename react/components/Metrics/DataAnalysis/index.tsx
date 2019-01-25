@@ -18,46 +18,54 @@ export default class DataAnalysis extends Component<Props> {
     return (
       <TimeContext.Consumer>
         {({ timeControllers, setTimeControllers }) => (
-          <div className="mt5">
-            <Fragment>
-              {
-                map(
-                  (chartDescription) => {
-                    const {
-                      ChartType,
-                      storedash: {
-                        metricName,
-                      }
-                    } = chartDescription
-                    let {
-                      storedash: {
-                        metricParams
-                      }
-                    } = chartDescription
-
-                    if (timeControllers.startDate !== undefined && timeControllers.endDate !== undefined) {
-                      metricParams = {
-                        ...metricParams,
-                        from: timeControllers.startDate.toDate(),
-                        to: timeControllers.endDate.toDate(),
-                      }
+          // <div className="mt5 mw9 center ph3-ns">
+          // <div className="cf ph2-ns">
+          <div className="mt5" >
+            {
+              map(
+                (chartDescription) => {
+                  const {
+                    ChartType,
+                    storedash: {
+                      name,
                     }
-
-                    if (timeControllers.rangeStep !== '') {
-                      metricParams = {
-                        ...metricParams,
-                        interval: timeControllers.rangeStep
-                      }
+                  } = chartDescription
+                  let {
+                    storedash: {
+                      metricParams
                     }
+                  } = chartDescription
 
-                    return (
-                      <PageBlock variation="full">
-                        <ChartType appId={appId} metricName={metricName} metricParams={metricParams} />
-                      </PageBlock>
-                    )
-                  }, layout)
-              }
-            </Fragment>
+                  if (timeControllers.startDate !== undefined && timeControllers.endDate !== undefined) {
+                    metricParams = {
+                      ...metricParams,
+                      from: timeControllers.startDate.toDate(),
+                      to: timeControllers.endDate.toDate(),
+                    }
+                  }
+
+                  if (timeControllers.rangeStep !== '') {
+                    metricParams = {
+                      ...metricParams,
+                      interval: timeControllers.rangeStep
+                    }
+                  }
+
+                  console.log({metricParams})
+
+                  return (
+                    // <PageBlock variation="half">
+                    // </PageBlock>
+                    // <div className="fl w-100 w-50-ns pa4">
+                    //   <div className="br4 bg-base pv4">
+                    <PageBlock variation="full">
+                      <ChartType appId={appId} name={name} metricParams={metricParams} />
+                    </PageBlock>
+                    //   </div>
+                    // </div>
+                  )
+                }, layout)
+            }
           </div>
         )}
       </TimeContext.Consumer>

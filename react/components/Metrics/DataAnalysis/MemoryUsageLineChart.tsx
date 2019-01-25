@@ -7,11 +7,13 @@ import dataQuery from '../../../graphql/data.graphql'
 import { CHART_PROPERTIES } from '../../../common/constants'
 import BlockTitle from './BlockTitle'
 
+
 import {
+  Line,
+  LineChart,
   CartesianGrid,
+  Label,
   Legend,
-  Bar,
-  BarChart,
   ResponsiveContainer,
   Tooltip,
   XAxis,
@@ -26,14 +28,14 @@ interface Props {
 }
 
 
-export default class BarChartContent extends Component<Props> {
-
+export default class MemoryUsedLineChart extends Component<Props> {
   public render = () => {
     const { appId, name, metricParams } = this.props
 
+
     return (
       <Fragment>
-        <BlockTitle title='BarChart' />
+        <BlockTitle title="Memory Consumption over Time" />
 
         <Query query={dataQuery} ssr={false} variables={{ appId, name, params: metricParams }} >
           {({ loading, error, data: { data: chartData } }) => {
@@ -41,31 +43,34 @@ export default class BarChartContent extends Component<Props> {
 
             if (!loading) {
               chartDataJSON = JSON.parse(chartData)
+              console.log(chartDataJSON)
             }
 
             return (
               loading ? (
                 <Spinner />
               ) : (
-                <ResponsiveContainer
+                  <ResponsiveContainer
                     width={CHART_PROPERTIES.width}
                     height={CHART_PROPERTIES.height}
                   >
-
-                    <BarChart data={chartDataJSON} >
-                      <XAxis dataKey="unit" />
-                      <YAxis />
-                      <CartesianGrid strokeDasharray="3 3" />
-                      <Tooltip />
+                    <LineChart data={chartDataJSON}>
+                      <XAxis type="number" dataKey="date" />
+                      <YAxis type="number" >
+                        <Label value="Used Memory (bytes)" position="left" />
+                      </YAxis>
                       <Legend />
-                      <Bar dataKey="sum" fill="#8884d8" />
-                    </BarChart>
+                      <Tooltip />
+                      <Line type="monotone" dataKey="data.summary.external" />
+                      <Line type="monotone" dataKey="data.summary.heapUsed" />
+                      <Line type="monotone" dataKey="data.summary.heapTotal" />
+                      <Line type="monotone" dataKey="data.summary.rss" />
+                    </LineChart>
                   </ResponsiveContainer>
-              )
+                )
             )
           }}
         </Query>
-
       </Fragment>
     )
   }

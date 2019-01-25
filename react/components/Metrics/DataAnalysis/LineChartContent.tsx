@@ -22,7 +22,7 @@ import {
 
 interface Props {
   appId: string
-  metricName: string
+  name: string
   metricParams: any
 }
 
@@ -30,13 +30,13 @@ interface Props {
 export default class LineChartContent extends Component<Props> {
 
   public render = () => {
-    const { appId, metricName, metricParams } = this.props
+    const { appId, name, metricParams } = this.props
 
     return (
       <Fragment>
         <BlockTitle title="LineChart" />
 
-        <Query query={dataQuery} ssr={false} variables={{ appId, name: metricName, params: metricParams }}>
+        <Query query={dataQuery} ssr={false} variables={{ appId, name, params: metricParams }}>
           {({ loading, error, data: { data: chartData } }) => {
             let chartDataJSON
 
@@ -48,20 +48,20 @@ export default class LineChartContent extends Component<Props> {
               loading ? (
                 <Spinner />
               ) : (
-                <ResponsiveContainer
-                  width={CHART_PROPERTIES.width}
-                  height={CHART_PROPERTIES.height}
-                >
-                  <LineChart data={chartDataJSON}>
-                    <XAxis dataKey="unit" />
-                    <YAxis />
-                    <CartesianGrid strokeDasharray="2 8" />
-                    <Tooltip />
-                    <Line type="monotone" dataKey="sum" stroke="#82ca9d" activeDot={{r: 8}}/>
-                    <Legend verticalAlign="top" />
-                  </LineChart>
-                </ResponsiveContainer>
-              )
+                  <ResponsiveContainer
+                    width={CHART_PROPERTIES.width}
+                    height={CHART_PROPERTIES.height}
+                  >
+                    <LineChart data={chartDataJSON}>
+                      <XAxis dataKey="unit" />
+                      <YAxis />
+                      <CartesianGrid strokeDasharray="2 8" />
+                      <Tooltip />
+                      <Line name="" type="monotone" dataKey="sum" stroke="#82ca9d" activeDot={{ r: 8 }} />
+                      <Legend verticalAlign="top" />
+                    </LineChart>
+                  </ResponsiveContainer>
+                )
             )
           }}
         </Query>
