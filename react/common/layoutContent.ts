@@ -7,8 +7,6 @@ export default [
       'name': 'runtime',
       'metricParams': {
         'appName': 'render-server',
-        'appVersion': '8.1.0',
-        'region': 'aws-us-east-1',
         'metricName': 'memoryUsage',
         'from': 'now-2d/h',
         'to': 'now-1d/h',
@@ -22,3 +20,5 @@ export default [
 
 
 
+// 'appVersion': '8.1.0',
+// 'region': 'aws-us-east-1',

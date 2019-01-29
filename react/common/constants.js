@@ -1,4 +1,4 @@
 export const CHART_PROPERTIES = {
-  height: 300,
+  height: 400,
   width: '100%',
 }

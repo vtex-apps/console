@@ -1,12 +1,15 @@
+import { map } from 'ramda'
 import React, { Component, Fragment } from 'react'
 import { Query } from 'react-apollo'
+import { InjectedIntlProps, injectIntl } from 'react-intl'
 import { Spinner } from 'vtex.styleguide'
 
 import dataQuery from '../../../graphql/data.graphql'
 
 import { CHART_PROPERTIES } from '../../../common/constants'
 import BlockTitle from './BlockTitle'
-
+import CustomTooltip from './CustomTooltip'
+import CustomYAxisTick from './CustomYAxisTick'
 
 import {
   Line,
@@ -21,29 +24,35 @@ import {
 } from 'recharts'
 
 
-interface Props {
+interface Props extends InjectedIntlProps {
   appId: string
   name: string
   metricParams: any
 }
 
 
-export default class MemoryUsedLineChart extends Component<Props> {
-  public render = () => {
-    const { appId, name, metricParams } = this.props
+const addFormattedTime = (chartData: any, intl: any) => {
+  return map((chartDataElement: any) => ({
+    ...chartDataElement,
+    formattedTime: intl.formatTime(chartDataElement.date)
+  }), chartData)
+}
 
+class MemoryUsedLineChart extends Component<Props> {
+  public render = () => {
+    const { appId, name, metricParams, intl } = this.props
 
     return (
       <Fragment>
-        <BlockTitle title="Memory Consumption over Time" />
+        <BlockTitle title="Memory (bytes) Consumption over Time" />
 
         <Query query={dataQuery} ssr={false} variables={{ appId, name, params: metricParams }} >
           {({ loading, error, data: { data: chartData } }) => {
             let chartDataJSON
 
             if (!loading) {
-              chartDataJSON = JSON.parse(chartData)
-              console.log(chartDataJSON)
+              chartDataJSON = addFormattedTime(JSON.parse(chartData), intl)
+              console.log({chartDataJSON})
             }
 
             return (
@@ -55,16 +64,18 @@ export default class MemoryUsedLineChart extends Component<Props> {
                     height={CHART_PROPERTIES.height}
                   >
                     <LineChart data={chartDataJSON}>
-                      <XAxis type="number" dataKey="date" />
-                      <YAxis type="number" >
-                        <Label value="Used Memory (bytes)" position="left" />
-                      </YAxis>
+                      <CartesianGrid strokeDasharray="2 8" />
+                      <XAxis dataKey="formattedTime" />
+                      <YAxis
+                        type="number"
+                        tick={<CustomYAxisTick />}
+                      />
                       <Legend />
-                      <Tooltip />
-                      <Line type="monotone" dataKey="data.summary.external" />
-                      <Line type="monotone" dataKey="data.summary.heapUsed" />
-                      <Line type="monotone" dataKey="data.summary.heapTotal" />
-                      <Line type="monotone" dataKey="data.summary.rss" />
+                      <Tooltip content={<CustomTooltip />}/>
+                      <Line type="monotone" dataKey="external"  stroke="Green" />
+                      <Line type="monotone" dataKey="heapUsed"  stroke="Navy" />
+                      <Line type="monotone" dataKey="heapTotal" stroke="Maroon" />
+                      <Line type="monotone" dataKey="rss"       stroke="Orange" />
                     </LineChart>
                   </ResponsiveContainer>
                 )
@@ -75,3 +86,5 @@ export default class MemoryUsedLineChart extends Component<Props> {
     )
   }
 }
+
+export default injectIntl(MemoryUsedLineChart)
