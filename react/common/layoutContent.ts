@@ -12,7 +12,7 @@ export default [
         'to': 'now-1d/h',
         'interval': '1h',
         'operation': 'sum',
-        'fields': 'data.summary.external, data.summary.heapTotal, data.summary.heapUsed, data.summary.rss',
+        'fields': 'data.summary.external, data.summary.heapTotal, data.summary.heapUsed, data.summary.rss, count',
       }
     }
   },

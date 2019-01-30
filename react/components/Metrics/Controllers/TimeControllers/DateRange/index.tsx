@@ -1,4 +1,3 @@
-import moment, { Moment } from 'moment'
 import React, { Component, Fragment } from 'react'
 import { Button, DatePicker } from 'vtex.styleguide'
 
@@ -9,8 +8,8 @@ import RangeStepPicker from './RangeStepPicker'
 
 interface State {
   locale: string
-  startDate: Moment
-  endDate: Moment
+  startDate: Date
+  endDate: Date
   rangeStep: string
 }
 
@@ -20,18 +19,20 @@ export default class DateRange extends Component<{}, State> {
     super(props)
     this.state = {
       locale: 'pt-BR',
-      startDate: moment(),
-      endDate: moment(),
-      rangeStep: ''
+      startDate: new Date(),
+      endDate: new Date(),
+      rangeStep: '',
     }
   }
 
-  public setStartDate = (date: Date) => {
-    this.setState({ startDate: moment(date) })
+  public setStartDate = (startDate: Date) => {
+    this.setState({ startDate })
   }
 
-  public setEndDate = (date: Date) => {
-    this.setState({ endDate: moment(date) })
+  public setEndDate = (endDate: Date) => {
+    // always decrease one second to avoid taking the next bucket
+    endDate.setSeconds(endDate.getSeconds() - 1)
+    this.setState({ endDate })
   }
 
   public setRangeStep = (rangeStep: string) => {
@@ -39,9 +40,9 @@ export default class DateRange extends Component<{}, State> {
   }
 
   public isButtonActive = () => {
-    const startDate = this.state.startDate.toDate()
-    const endDate = this.state.endDate.toDate()
-    const currentTime = moment().toDate()
+    const startDate = this.state.startDate
+    const endDate = this.state.endDate
+    const currentTime = new Date()
     return (startDate && endDate &&
             startDate <= endDate &&
             endDate <= currentTime)
@@ -73,7 +74,7 @@ export default class DateRange extends Component<{}, State> {
                   ...timeControllers,
                   startDate: this.state.startDate,
                   endDate: this.state.endDate,
-                  rangeStep: this.state.rangeStep
+                  rangeStep: this.state.rangeStep,
                 })}
               }
               >

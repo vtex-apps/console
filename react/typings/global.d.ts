@@ -31,8 +31,8 @@ interface EnvController {
 }
 
 interface TimeController {
-  startDate: Moment
-  endDate: Moment
+  startDate: Date
+  endDate: Date
   rangeStep: string
 }
 

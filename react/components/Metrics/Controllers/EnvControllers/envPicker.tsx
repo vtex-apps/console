@@ -1,4 +1,3 @@
-import moment, { Moment } from 'moment'
 import React, { Component } from 'react'
 import { Dropdown } from 'vtex.styleguide'
 

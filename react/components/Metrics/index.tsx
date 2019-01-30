@@ -1,4 +1,3 @@
-import moment, { Moment } from 'moment'
 import { map, path, pluck } from 'ramda'
 import React, { Component, Fragment } from 'react'
 import { Mutation, Query, withApollo } from 'react-apollo'

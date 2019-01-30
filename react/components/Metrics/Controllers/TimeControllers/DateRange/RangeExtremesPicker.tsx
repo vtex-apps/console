@@ -1,12 +1,11 @@
-import { Moment } from 'moment'
 import React, { Component, Fragment } from 'react'
 import { DatePicker } from 'vtex.styleguide'
 
 
 interface Props {
   locale: string
-  startDate: Moment
-  endDate: Moment
+  startDate: Date
+  endDate: Date
   handleStartDate: (date: Date) => void
   handleEndDate: (date: Date) => void
 }
@@ -23,7 +22,7 @@ export default class RangeExtremesPicker extends Component<Props> {
             label={'From'}
             locale={this.props.locale}
             useTime={true}
-            value={this.props.startDate.toDate()}
+            value={this.props.startDate}
             onChange={this.props.handleStartDate}
           />
         </div>
@@ -33,7 +32,7 @@ export default class RangeExtremesPicker extends Component<Props> {
             label={'To'}
             locale={this.props.locale}
             useTime={true}
-            value={this.props.endDate.toDate()}
+            value={this.props.endDate}
             onChange={this.props.handleEndDate}
           />
         </div>

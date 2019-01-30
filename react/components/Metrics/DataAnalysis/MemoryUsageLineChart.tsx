@@ -1,4 +1,4 @@
-import { map } from 'ramda'
+import { forEachObjIndexed, includes, map } from 'ramda'
 import React, { Component, Fragment } from 'react'
 import { Query } from 'react-apollo'
 import { InjectedIntlProps, injectIntl } from 'react-intl'
@@ -30,11 +30,61 @@ interface Props extends InjectedIntlProps {
   metricParams: any
 }
 
+const calculateMean = (value: any, key: string | number | symbol, obj: any) => {
+  const memoryMetrics = ['external', 'heapUsed', 'heapTotal', 'rss']
+  if (includes(key, memoryMetrics)) {
+    obj[key] = Math.round(obj[key] / obj.count)
+  }
+}
 
-const addFormattedTime = (chartData: any, intl: any) => {
-  return map((chartDataElement: any) => ({
-    ...chartDataElement,
-    formattedTime: intl.formatTime(chartDataElement.date)
+const calculateMeanOfMemory = (chartData: any[]) => {
+  return map((chartPoint: any) => {
+    forEachObjIndexed(calculateMean, chartPoint)
+    return chartPoint
+  }, chartData)
+}
+
+const getFormattedTime = (date: any, intl: any, stepModifier: string) => {
+  switch (stepModifier) {
+    case 's':
+      return intl.formatTime(date, {
+        hour: 'numeric',
+        minute: 'numeric',
+        second: 'numeric',
+      })
+    case 'm':
+      return intl.formatTime(date, {
+        hour: 'numeric',
+        minute: 'numeric',
+      })
+    case 'h':
+      return intl.formatTime(date, {
+        hour: 'numeric',
+      })
+    case 'd':
+      return intl.formatDate(date, {
+        year: 'numeric',
+        month: 'numeric',
+        day: 'numeric',
+      })
+    case 'M':
+      return intl.formatDate(date, {
+        year: 'numeric',
+        month: 'numeric',
+      })
+    case 'y':
+      return intl.formatDate(date, {
+        year: 'numeric',
+      })
+    default:
+      return intl.formatTime(date)
+  }
+}
+
+const addFormattedTime = (chartData: any, intl: any, stepModifier: string) => {
+  return map((chartPoint: any) => ({
+    ...chartPoint,
+    formattedTime: getFormattedTime(chartPoint.date, intl, stepModifier),
   }), chartData)
 }
 
@@ -47,12 +97,13 @@ class MemoryUsedLineChart extends Component<Props> {
         <BlockTitle title="Memory (bytes) Consumption over Time" />
 
         <Query query={dataQuery} ssr={false} variables={{ appId, name, params: metricParams }} >
-          {({ loading, error, data: { data: chartData } }) => {
-            let chartDataJSON
+          {({ loading, error, data: { data: rawChartData } }) => {
+            let chartData: any
 
             if (!loading) {
-              chartDataJSON = addFormattedTime(JSON.parse(chartData), intl)
-              console.log({chartDataJSON})
+              const stepModifier = metricParams.interval[metricParams.interval.length - 1]
+              chartData = addFormattedTime(JSON.parse(rawChartData), intl, stepModifier)
+              chartData = calculateMeanOfMemory(chartData)
             }
 
             return (
@@ -63,19 +114,19 @@ class MemoryUsedLineChart extends Component<Props> {
                     width={CHART_PROPERTIES.width}
                     height={CHART_PROPERTIES.height}
                   >
-                    <LineChart data={chartDataJSON}>
-                      <CartesianGrid strokeDasharray="2 8" />
-                      <XAxis dataKey="formattedTime" />
+                    <LineChart data={chartData}>
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis dataKey="formattedTime" />>
                       <YAxis
                         type="number"
                         tick={<CustomYAxisTick />}
                       />
                       <Legend />
-                      <Tooltip content={<CustomTooltip />}/>
-                      <Line type="monotone" dataKey="external"  stroke="Green" />
-                      <Line type="monotone" dataKey="heapUsed"  stroke="Navy" />
+                      <Tooltip content={<CustomTooltip />} />
+                      <Line type="monotone" dataKey="external" stroke="Green" />
+                      <Line type="monotone" dataKey="heapUsed" stroke="Navy" />
                       <Line type="monotone" dataKey="heapTotal" stroke="Maroon" />
-                      <Line type="monotone" dataKey="rss"       stroke="Orange" />
+                      <Line type="monotone" dataKey="rss" stroke="Orange" />
                     </LineChart>
                   </ResponsiveContainer>
                 )

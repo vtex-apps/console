@@ -39,15 +39,15 @@ export default class DataAnalysis extends Component<Props> {
                   if (timeControllers.startDate !== undefined && timeControllers.endDate !== undefined) {
                     metricParams = {
                       ...metricParams,
-                      from: timeControllers.startDate.toDate(),
-                      to: timeControllers.endDate.toDate(),
+                      from: timeControllers.startDate,
+                      to: timeControllers.endDate,
                     }
                   }
 
                   if (timeControllers.rangeStep !== '') {
                     metricParams = {
                       ...metricParams,
-                      interval: timeControllers.rangeStep
+                      interval: timeControllers.rangeStep,
                     }
                   }
 

@@ -18,8 +18,9 @@ class CustomTooltip extends Component<Props> {
   }
 
   public handleLabel = (label: string) => {
-    const { intl } = this.props
-    return intl.formatMessage({ id: label })
+    // const { intl } = this.props
+    // return intl.formatMessage({ id: label })
+    return label
   }
 
   public handleValue = (value: number) => {

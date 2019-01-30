@@ -1,10 +1,9 @@
-import moment from 'moment'
 import React from 'react'
 
 export const TimeContext = React.createContext({
   timeControllers: {
-    startDate: moment(),
-    endDate: moment(),
+    startDate: new Date(),
+    endDate: new Date(),
     rangeStep: '',
   },
   setTimeControllers: (timeControllers: TimeController) => {},
