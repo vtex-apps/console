@@ -3,32 +3,33 @@ import { Dropdown } from 'vtex.styleguide'
 
 import { EnvContext } from '../../EnvContext'
 
+
 const options = [
   {
     label: 'Any',
     value: '',
   },
   {
-    label: 'East-1',
-    value: 'aws-us-east-1',
+    label: 'Production',
+    value: true,
   },
   {
-    label: 'East-2',
-    value: 'aws-us-east-2',
-  },
+    label: 'Development',
+    value: false,
+  }
 ]
 
-export default class RegionPicker extends Component {
+export default class ContextPicker extends Component {
   public render = () => (
     <EnvContext.Consumer>
       {({ envControllers, setEnvControllers }) => (
         <Dropdown
-          value={envControllers.region}
-          label="Region"
+          value={envControllers.production}
+          label="Context"
           options={options}
-          onChange={(_: Event, region: string) => setEnvControllers({
+          onChange={(_: Event, context: boolean) => setEnvControllers({
             ...envControllers,
-            region,
+            production: context,
           })}
         />
       )}

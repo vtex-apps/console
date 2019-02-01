@@ -1,27 +1,33 @@
 import React, { Component } from 'react'
-import { PageBlock, Layout } from 'vtex.styleguide'
+import { Button, Dropdown, Layout, PageBlock, PageHeader } from 'vtex.styleguide'
 
+import { InjectedIntlProps, injectIntl } from 'react-intl'
 import EnvControllers from './EnvControllers'
 import TimeControllers from './TimeControllers'
 
 
-interface Props {
-  envControllers: EnvController
-  setEnvControllers: any
-}
-
-
-export default class Controllers extends Component<Props> {
+class Controllers extends Component<InjectedIntlProps> {
 
   public render = () => {
+    const { intl } = this.props
+
     return (
-      <PageBlock variation="half">
-        <EnvControllers
-          envControllers={this.props.envControllers}
-          setEnvControllers={this.props.setEnvControllers}
-        />
+      <PageBlock
+        title={intl.formatMessage({ id: 'Controllers' })}
+        variation="half"
+        titleAside={
+          <div className="nv4 flex justify-end">
+            <Button variation="primary" >
+              New Metric
+            </Button>
+          </div>
+        }
+      >
+        <EnvControllers />
         <TimeControllers />
       </PageBlock>
     )
   }
 }
+
+export default injectIntl(Controllers)

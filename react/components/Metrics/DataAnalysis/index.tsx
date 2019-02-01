@@ -1,74 +1,81 @@
-import { map } from 'ramda'
+import { map, reject } from 'ramda'
 import React, { Component, Fragment } from 'react'
 import { PageBlock } from 'vtex.styleguide'
 
+import { EnvContext } from '../EnvContext'
 import { TimeContext } from '../TimeContext'
+import { getAppVersion } from '../utils'
+import { isNilOrEmpty } from './utils'
 
 interface Props {
-  appId: string
   layout: T[]
 }
 
-
 export default class DataAnalysis extends Component<Props> {
 
+  public updateEnvironment = (metricParams: object, envControllers: EnvController) => {
+    console.log('updateEnvironment')
+    return reject(isNilOrEmpty, {
+      ...metricParams,
+      appName: envControllers.appName,
+      appVersion: getAppVersion(envControllers),
+      region: envControllers.region,
+      production: envControllers.production,
+    })
+  }
+
+  public updateAnalyzedPeriod = (metricParams: object, timeControllers: TimeController) => {
+    console.log('updateAnalyzedPeriod')
+    return reject(isNilOrEmpty, {
+      ...metricParams,
+      from: timeControllers.startDate,
+      to: timeControllers.endDate,
+      interval: timeControllers.rangeStep,
+    })
+  }
+
   public render() {
-    const { appId, layout } = this.props
+    const { layout } = this.props
 
     return (
-      <TimeContext.Consumer>
-        {({ timeControllers, setTimeControllers }) => (
-          // <div className="mt5 mw9 center ph3-ns">
-          // <div className="cf ph2-ns">
-          <div className="mt5" >
-            {
-              map(
-                (chartDescription) => {
-                  const {
-                    ChartType,
-                    storedash: {
-                      name,
-                    }
-                  } = chartDescription
-                  let {
-                    storedash: {
-                      metricParams
-                    }
-                  } = chartDescription
+      <EnvContext.Consumer>
+        {({ envControllers }) => (
+          <TimeContext.Consumer>
+            {({ timeControllers }) => (
+              <div className="mt5" >
+                {
+                  map(
+                    (chartDescription) => {
+                      const {
+                        ChartType,
+                        storedash: {
+                          name,
+                        }
+                      } = chartDescription
+                      let {
+                        storedash: {
+                          metricParams,
+                        }
+                      } = chartDescription
 
-                  if (timeControllers.startDate !== undefined && timeControllers.endDate !== undefined) {
-                    metricParams = {
-                      ...metricParams,
-                      from: timeControllers.startDate,
-                      to: timeControllers.endDate,
-                    }
-                  }
+                      console.log({envControllers}, {timeControllers})
+                      metricParams = this.updateEnvironment(metricParams, envControllers)
+                      metricParams = this.updateAnalyzedPeriod(metricParams, timeControllers)
 
-                  if (timeControllers.rangeStep !== '') {
-                    metricParams = {
-                      ...metricParams,
-                      interval: timeControllers.rangeStep,
-                    }
-                  }
+                      console.log({ metricParams })
 
-                  console.log({metricParams})
-
-                  return (
-                    // <PageBlock variation="half">
-                    // </PageBlock>
-                    // <div className="fl w-100 w-50-ns pa4">
-                    //   <div className="br4 bg-base pv4">
-                    <PageBlock variation="full">
-                      <ChartType appId={appId} name={name} metricParams={metricParams} />
-                    </PageBlock>
-                    //   </div>
-                    // </div>
-                  )
-                }, layout)
-            }
-          </div>
+                      return (
+                        <PageBlock variation="full">
+                          <ChartType name={name} metricParams={metricParams} />
+                        </PageBlock>
+                      )
+                    }, layout)
+                }
+              </div>
+            )}
+          </TimeContext.Consumer>
         )}
-      </TimeContext.Consumer>
+      </EnvContext.Consumer>
     )
   }
 }

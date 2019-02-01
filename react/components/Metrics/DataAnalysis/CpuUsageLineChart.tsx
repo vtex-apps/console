@@ -1,4 +1,4 @@
-import { forEachObjIndexed, has, includes, map } from 'ramda'
+import { forEachObjIndexed, includes, map } from 'ramda'
 import React, { Component, Fragment } from 'react'
 import { Query } from 'react-apollo'
 import { InjectedIntlProps, injectIntl } from 'react-intl'
@@ -31,40 +31,35 @@ interface Props extends InjectedIntlProps {
 }
 
 const calculateMean = (value: any, key: string | number | symbol, obj: any) => {
-  const memoryMetrics = ['external', 'heapUsed', 'heapTotal', 'rss']
-  if (includes(key, memoryMetrics)) {
+  const cpuMetrics = ['system', 'used']
+  if (includes(key, cpuMetrics)) {
     obj[key] = Math.round(obj[key] / obj.count)
   }
 }
 
-const calculateMeanMemory = (chartData: any[]) => {
+const calculateMeanOfCpuUsage = (chartData: any[]) => {
   return map((chartPoint: any) => {
     forEachObjIndexed(calculateMean, chartPoint)
     return chartPoint
   }, chartData)
 }
 
-class MemoryUsageLineChart extends Component<Props> {
+class CpuUsageLineChart extends Component<Props> {
   public render = () => {
     const { name, metricParams, intl } = this.props
-    console.log('MemoryUsageLineChart', {metricParams})
 
     return (
       <Fragment>
-        <BlockTitle title="Memory (bytes) Consumption over Time" />
+        <BlockTitle title="Cpu usage (microseconds) over Time" />
 
         <Query query={dataQuery} ssr={false} variables={{ name, params: metricParams }} >
           {({ loading, error, data: { data: rawChartData } }) => {
             let chartData: any
 
             if (!loading) {
-              let stepModifier = ''
-              if (has('interval', metricParams)) {
-                console.log('interval', {metricParams})
-                stepModifier = metricParams.interval[metricParams.interval.length - 1]
-              }
+              const stepModifier = metricParams.interval[metricParams.interval.length - 1]
               chartData = addFormattedTime(JSON.parse(rawChartData), intl, stepModifier)
-              chartData = calculateMeanMemory(chartData)
+              chartData = calculateMeanOfCpuUsage(chartData)
             }
 
             return (
@@ -84,10 +79,8 @@ class MemoryUsageLineChart extends Component<Props> {
                       />
                       <Legend />
                       <Tooltip content={<CustomTooltip />} />
-                      <Line type="monotone" dataKey="external" stroke="Green" />
-                      <Line type="monotone" dataKey="heapUsed" stroke="Navy" />
-                      <Line type="monotone" dataKey="heapTotal" stroke="Maroon" />
-                      <Line type="monotone" dataKey="rss" stroke="Orange" />
+                      <Line type="monotone" dataKey="system" stroke="Green" />
+                      <Line type="monotone" dataKey="user" stroke="Navy" />
                     </LineChart>
                   </ResponsiveContainer>
                 )
@@ -99,4 +92,4 @@ class MemoryUsageLineChart extends Component<Props> {
   }
 }
 
-export default injectIntl(MemoryUsageLineChart)
+export default injectIntl(CpuUsageLineChart)

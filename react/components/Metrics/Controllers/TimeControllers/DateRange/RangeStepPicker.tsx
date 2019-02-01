@@ -16,12 +16,12 @@ interface State {
 }
 
 
-export default class PeriodPicker extends Component<Props, State> {
+export default class RangeStepPicker extends Component<Props, State> {
   constructor(props: Props) {
     super(props)
     this.state = {
       stepSize: 0,
-      stepModifier: 'None'
+      stepModifier: 'Full',
     }
   }
 
@@ -32,23 +32,20 @@ export default class PeriodPicker extends Component<Props, State> {
   }
 
   public constructRangeStep = () => {
-    const mapTime = {
-      'None': 'n',
-      'Seconds': 's',
-      'Minutes': 'm',
-      'Hours': 'h',
-      'Days': 'd',
-      'Months': 'M',
-      'Years': 'y'
-    }
-    const rangeStep = this.state.stepSize + mapTime[this.state.stepModifier]
-    // Convenção (por enquanto): se não definir step (rangeStep == 0n), coloca interval como vazio
-    if (this.state.stepModifier === 'None') {
+    if (this.state.stepModifier === 'Full') {
       this.props.handleRangeStep('')
     } else {
+      const mapTime = {
+        'Seconds': 's',
+        'Minutes': 'm',
+        'Hours': 'h',
+        'Days': 'd',
+        'Months': 'M',
+        'Years': 'y',
+      }
+      const rangeStep = this.state.stepSize + mapTime[this.state.stepModifier]
       this.props.handleRangeStep(rangeStep)
     }
-
   }
 
   public render = () => {

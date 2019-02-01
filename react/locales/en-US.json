@@ -6,6 +6,7 @@
   "console.submenu.publishes": "Publishes",
   "console.admin.metrics.datePicker.startDateTitle": "Start date",
   "console.admin.metrics.datePicker.endDateTitle": "End date",
+  "console.admin.components.metrics.controllers": "Controllers",
   "console.admin.tabs.metrics": "Metrics",
   "console.admin.tabs.errors": "Errors",
   "console.admin.tabs.builds": "Build",

@@ -1,1 +1,1 @@
-export type RangeStep = 'None' | 'Seconds' | 'Minutes' | 'Hours' | 'Days' | 'Months' | 'Years'
+export type RangeStep = 'Full' | 'Seconds' | 'Minutes' | 'Hours' | 'Days' | 'Months' | 'Years'

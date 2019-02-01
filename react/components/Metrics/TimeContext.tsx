@@ -1,11 +1,17 @@
 import React from 'react'
 
-export const TimeContext = React.createContext({
+
+interface TimeContextInterface {
+  timeControllers: TimeController
+  setTimeControllers: SetTimeControllers
+}
+
+export const TimeContext = React.createContext<TimeContextInterface>({
   timeControllers: {
     startDate: new Date(),
     endDate: new Date(),
     rangeStep: '',
   },
-  setTimeControllers: (timeControllers: TimeController) => {},
+  setTimeControllers: (timeControllers: TimeController) => undefined,
 })
 

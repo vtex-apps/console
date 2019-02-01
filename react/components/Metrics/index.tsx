@@ -1,10 +1,8 @@
-import { map, path, pluck } from 'ramda'
-import React, { Component, Fragment } from 'react'
-import { Mutation, Query, withApollo } from 'react-apollo'
-import { FormattedMessage } from 'react-intl'
-import { Button, EmptyState } from 'vtex.styleguide'
+import React, { Component } from 'react'
+import { EmptyState } from 'vtex.styleguide'
 
 import layoutContent from '../../common/layoutContent'
+import { EnvContext } from './EnvContext'
 import { TimeContext } from './TimeContext'
 
 import Controllers from './Controllers'
@@ -17,30 +15,17 @@ interface State {
 }
 
 
-const getAppId = (envControllers: EnvController) => {
-  const {
-    chosenAppName,
-    chosenMajor,
-    chosenMinor,
-    chosenPatch,
-  } = envControllers
-  return chosenAppName ?
-    `${chosenAppName}@${chosenMajor}.${chosenMinor}.${chosenPatch}` :
-    null
-}
-
-
 class Metrics extends Component<{}, State> {
   constructor(props: any) {
     super(props)
     this.state = {
       envControllers: {
-        chosenAppName: undefined,
+        appName: '',
         chosenMajor: '',
         chosenMinor: '',
         chosenPatch: '',
-        production: 'true',
-        region: 'Any',
+        production: undefined,
+        region: '',
       },
       timeControllers: {
         startDate: undefined,
@@ -59,37 +44,40 @@ class Metrics extends Component<{}, State> {
   }
 
   public render = () => {
-    const { envControllers: { chosenAppName: appName, chosenMajor: versionMajor } } = this.state
-    const timeContextValue = { timeControllers: { ...this.state.timeControllers }, setTimeControllers: this.setTimeControllers }
+    const { envControllers: { appName } } = this.state
+    const { timeControllers: { startDate, endDate } } = this.state
+    const envContextValue = {
+      envControllers: this.state.envControllers,
+      setEnvControllers: this.setEnvControllers,
+    }
+    const timeContextValue = {
+      timeControllers: this.state.timeControllers,
+      setTimeControllers: this.setTimeControllers,
+    }
 
     return (
-      <TimeContext.Provider value={timeContextValue} >
-        <div className="flex flex-wrap w-100">
-          <Controllers
-            envControllers={this.state.envControllers}
-            setEnvControllers={this.setEnvControllers}
-          />
-
-          <div className="w-100">
-            {appName && versionMajor && Array.isArray(layoutContent)
-              ? (
-                <DataAnalysis
-                  appId={getAppId(this.state.envControllers) || ''}
-                  layout={layoutContent}
-                />
-              ) : (
-                <EmptyState title="Please select an app">
-                  <p>
-                    Please select an app to see its corresponding version
-                  </p>
-                </EmptyState>
-              )
-            }
-          </div>
-        </div>
-      </TimeContext.Provider>
+      <div className="flex flex-wrap w-100">
+        <EnvContext.Provider value={envContextValue}>
+          <TimeContext.Provider value={timeContextValue} >
+            <Controllers />
+            <div className="w-100">
+              {appName && startDate && endDate && Array.isArray(layoutContent)
+                ? (
+                  <DataAnalysis layout={layoutContent} />
+                ) : (
+                  <EmptyState title="Please select an app">
+                    <p>
+                      Please select an app to see its corresponding version
+                    </p>
+                  </EmptyState>
+                )
+              }
+            </div>
+          </TimeContext.Provider>
+        </EnvContext.Provider>
+      </div>
     )
   }
 }
 
-export default withApollo(Metrics)
+export default Metrics

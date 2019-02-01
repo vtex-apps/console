@@ -1,4 +1,4 @@
-import { forEachObjIndexed, has, includes, map } from 'ramda'
+import { forEachObjIndexed, includes, map } from 'ramda'
 import React, { Component, Fragment } from 'react'
 import { Query } from 'react-apollo'
 import { InjectedIntlProps, injectIntl } from 'react-intl'
@@ -30,41 +30,52 @@ interface Props extends InjectedIntlProps {
   metricParams: any
 }
 
-const calculateMean = (value: any, key: string | number | symbol, obj: any) => {
-  const memoryMetrics = ['external', 'heapUsed', 'heapTotal', 'rss']
-  if (includes(key, memoryMetrics)) {
-    obj[key] = Math.round(obj[key] / obj.count)
-  }
-}
 
-const calculateMeanMemory = (chartData: any[]) => {
+const calculateMeanLatency = (chartData: any[]) => {
   return map((chartPoint: any) => {
-    forEachObjIndexed(calculateMean, chartPoint)
-    return chartPoint
+    const meanLatency = chartPoint.sum / chartPoint.count
+    return {
+      ...chartPoint,
+      meanLatency,
+    }
   }, chartData)
 }
 
-class MemoryUsageLineChart extends Component<Props> {
+// const matchColorByStatusCode = (statusCode: string) => {
+
+// }
+
+// const colors = {
+//   '200': 'Green',
+//   '204': 'Olive',
+//   '301': 'Blue',
+//   '302': 'Navy',
+//   '400': 'Yellow',
+//   '405': 'Orange',
+//   '500': 'Red',
+//   '502': 'Maroon',
+// }
+
+class LatencyLineChart extends Component<Props> {
+  public drawLatencyLine = (chartData: any[]) => {
+
+  }
+
   public render = () => {
     const { name, metricParams, intl } = this.props
-    console.log('MemoryUsageLineChart', {metricParams})
 
     return (
       <Fragment>
-        <BlockTitle title="Memory (bytes) Consumption over Time" />
+        <BlockTitle title="Latency (miliseconds) over Time" />
 
         <Query query={dataQuery} ssr={false} variables={{ name, params: metricParams }} >
           {({ loading, error, data: { data: rawChartData } }) => {
             let chartData: any
 
             if (!loading) {
-              let stepModifier = ''
-              if (has('interval', metricParams)) {
-                console.log('interval', {metricParams})
-                stepModifier = metricParams.interval[metricParams.interval.length - 1]
-              }
+              const stepModifier = metricParams.interval[metricParams.interval.length - 1]
               chartData = addFormattedTime(JSON.parse(rawChartData), intl, stepModifier)
-              chartData = calculateMeanMemory(chartData)
+              chartData = calculateMeanLatency(chartData)
             }
 
             return (
@@ -83,11 +94,8 @@ class MemoryUsageLineChart extends Component<Props> {
                         tick={<CustomYAxisTick />}
                       />
                       <Legend />
-                      <Tooltip content={<CustomTooltip />} />
-                      <Line type="monotone" dataKey="external" stroke="Green" />
-                      <Line type="monotone" dataKey="heapUsed" stroke="Navy" />
-                      <Line type="monotone" dataKey="heapTotal" stroke="Maroon" />
-                      <Line type="monotone" dataKey="rss" stroke="Orange" />
+                      {/* <Tooltip content={<CustomTooltip />} />
+                      {this.drawLatencyLine()} */}
                     </LineChart>
                   </ResponsiveContainer>
                 )
@@ -99,4 +107,4 @@ class MemoryUsageLineChart extends Component<Props> {
   }
 }
 
-export default injectIntl(MemoryUsageLineChart)
+export default injectIntl(LatencyLineChart)

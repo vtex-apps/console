@@ -22,18 +22,18 @@ interface RenderContext {
 }
 
 interface EnvController {
-  chosenAppName?: string
-  chosenMajor: string
-  chosenMinor: string
-  chosenPatch: string
-  region: string
-  production: string
+  appName?: string
+  chosenMajor?: string
+  chosenMinor?: string
+  chosenPatch?: string
+  region?: string
+  production?: boolean
 }
 
 interface TimeController {
-  startDate: Date
-  endDate: Date
-  rangeStep: string
+  startDate?: Date
+  endDate?: Date
+  rangeStep?: string
 }
 
 interface LayoutWithSpecsContainer {
@@ -50,6 +50,10 @@ interface SpecLocator {
   appId: string
   specName: string
 }
+
+type SetTimeControllers = (timeControllers: TimeController) => void
+
+type SetEnvControllers = (envControllers: EnvController) => void
 
 declare module 'vtex.styleguide' {
   import { ReactElement } from 'react'

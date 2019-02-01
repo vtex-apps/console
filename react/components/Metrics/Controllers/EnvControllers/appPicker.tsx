@@ -2,29 +2,29 @@ import React, { Component } from 'react'
 import { Query } from 'react-apollo'
 import { Dropdown } from 'vtex.styleguide'
 
-import appsQuery from '../../../../graphql/apps.graphql'
-
 import { dropdownOptions } from '../../../../common/utils'
+import appsQuery from '../../../../graphql/apps.graphql'
+import { EnvContext } from '../../EnvContext'
 
-interface Props {
-  envControllers: EnvController
-  setEnvControllers: any
-}
 
-export default class AppPicker extends Component<Props> {
+export default class AppPicker extends Component {
   public render = () => (
-    <Query query={appsQuery} ssr={false}>
-    {({loading, data: {appsWithStats}}) => !loading && appsWithStats &&
-      <Dropdown
-        value={this.props.envControllers.chosenAppName}
-        label="Available Apps"
-        options={dropdownOptions(appsWithStats)}
-        onChange={(_: Event, chosenAppName: string) => this.props.setEnvControllers({
-          ...this.props.envControllers,
-          chosenAppName
-        })}
-      />
-    }
-    </Query>
+    <EnvContext.Consumer>
+      {({ envControllers, setEnvControllers }) => (
+        <Query query={appsQuery} ssr={false}>
+          {({ loading, data: { appsWithStats } }) => !loading && appsWithStats &&
+            <Dropdown
+              value={envControllers.appName}
+              label="Available Apps"
+              options={dropdownOptions(appsWithStats)}
+              onChange={(_: Event, appName: string) => setEnvControllers({
+                ...envControllers,
+                appName,
+              })}
+            />
+          }
+        </Query>
+      )}
+    </EnvContext.Consumer>
   )
 }
