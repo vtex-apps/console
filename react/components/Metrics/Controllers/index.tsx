@@ -15,9 +15,9 @@ const Controllers = (props: InjectedIntlProps) => {
       variation="half"
       titleAside={
         <div className="nv4 flex justify-end">
-          <Button variation="primary" >
+          <Button variation="primary" disabled >
             New Metric
-            </Button>
+          </Button>
         </div>
       }
     >
