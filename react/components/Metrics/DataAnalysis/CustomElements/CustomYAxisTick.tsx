@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { abbrNum } from '../../../../common/utils'
+import { abbrNum } from '../../../../common/dataAnalysis'
 
 
 interface Props {

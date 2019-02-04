@@ -7,7 +7,7 @@ import { Spinner } from 'vtex.styleguide'
 import dataQuery from '../../../../graphql/data.graphql'
 
 import { CHART_PROPERTIES } from '../../../../common/constants'
-import { addFormattedTime } from '../../../../common/utils'
+import { addFormattedTime } from '../../../../common/dataAnalysis'
 import BlockTitle from '../CustomElements/BlockTitle'
 import CustomTooltip from '../CustomElements/CustomTooltip'
 import CustomYAxisTick from '../CustomElements/CustomYAxisTick'

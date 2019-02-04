@@ -2,8 +2,8 @@ import { map, reject } from 'ramda'
 import React, { Component } from 'react'
 import { PageBlock } from 'vtex.styleguide'
 
-import { getAppVersion } from '../../../common/utils'
-import { isNilOrEmpty } from '../../../common/utils'
+import { getAppVersion } from '../../../common/dataAnalysis'
+import { isNilOrEmpty } from '../../../common/dataAnalysis'
 import { EnvContext } from '../Contexts/EnvContext'
 import { TimeContext } from '../Contexts/TimeContext'
 
