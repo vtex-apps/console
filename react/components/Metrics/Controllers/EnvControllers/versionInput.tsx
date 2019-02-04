@@ -27,6 +27,12 @@ export default class VersionInput extends Component<{}, State> {
     }
   }
 
+  public setStateAsync(state: State) {
+    return new Promise((resolve) => {
+      this.setState(state, resolve)
+    })
+  }
+
   public render = () => (
     <EnvContext.Consumer>
       {({ envControllers, setEnvControllers }) => (
@@ -38,15 +44,14 @@ export default class VersionInput extends Component<{}, State> {
         />
       )}
     </EnvContext.Consumer>
-
   )
 
   private parseInputAndSetState = async (version: string, envControllers: EnvController, setEnvControllers: SetEnvControllers) => {
     const isValid = version.length === 0 || isValidVersion(version)
     if (!isValid) {
-      await this.setState({ inputIsNotSemver: true })
+      await this.setStateAsync({ inputIsNotSemver: true })
     } else {
-      await this.setState({ inputIsNotSemver: false })
+      await this.setStateAsync({ inputIsNotSemver: false })
       let chosenMajor = ''
       let chosenMinor = ''
       let chosenPatch = ''
