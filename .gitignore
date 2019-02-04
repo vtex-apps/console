@@ -1,4 +1,10 @@
+### OSX ###
+.DS_Store
+
+# App specific
 node_modules/
 .vscode/
 .eslintrc
 !Icon
+*.lock
+*.log
