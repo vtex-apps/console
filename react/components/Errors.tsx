@@ -6,7 +6,7 @@ const Errors = () => {
   return (
     <EmptyState title="Coming Soon">
       <p>
-        Formula VTEX should last LONGER !!!.
+        Comming soon!
       </p>
     </EmptyState>
   )
