@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 
 import AppPicker from './appPicker'
 import ContextPicker from './contextPicker'
@@ -6,8 +6,8 @@ import RegionPicker from './regionPicker'
 import VersionInput from './versionInput'
 
 
-export default class EnvControllers extends Component {
-  public render = () => (
+const EnvControllers = () => {
+  return (
     <div className="flex br4 bg-base flex-wrap w-100 pa5">
       <div className="w-40 pa4 mr2">
         <AppPicker />
@@ -24,3 +24,5 @@ export default class EnvControllers extends Component {
     </div>
   )
 }
+
+export default EnvControllers

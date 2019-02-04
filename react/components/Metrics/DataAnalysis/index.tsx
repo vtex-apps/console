@@ -13,9 +13,8 @@ interface Props {
 }
 
 
-export default class DataAnalysis extends Component<Props> {
-
-  public updateEnvironment = (metricParams: object, envControllers: EnvController) => {
+const DataAnalysis = (props: Props) => {
+  const updateEnvironment = (metricParams: object, envControllers: EnvController) => {
     return reject(isNilOrEmpty, {
       ...metricParams,
       appName: envControllers.appName,
@@ -25,7 +24,7 @@ export default class DataAnalysis extends Component<Props> {
     })
   }
 
-  public updateAnalyzedPeriod = (metricParams: object, timeControllers: TimeController) => {
+  const updateAnalyzedPeriod = (metricParams: object, timeControllers: TimeController) => {
     return reject(isNilOrEmpty, {
       ...metricParams,
       from: timeControllers.startDate,
@@ -34,47 +33,46 @@ export default class DataAnalysis extends Component<Props> {
     })
   }
 
-  public render() {
-    const { layout } = this.props
+  const { layout } = props
 
-    return (
-      <EnvContext.Consumer>
-        {({ envControllers }) => (
-          <TimeContext.Consumer>
-            {({ timeControllers }) => (
-              <div className="mt5" >
-                {
-                  map(
-                    (chartDescription) => {
-                      const {
-                        ChartType,
-                        storedash: {
-                          name,
-                        },
-                      } = chartDescription
-                      let {
-                        storedash: {
-                          metricParams,
-                        },
-                      } = chartDescription
+  return (
+    <EnvContext.Consumer>
+      {({ envControllers }) => (
+        <TimeContext.Consumer>
+          {({ timeControllers }) => (
+            <div className="mt5" >
+              {
+                map(
+                  (chartDescription) => {
+                    const {
+                      ChartType,
+                      storedash: {
+                        name,
+                      },
+                    } = chartDescription
+                    let {
+                      storedash: {
+                        metricParams,
+                      },
+                    } = chartDescription
 
-                      metricParams = this.updateEnvironment(metricParams, envControllers)
-                      metricParams = this.updateAnalyzedPeriod(metricParams, timeControllers)
+                    metricParams = updateEnvironment(metricParams, envControllers)
+                    metricParams = updateAnalyzedPeriod(metricParams, timeControllers)
 
-                      return (
-                        <PageBlock variation="full">
-                          <ChartType name={name} metricParams={metricParams} />
-                        </PageBlock>
-                      )
-                    }, layout)
-                }
-              </div>
-            )}
-          </TimeContext.Consumer>
-        )}
-      </EnvContext.Consumer>
-    )
-  }
+                    return (
+                      <PageBlock variation="full">
+                        <ChartType name={name} metricParams={metricParams} />
+                      </PageBlock>
+                    )
+                  }, layout)
+              }
+            </div>
+          )}
+        </TimeContext.Consumer>
+      )}
+    </EnvContext.Consumer>
+  )
 }
 
+export default DataAnalysis
 

@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { Dropdown } from 'vtex.styleguide'
 
 import { EnvContext } from '../../Contexts/EnvContext'
@@ -16,11 +16,12 @@ const options = [
   {
     label: 'Development',
     value: false,
-  }
+  },
 ]
 
-export default class ContextPicker extends Component {
-  public render = () => (
+
+const ContextPicker = () => {
+  return (
     <EnvContext.Consumer>
       {({ envControllers, setEnvControllers }) => (
         <Dropdown
@@ -36,3 +37,5 @@ export default class ContextPicker extends Component {
     </EnvContext.Consumer>
   )
 }
+
+export default ContextPicker

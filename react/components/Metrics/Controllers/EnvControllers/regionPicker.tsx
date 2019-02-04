@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { Dropdown } from 'vtex.styleguide'
 
 import { EnvContext } from '../../Contexts/EnvContext'
@@ -19,8 +19,9 @@ const options = [
   },
 ]
 
-export default class RegionPicker extends Component {
-  public render = () => (
+
+const RegionPicker = () => {
+  return (
     <EnvContext.Consumer>
       {({ envControllers, setEnvControllers }) => (
         <Dropdown
@@ -36,3 +37,5 @@ export default class RegionPicker extends Component {
     </EnvContext.Consumer>
   )
 }
+
+export default RegionPicker

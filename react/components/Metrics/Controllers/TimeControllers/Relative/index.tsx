@@ -1,11 +1,12 @@
-import React, { Component } from 'react'
+import React from 'react'
 
-export default class Relative extends Component {
-  public render = () => {
-    return (
-      <div className="pa4 mh2" >
-        placeholder for Relative mode
-      </div>
-    )
-  }
+
+const Relative = () => {
+  return (
+    <div className="pa4 mh2" >
+      placeholder for Relative mode
+    </div>
+  )
 }
+
+export default Relative

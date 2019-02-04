@@ -1,5 +1,5 @@
 import { forEachObjIndexed, has, includes, map } from 'ramda'
-import React, { Component, Fragment } from 'react'
+import React, { Fragment } from 'react'
 import { Query } from 'react-apollo'
 import { InjectedIntlProps, injectIntl } from 'react-intl'
 import { Spinner } from 'vtex.styleguide'
@@ -44,57 +44,55 @@ const calculateMeanMemory = (chartData: any[]) => {
   }, chartData)
 }
 
-class MemoryUsageLineChart extends Component<Props> {
-  public render = () => {
-    const { name, metricParams, intl } = this.props
+const MemoryUsageLineChart = (props: Props) => {
+  const { name, metricParams, intl } = props
 
-    return (
-      <Fragment>
-        <BlockTitle title="Memory (bytes) Consumption over Time" />
+  return (
+    <Fragment>
+      <BlockTitle title="Memory (bytes) Consumption over Time" />
 
-        <Query query={dataQuery} ssr={false} variables={{ name, params: metricParams }} >
-          {({ loading, error, data: { data: rawChartData } }) => {
-            let chartData: any
+      <Query query={dataQuery} ssr={false} variables={{ name, params: metricParams }} >
+        {({ loading, error, data: { data: rawChartData } }) => {
+          let chartData: any
 
-            if (!loading) {
-              let stepModifier = ''
-              if (has('interval', metricParams)) {
-                stepModifier = metricParams.interval[metricParams.interval.length - 1]
-              }
-              chartData = addFormattedTime(JSON.parse(rawChartData), intl, stepModifier)
-              chartData = calculateMeanMemory(chartData)
+          if (!loading) {
+            let stepModifier = ''
+            if (has('interval', metricParams)) {
+              stepModifier = metricParams.interval[metricParams.interval.length - 1]
             }
+            chartData = addFormattedTime(JSON.parse(rawChartData), intl, stepModifier)
+            chartData = calculateMeanMemory(chartData)
+          }
 
-            return (
-              loading ? (
-                <Spinner />
-              ) : (
-                  <ResponsiveContainer
-                    width={CHART_PROPERTIES.width}
-                    height={CHART_PROPERTIES.height}
-                  >
-                    <LineChart data={chartData}>
-                      <CartesianGrid strokeDasharray="3 3" />
-                      <XAxis dataKey="formattedTime" />>
+          return (
+            loading ? (
+              <Spinner />
+            ) : (
+                <ResponsiveContainer
+                  width={CHART_PROPERTIES.width}
+                  height={CHART_PROPERTIES.height}
+                >
+                  <LineChart data={chartData}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="formattedTime" />>
                       <YAxis
-                        type="number"
-                        tick={<CustomYAxisTick />}
-                      />
-                      <Legend />
-                      <Tooltip content={<CustomTooltip />} />
-                      <Line type="monotone" dataKey="external" stroke="Green" />
-                      <Line type="monotone" dataKey="heapUsed" stroke="Navy" />
-                      <Line type="monotone" dataKey="heapTotal" stroke="Maroon" />
-                      <Line type="monotone" dataKey="rss" stroke="Orange" />
-                    </LineChart>
-                  </ResponsiveContainer>
-                )
-            )
-          }}
-        </Query>
-      </Fragment>
-    )
-  }
+                      type="number"
+                      tick={<CustomYAxisTick />}
+                    />
+                    <Legend />
+                    <Tooltip content={<CustomTooltip />} />
+                    <Line type="monotone" dataKey="external" stroke="Green" />
+                    <Line type="monotone" dataKey="heapUsed" stroke="Navy" />
+                    <Line type="monotone" dataKey="heapTotal" stroke="Maroon" />
+                    <Line type="monotone" dataKey="rss" stroke="Orange" />
+                  </LineChart>
+                </ResponsiveContainer>
+              )
+          )
+        }}
+      </Query>
+    </Fragment>
+  )
 }
 
 export default injectIntl(MemoryUsageLineChart)

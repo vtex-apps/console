@@ -1,5 +1,5 @@
 import { map } from 'ramda'
-import React, { Component, Fragment } from 'react'
+import React, { Fragment } from 'react'
 import { Query } from 'react-apollo'
 import { InjectedIntlProps, injectIntl } from 'react-intl'
 import { Spinner } from 'vtex.styleguide'
@@ -39,52 +39,49 @@ const calculateMeanLatency = (chartData: any[]) => {
   }, chartData)
 }
 
-class LatencyLineChart extends Component<Props> {
+const LatencyLineChart = (props: Props) => {
+  const { name, metricParams, intl } = props
 
-  public render = () => {
-    const { name, metricParams, intl } = this.props
+  return (
+    <Fragment>
+      <BlockTitle title="Latency (miliseconds) over Time" />
 
-    return (
-      <Fragment>
-        <BlockTitle title="Latency (miliseconds) over Time" />
+      <Query query={dataQuery} ssr={false} variables={{ name, params: metricParams }} >
+        {({ loading, data: { data: rawChartData } }) => {
+          let chartData: any
 
-        <Query query={dataQuery} ssr={false} variables={{ name, params: metricParams }} >
-          {({ loading, data: { data: rawChartData } }) => {
-            let chartData: any
+          if (!loading) {
+            const stepModifier = metricParams.interval[metricParams.interval.length - 1]
+            chartData = addFormattedTime(JSON.parse(rawChartData), intl, stepModifier)
+            chartData = calculateMeanLatency(chartData)
+          }
 
-            if (!loading) {
-              const stepModifier = metricParams.interval[metricParams.interval.length - 1]
-              chartData = addFormattedTime(JSON.parse(rawChartData), intl, stepModifier)
-              chartData = calculateMeanLatency(chartData)
-            }
-
-            return (
-              loading ? (
-                <Spinner />
-              ) : (
-                  <ResponsiveContainer
-                    width={CHART_PROPERTIES.width}
-                    height={CHART_PROPERTIES.height}
-                  >
-                    <LineChart data={chartData}>
-                      <CartesianGrid strokeDasharray="3 3" />
-                      <XAxis dataKey="formattedTime" />>
+          return (
+            loading ? (
+              <Spinner />
+            ) : (
+                <ResponsiveContainer
+                  width={CHART_PROPERTIES.width}
+                  height={CHART_PROPERTIES.height}
+                >
+                  <LineChart data={chartData}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="formattedTime" />>
                       <YAxis
-                        type="number"
-                        tick={<CustomYAxisTick />}
-                      />
-                      <Legend />
-                      <Tooltip content={<CustomTooltip />}/>
-                      {/* { this.drawLatencyLine() } */}
-                    </LineChart>
-                  </ResponsiveContainer>
-                )
-            )
-          }}
-        </Query>
-      </Fragment>
-    )
-  }
+                      type="number"
+                      tick={<CustomYAxisTick />}
+                    />
+                    <Legend />
+                    <Tooltip content={<CustomTooltip />} />
+                    {/* { this.drawLatencyLine() } */}
+                  </LineChart>
+                </ResponsiveContainer>
+              )
+          )
+        }}
+      </Query>
+    </Fragment>
+  )
 }
 
 export default injectIntl(LatencyLineChart)

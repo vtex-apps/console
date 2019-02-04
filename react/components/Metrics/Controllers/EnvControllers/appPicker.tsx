@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { Query } from 'react-apollo'
 import { Dropdown } from 'vtex.styleguide'
 
@@ -7,8 +7,8 @@ import appsQuery from '../../../../graphql/apps.graphql'
 import { EnvContext } from '../../Contexts/EnvContext'
 
 
-export default class AppPicker extends Component {
-  public render = () => (
+const AppPicker = () => {
+  return (
     <EnvContext.Consumer>
       {({ envControllers, setEnvControllers }) => (
         <Query query={appsQuery} ssr={false}>
@@ -28,3 +28,5 @@ export default class AppPicker extends Component {
     </EnvContext.Consumer>
   )
 }
+
+export default AppPicker

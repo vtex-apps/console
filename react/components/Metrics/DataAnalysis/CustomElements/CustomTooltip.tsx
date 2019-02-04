@@ -11,75 +11,68 @@ interface Props extends InjectedIntlProps {
 }
 
 
-class CustomTooltip extends Component<Props> {
-  constructor(props: Props) {
-    super(props)
-  }
-
-  public handleLabel = (label: string) => {
+const CustomTooltip = (props: Props) => {
+  const handleLabel = (label: string) => {
     // After it will treat intl
     return label
   }
 
-  public handleValue = (value: number) => {
-    const { intl } = this.props
+  const handleValue = (value: number) => {
+    const { intl } = props
     return intl.formatNumber(value)
   }
 
-  public render() {
-    const { active } = this.props
+  const { active } = props
 
-    if (active) {
-      const { payload, label } = this.props
+  if (active) {
+    const { payload, label } = props
 
-      return (
-        <PageBlock>
-          <div className="t-small">
-            <div className="pa2">
-              {label}
+    return (
+      <PageBlock>
+        <div className="t-small">
+          <div className="pa2">
+            {label}
+          </div>
+          <div className="flex justify-between" >
+            <div className="pa2" style={{ color: payload[0].color }} >
+              {`${handleLabel(payload[0].dataKey)}:  `}
             </div>
-            <div className="flex justify-between" >
-              <div className="pa2" style={{ color: payload[0].color }} >
-                {`${this.handleLabel(payload[0].dataKey)}:  `}
-              </div>
-              <div className="pa2" >
-                {this.handleValue(payload[0].value)}
-              </div>
-            </div>
-
-            <div className="flex justify-between" >
-              <div className="pa2" style={{ color: payload[1].color }} >
-                {`${this.handleLabel(payload[1].dataKey)}:  `}
-              </div>
-              <div className="pa2" >
-                {this.handleValue(payload[1].value)}
-              </div>
-            </div>
-
-            <div className="flex justify-around" >
-              <div className="pa2" style={{ color: payload[2].color }} >
-                {`${this.handleLabel(payload[2].dataKey)}:  `}
-              </div>
-              <div className="pa2" >
-                {this.handleValue(payload[2].value)}
-              </div>
-            </div>
-
-            <div className="flex justify-between" >
-              <div className="pa2" style={{ color: payload[3].color }} >
-                {`${this.handleLabel(payload[3].dataKey)}:  `}
-              </div>
-              <div className="pa2" >
-                {this.handleValue(payload[3].value)}
-              </div>
+            <div className="pa2" >
+              {handleValue(payload[0].value)}
             </div>
           </div>
-        </PageBlock>
-      )
-    }
 
-    return null
+          <div className="flex justify-between" >
+            <div className="pa2" style={{ color: payload[1].color }} >
+              {`${handleLabel(payload[1].dataKey)}:  `}
+            </div>
+            <div className="pa2" >
+              {handleValue(payload[1].value)}
+            </div>
+          </div>
+
+          <div className="flex justify-around" >
+            <div className="pa2" style={{ color: payload[2].color }} >
+              {`${handleLabel(payload[2].dataKey)}:  `}
+            </div>
+            <div className="pa2" >
+              {handleValue(payload[2].value)}
+            </div>
+          </div>
+
+          <div className="flex justify-between" >
+            <div className="pa2" style={{ color: payload[3].color }} >
+              {`${handleLabel(payload[3].dataKey)}:  `}
+            </div>
+            <div className="pa2" >
+              {handleValue(payload[3].value)}
+            </div>
+          </div>
+        </div>
+      </PageBlock>
+    )
   }
+  return null
 }
 
 export default injectIntl(CustomTooltip)

@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { Fragment } from 'react'
 
 import RangeExtremesPicker from './RangeExtremesPicker'
 import RangeStepPicker from './RangeStepPicker'
@@ -15,26 +15,22 @@ interface Props {
 }
 
 
-export default class DateRange extends Component<Props> {
-  constructor(props: Props) {
-    super(props)
-  }
-
-  public render = () => {
-    return (
-      <Fragment>
-        <RangeExtremesPicker
-          locale={this.props.locale}
-          startDate={this.props.startDate}
-          endDate={this.props.endDate}
-          handleStartDate={this.props.handleStartDate}
-          handleEndDate={this.props.handleEndDate}
-        />
-        <RangeStepPicker
-          rangeStep={this.props.rangeStep}
-          handleRangeStep={this.props.handleRangeStep}
-        />
-      </Fragment>
-    )
-  }
+const DateRange = (props: Props) => {
+  return (
+    <Fragment>
+      <RangeExtremesPicker
+        locale={props.locale}
+        startDate={props.startDate}
+        endDate={props.endDate}
+        handleStartDate={props.handleStartDate}
+        handleEndDate={props.handleEndDate}
+      />
+      <RangeStepPicker
+        rangeStep={props.rangeStep}
+        handleRangeStep={props.handleRangeStep}
+      />
+    </Fragment>
+  )
 }
+
+export default DateRange

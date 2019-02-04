@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { Fragment } from 'react'
 import { DatePicker } from 'vtex.styleguide'
 
 
@@ -11,32 +11,31 @@ interface Props {
 }
 
 
-export default class RangeExtremesPicker extends Component<Props> {
-
-  public render = () => {
-    return (
-      <Fragment>
-        <div className="pa4 mh2">
-          <DatePicker
-            name={'startDate'}
-            label={'From'}
-            locale={this.props.locale}
-            useTime={true}
-            value={this.props.startDate}
-            onChange={this.props.handleStartDate}
-          />
-        </div>
-        <div className="pa4 mh2">
-          <DatePicker
-            name={'endDate'}
-            label={'To'}
-            locale={this.props.locale}
-            useTime={true}
-            value={this.props.endDate}
-            onChange={this.props.handleEndDate}
-          />
-        </div>
-      </Fragment>
-    )
-  }
+const RangeExtremesPicker = (props: Props) => {
+  return (
+    <Fragment>
+      <div className="pa4 mh2">
+        <DatePicker
+          name={'startDate'}
+          label={'From'}
+          locale={props.locale}
+          useTime={true}
+          value={props.startDate}
+          onChange={props.handleStartDate}
+        />
+      </div>
+      <div className="pa4 mh2">
+        <DatePicker
+          name={'endDate'}
+          label={'To'}
+          locale={props.locale}
+          useTime={true}
+          value={props.endDate}
+          onChange={props.handleEndDate}
+        />
+      </div>
+    </Fragment>
+  )
 }
+
+export default RangeExtremesPicker

@@ -1,8 +1,9 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { EmptyState } from 'vtex.styleguide'
 
-export default class Errors extends Component {
-  public render = () => (
+
+const Errors = () => {
+  return (
     <EmptyState title="Coming Soon">
       <p>
         Formula VTEX should last LONGER !!!.
@@ -10,3 +11,5 @@ export default class Errors extends Component {
     </EmptyState>
   )
 }
+
+export default Errors
