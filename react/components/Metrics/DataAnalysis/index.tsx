@@ -14,7 +14,7 @@ interface Props {
 
 
 const DataAnalysis = (props: Props) => {
-  const updateEnvironment = (metricParams: object, envControllers: EnvController) => {
+  const setContext = (metricParams: object, envControllers: EnvController) => {
     return reject(isNilOrEmpty, {
       ...metricParams,
       appName: envControllers.appName,
@@ -24,7 +24,7 @@ const DataAnalysis = (props: Props) => {
     })
   }
 
-  const updateAnalyzedPeriod = (metricParams: object, timeControllers: TimeController) => {
+  const setTimePeriod = (metricParams: object, timeControllers: TimeController) => {
     return reject(isNilOrEmpty, {
       ...metricParams,
       from: timeControllers.startDate,
@@ -56,8 +56,8 @@ const DataAnalysis = (props: Props) => {
                       },
                     } = chartDescription
 
-                    metricParams = updateEnvironment(metricParams, envControllers)
-                    metricParams = updateAnalyzedPeriod(metricParams, timeControllers)
+                    metricParams = setContext(metricParams, envControllers)
+                    metricParams = setTimePeriod(metricParams, timeControllers)
 
                     return (
                       <PageBlock variation="full">
