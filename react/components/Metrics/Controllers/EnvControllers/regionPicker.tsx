@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { Dropdown } from 'vtex.styleguide'
 
-import { EnvContext } from '../../EnvContext'
+import { EnvContext } from '../../Contexts/EnvContext'
+
 
 const options = [
   {

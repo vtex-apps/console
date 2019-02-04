@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button, Dropdown, Layout, PageBlock, PageHeader } from 'vtex.styleguide'
+import { Button, PageBlock } from 'vtex.styleguide'
 
 import { InjectedIntlProps, injectIntl } from 'react-intl'
 import EnvControllers from './EnvControllers'

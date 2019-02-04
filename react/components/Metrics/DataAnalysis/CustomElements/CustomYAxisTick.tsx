@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { abbrNum } from '../../../common/utils'
+import { abbrNum } from '../../../../common/utils'
 
 
 interface Props {
@@ -12,7 +12,7 @@ interface Props {
 }
 
 
-const CustomYAxisTick = ({ x, y, payload, toFixed, textAnchor = 'end' }: Props) => (
+const CustomYAxisTick = ({ x, y, payload, toFixed, textAnchor = 'end' }: Partial<Props>) => (
   <g transform={`translate(${x},${y})`}>
     <text x={0} y={0} dy={5} textAnchor={textAnchor} fill="#666" className="f6">
       {abbrNum(toFixed ? payload.value.toFixed(toFixed) : payload.value, 0)}

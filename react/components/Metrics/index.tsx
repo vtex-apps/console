@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import { EmptyState } from 'vtex.styleguide'
 
 import layoutContent from '../../common/layoutContent'
-import { EnvContext } from './EnvContext'
-import { TimeContext } from './TimeContext'
+import { EnvContext } from './Contexts/EnvContext'
+import { TimeContext } from './Contexts/TimeContext'
 
 import Controllers from './Controllers'
 import DataAnalysis from './DataAnalysis'
@@ -28,10 +28,10 @@ class Metrics extends Component<{}, State> {
         region: '',
       },
       timeControllers: {
-        startDate: undefined,
         endDate: undefined,
         rangeStep: '',
-      }
+        startDate: undefined,
+      },
     }
   }
 
@@ -51,8 +51,8 @@ class Metrics extends Component<{}, State> {
       setEnvControllers: this.setEnvControllers,
     }
     const timeContextValue = {
-      timeControllers: this.state.timeControllers,
       setTimeControllers: this.setTimeControllers,
+      timeControllers: this.state.timeControllers,
     }
 
     return (
@@ -67,7 +67,7 @@ class Metrics extends Component<{}, State> {
                 ) : (
                   <EmptyState title="Please select an app">
                     <p>
-                      Please select an app to see its corresponding version
+                      Please select an app to be analyzed
                     </p>
                   </EmptyState>
                 )

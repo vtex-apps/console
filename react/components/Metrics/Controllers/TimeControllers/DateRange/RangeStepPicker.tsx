@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Dropdown, NumericStepper } from 'vtex.styleguide'
 
 import { dropdownOptions } from '../../../../../common/utils'
+import { EventWithValue } from '../../../../../typings/events'
 import { RangeStep } from './typings'
 
 
@@ -20,8 +21,8 @@ export default class RangeStepPicker extends Component<Props, State> {
   constructor(props: Props) {
     super(props)
     this.state = {
-      stepSize: 0,
       stepModifier: 'Full',
+      stepSize: 0,
     }
   }
 
@@ -36,11 +37,11 @@ export default class RangeStepPicker extends Component<Props, State> {
       this.props.handleRangeStep('')
     } else {
       const mapTime = {
-        'Seconds': 's',
-        'Minutes': 'm',
-        'Hours': 'h',
         'Days': 'd',
+        'Hours': 'h',
+        'Minutes': 'm',
         'Months': 'M',
+        'Seconds': 's',
         'Years': 'y',
       }
       const rangeStep = this.state.stepSize + mapTime[this.state.stepModifier]
@@ -50,13 +51,13 @@ export default class RangeStepPicker extends Component<Props, State> {
 
   public render = () => {
     const stepModifierOptions: string[] = [
-      'None',
+      'Full',
       'Seconds',
       'Minutes',
       'Hours',
       'Days',
       'Months',
-      'Years'
+      'Years',
     ]
 
     return (
@@ -64,8 +65,8 @@ export default class RangeStepPicker extends Component<Props, State> {
         <NumericStepper
           label="Step"
           size="small"
+          onChange={(e: EventWithValue) => this.setState({ stepSize: e.value })}
           value={this.state.stepSize}
-          onChange={(e: Event) => this.setState({ stepSize: e.value })}
         />
         <Dropdown
           size="small"

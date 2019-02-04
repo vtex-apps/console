@@ -4,7 +4,7 @@ import { Dropdown } from 'vtex.styleguide'
 
 import { dropdownOptions } from '../../../../common/utils'
 import appsQuery from '../../../../graphql/apps.graphql'
-import { EnvContext } from '../../EnvContext'
+import { EnvContext } from '../../Contexts/EnvContext'
 
 
 export default class AppPicker extends Component {

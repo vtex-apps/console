@@ -1,36 +1,36 @@
 import { map, reject } from 'ramda'
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import { PageBlock } from 'vtex.styleguide'
 
-import { EnvContext } from '../EnvContext'
-import { TimeContext } from '../TimeContext'
-import { getAppVersion } from '../utils'
-import { isNilOrEmpty } from './utils'
+import { getAppVersion } from '../../../common/utils'
+import { isNilOrEmpty } from '../../../common/utils'
+import { EnvContext } from '../Contexts/EnvContext'
+import { TimeContext } from '../Contexts/TimeContext'
+
 
 interface Props {
-  layout: T[]
+  layout: any[]
 }
+
 
 export default class DataAnalysis extends Component<Props> {
 
   public updateEnvironment = (metricParams: object, envControllers: EnvController) => {
-    console.log('updateEnvironment')
     return reject(isNilOrEmpty, {
       ...metricParams,
       appName: envControllers.appName,
       appVersion: getAppVersion(envControllers),
-      region: envControllers.region,
       production: envControllers.production,
+      region: envControllers.region,
     })
   }
 
   public updateAnalyzedPeriod = (metricParams: object, timeControllers: TimeController) => {
-    console.log('updateAnalyzedPeriod')
     return reject(isNilOrEmpty, {
       ...metricParams,
       from: timeControllers.startDate,
-      to: timeControllers.endDate,
       interval: timeControllers.rangeStep,
+      to: timeControllers.endDate,
     })
   }
 
@@ -50,19 +50,16 @@ export default class DataAnalysis extends Component<Props> {
                         ChartType,
                         storedash: {
                           name,
-                        }
+                        },
                       } = chartDescription
                       let {
                         storedash: {
                           metricParams,
-                        }
+                        },
                       } = chartDescription
 
-                      console.log({envControllers}, {timeControllers})
                       metricParams = this.updateEnvironment(metricParams, envControllers)
                       metricParams = this.updateAnalyzedPeriod(metricParams, timeControllers)
-
-                      console.log({ metricParams })
 
                       return (
                         <PageBlock variation="full">

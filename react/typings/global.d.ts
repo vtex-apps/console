@@ -36,21 +36,6 @@ interface TimeController {
   rangeStep?: string
 }
 
-interface LayoutWithSpecsContainer {
-  cacheId: String
-  layoutWithSpecs: LayoutWithSpecs[]
-}
-
-interface LayoutWithSpecs {
-  spec: String
-  specLocator: SpecLocator
-}
-
-interface SpecLocator {
-  appId: string
-  specName: string
-}
-
 type SetTimeControllers = (timeControllers: TimeController) => void
 
 type SetEnvControllers = (envControllers: EnvController) => void

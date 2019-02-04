@@ -1,16 +1,15 @@
 import React, { Component } from 'react'
-import { InjectedIntlProps, injectIntl, intlShape } from 'react-intl'
-import { Layout, PageBlock } from 'vtex.styleguide'
-
-import { handleLabelTranslation, handleValueTranslation } from '../../utils'
+import { InjectedIntlProps, injectIntl } from 'react-intl'
+import { PageBlock } from 'vtex.styleguide'
 
 
 interface Props extends InjectedIntlProps {
-  active: boolean
-  label: string
-  payload: any
-  type: string
+  active?: boolean
+  label?: string
+  payload?: any
+  type?: string
 }
+
 
 class CustomTooltip extends Component<Props> {
   constructor(props: Props) {
@@ -18,8 +17,7 @@ class CustomTooltip extends Component<Props> {
   }
 
   public handleLabel = (label: string) => {
-    // const { intl } = this.props
-    // return intl.formatMessage({ id: label })
+    // After it will treat intl
     return label
   }
 

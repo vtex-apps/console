@@ -1,23 +1,21 @@
-import { forEachObjIndexed, includes, map } from 'ramda'
+import { map } from 'ramda'
 import React, { Component, Fragment } from 'react'
 import { Query } from 'react-apollo'
 import { InjectedIntlProps, injectIntl } from 'react-intl'
 import { Spinner } from 'vtex.styleguide'
 
-import dataQuery from '../../../graphql/data.graphql'
+import dataQuery from '../../../../graphql/data.graphql'
 
-import { CHART_PROPERTIES } from '../../../common/constants'
-import { addFormattedTime } from './utils'
-import BlockTitle from './BlockTitle'
-import CustomTooltip from './CustomTooltip'
-import CustomYAxisTick from './CustomYAxisTick'
+import { CHART_PROPERTIES } from '../../../../common/constants'
+import { addFormattedTime } from '../../../../common/utils'
+import BlockTitle from '../CustomElements/BlockTitle'
+import CustomTooltip from '../CustomElements/CustomTooltip'
+import CustomYAxisTick from '../CustomElements/CustomYAxisTick'
 
 import {
-  Line,
-  LineChart,
   CartesianGrid,
-  Label,
   Legend,
+  LineChart,
   ResponsiveContainer,
   Tooltip,
   XAxis,
@@ -30,36 +28,34 @@ interface Props extends InjectedIntlProps {
   metricParams: any
 }
 
-const calculateMean = (value: any, key: string | number | symbol, obj: any) => {
-  const cpuMetrics = ['system', 'used']
-  if (includes(key, cpuMetrics)) {
-    obj[key] = Math.round(obj[key] / obj.count)
-  }
-}
 
-const calculateMeanOfCpuUsage = (chartData: any[]) => {
+const calculateMeanLatency = (chartData: any[]) => {
   return map((chartPoint: any) => {
-    forEachObjIndexed(calculateMean, chartPoint)
-    return chartPoint
+    const meanLatency = chartPoint.sum / chartPoint.count
+    return {
+      ...chartPoint,
+      meanLatency,
+    }
   }, chartData)
 }
 
-class CpuUsageLineChart extends Component<Props> {
+class LatencyLineChart extends Component<Props> {
+
   public render = () => {
     const { name, metricParams, intl } = this.props
 
     return (
       <Fragment>
-        <BlockTitle title="Cpu usage (microseconds) over Time" />
+        <BlockTitle title="Latency (miliseconds) over Time" />
 
         <Query query={dataQuery} ssr={false} variables={{ name, params: metricParams }} >
-          {({ loading, error, data: { data: rawChartData } }) => {
+          {({ loading, data: { data: rawChartData } }) => {
             let chartData: any
 
             if (!loading) {
               const stepModifier = metricParams.interval[metricParams.interval.length - 1]
               chartData = addFormattedTime(JSON.parse(rawChartData), intl, stepModifier)
-              chartData = calculateMeanOfCpuUsage(chartData)
+              chartData = calculateMeanLatency(chartData)
             }
 
             return (
@@ -78,9 +74,8 @@ class CpuUsageLineChart extends Component<Props> {
                         tick={<CustomYAxisTick />}
                       />
                       <Legend />
-                      <Tooltip content={<CustomTooltip />} />
-                      <Line type="monotone" dataKey="system" stroke="Green" />
-                      <Line type="monotone" dataKey="user" stroke="Navy" />
+                      <Tooltip content={<CustomTooltip />}/>
+                      {/* { this.drawLatencyLine() } */}
                     </LineChart>
                   </ResponsiveContainer>
                 )
@@ -92,4 +87,4 @@ class CpuUsageLineChart extends Component<Props> {
   }
 }
 
-export default injectIntl(CpuUsageLineChart)
+export default injectIntl(LatencyLineChart)

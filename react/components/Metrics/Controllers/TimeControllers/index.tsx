@@ -1,16 +1,19 @@
 import React, { Component, Fragment } from 'react'
 import { Button, EmptyState, RadioGroup } from 'vtex.styleguide'
 
-import { TimeContext } from '../../TimeContext'
+import { EventWithValue } from '../../../../typings/events'
+import { TimeContext } from '../../Contexts/TimeContext'
 import DateRange from './DateRange'
 import Relative from './Relative'
 
+
+type TimePeriod = 'DateRange' | 'Relative' | 'Empty'
 interface State {
   locale: string
   startDate: Date
   endDate: Date
   rangeStep: string
-  mode: 'DateRange' | 'Relative' | 'Empty'
+  mode: TimePeriod
 }
 
 
@@ -18,11 +21,11 @@ export default class TimeController extends Component<{}, State> {
   constructor(props: {}) {
     super(props)
     this.state = {
-      locale: 'pt-BR',
-      startDate: new Date(),
       endDate: new Date(),
+      locale: 'pt-BR',
+      mode: 'Empty',
       rangeStep: '',
-      mode: 'DateRange',
+      startDate: new Date(),
     }
   }
 
@@ -59,11 +62,22 @@ export default class TimeController extends Component<{}, State> {
         {
           this.state.mode === 'Empty'
             ? (
-              <EmptyState title="Please define your time range">
-                <p>
-                  Please define a time range to analyse your metric
-              </p>
-              </EmptyState>
+              <Fragment>
+                <EmptyState title="Please set a time period">
+                  <p>
+                    Please set a time period to analyze your metric
+                  </p>
+                </EmptyState>
+                <div className="pa4 mh2 flex justify-end">
+                  <Button
+                    variation="primary"
+                    size="small"
+                    onClick={() => this.setTimeMode('DateRange')}
+                  >
+                    Set Time Period
+                  </Button>
+                </div>
+              </Fragment>
             ) : (
               <div className="flex flex-wrap mh1">
                 <div className="w-40 pa2 mr1">
@@ -74,7 +88,12 @@ export default class TimeController extends Component<{}, State> {
                       { value: 'Relative', label: 'Relative' },
                     ]}
                     value={this.state.mode}
-                    onChange={(e: Event) => this.setState({ mode: e.currentTarget.value })}
+                    onChange={(e: EventWithValue) => this.setState({
+                      mode:
+                        e.currentTarget
+                          ? e.currentTarget.value as TimePeriod
+                          : 'Empty',
+                    })}
                   />
                 </div>
                 <div className="w-40 pa2 mr1">
@@ -104,15 +123,15 @@ export default class TimeController extends Component<{}, State> {
                             onClick={() => {
                               return setTimeControllers({
                                 ...timeControllers,
-                                startDate: this.state.startDate,
                                 endDate: this.state.endDate,
                                 rangeStep: this.state.rangeStep,
+                                startDate: this.state.startDate,
                               })
                             }
                             }
                           >
                             Apply
-                        </Button>
+                          </Button>
                         </div>
                       </Fragment>
                     )}

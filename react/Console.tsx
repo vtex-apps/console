@@ -2,11 +2,11 @@ import { pluck } from 'ramda'
 import React, { Component } from 'react'
 import { injectIntl } from 'react-intl'
 import { withRuntimeContext } from 'render'
-import { Layout, PageHeader, Tab, Tabs } from 'vtex.styleguide'
+import { PageHeader, Tab, Tabs } from 'vtex.styleguide'
 
+import Errors from './components/Errors'
 import Metrics from './components/Metrics'
-import Errors from './components/Other/Errors'
-import StylesContainer from './components/Other/StylesContainer'
+import StylesContainer from './components/StylesContainer'
 
 const DivHeight = { minHeight: 'calc(100vh - 3em)' }
 type Props = {
@@ -34,7 +34,7 @@ const fields: Field[] = [
     name: 'errors',
     path: 'errors',
     titleId: 'console.admin.tabs.errors',
-  }
+  },
 ]
 
 class Console extends Component<Props, {}> {
@@ -81,7 +81,6 @@ class Console extends Component<Props, {}> {
       </div>
     )
   }
-
 }
 
 export default withRuntimeContext(injectIntl(Console))

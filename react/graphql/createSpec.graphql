@@ -1,3 +1,0 @@
-mutation CreateSpec($specName: String!, $serializedSchema: String!) {
-  createSpec(specName: $specName, serializedSchema: $serializedSchema)
-}

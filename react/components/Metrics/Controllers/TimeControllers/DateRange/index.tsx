@@ -1,5 +1,4 @@
 import React, { Component, Fragment } from 'react'
-import { Button, DatePicker } from 'vtex.styleguide'
 
 import RangeExtremesPicker from './RangeExtremesPicker'
 import RangeStepPicker from './RangeStepPicker'

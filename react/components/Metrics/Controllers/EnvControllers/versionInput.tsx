@@ -3,17 +3,18 @@ import React, { Component } from 'react'
 import * as semver from 'semver'
 import { Input } from 'vtex.styleguide'
 
-import { EnvContext } from '../../EnvContext'
+import { EnvContext } from '../../Contexts/EnvContext'
 
 
 interface State {
   inputIsNotSemver: boolean
 }
 
+
 const semverRangesRegex = [
   /([0-9])+\.x/,
   /([0-9])+\.([0-9])+\.x/,
-  /\bv?(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)(?:-[\da-z-]+(?:\.[\da-z-]+)*)?(?:\+[\da-z-]+(?:\.[\da-z-]+)*)?\b/
+  /\bv?(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)(?:-[\da-z-]+(?:\.[\da-z-]+)*)?(?:\+[\da-z-]+(?:\.[\da-z-]+)*)?\b/,
 ]
 
 const isValidVersion = (version: string) => any((regex: RegExp) => regex.test(version), semverRangesRegex)
