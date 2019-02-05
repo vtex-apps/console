@@ -11,7 +11,7 @@ const Controllers = (props: InjectedIntlProps) => {
 
   return (
     <PageBlock
-      title={intl.formatMessage({ id: 'console.controllers' })}
+      title={intl.formatMessage({ id: 'console.context' })}
       variation="half"
       titleAside={
         <div className="nv4 flex justify-end">

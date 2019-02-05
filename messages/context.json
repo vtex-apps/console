@@ -1,19 +1,16 @@
 {
   "console.menu.title": "",
   "console.submenu.metrics": "",
-  "console.submenu.errors": "",
-  "console.submenu.evidences": "",
   "console.submenu.publishes": "",
-  "console.admin.metrics.datePicker.startDateTitle": "",
-  "console.admin.metrics.datePicker.endDateTitle": "",
   "console.admin.tabs.metrics": "",
   "console.admin.tabs.errors": "",
-  "console.admin.tabs.builds": "",
-  "console.submenu.kpis": "",
-  "console.admin.metrics.button.edit": "",
-  "console.admin.metrics.button.save": "",
-  "console.admin.metrics.button.cancel": "",
-  "console.admin.metrics.button.add": "",
-  "console.controllers": "",
-  "console.newMetric": ""
+  "console.context": "",
+  "console.newMetric": "",
+  "console.available.apps": "",
+  "console.app.version": "",
+  "console.app.region": "",
+  "console.app.environment": "",
+  "console.any": "",
+  "console.envPicker.production": "",
+  "console.envPicker.development": ""
 }

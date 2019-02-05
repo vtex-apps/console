@@ -24,7 +24,7 @@ class Metrics extends Component<{}, State> {
         chosenMajor: '',
         chosenMinor: '',
         chosenPatch: '',
-        production: undefined,
+        production: '',
         region: '',
       },
       timeControllers: {

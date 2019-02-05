@@ -1,12 +1,15 @@
+import { map } from 'ramda'
 import React from 'react'
+import { InjectedIntlProps, injectIntl } from 'react-intl'
 import { Dropdown } from 'vtex.styleguide'
 
+import { formattedDropdownOptions } from '../../../../common/utils'
 import { AppContext } from '../../Contexts/AppContext'
 
 
 const options = [
   {
-    label: 'Any',
+    label: 'console.any',
     value: '',
   },
   {
@@ -20,14 +23,14 @@ const options = [
 ]
 
 
-const RegionPicker = () => {
+const RegionPicker = ({ intl }: InjectedIntlProps) => {
   return (
     <AppContext.Consumer>
       {({ appControllers, setAppControllers }) => (
         <Dropdown
           value={appControllers.region}
-          label="Region"
-          options={options}
+          label={intl.formatMessage({ id: 'console.app.region' })}
+          options={formattedDropdownOptions(options, intl)}
           onChange={(_: Event, region: string) => setAppControllers({
             ...appControllers,
             region,
@@ -38,4 +41,4 @@ const RegionPicker = () => {
   )
 }
 
-export default RegionPicker
+export default injectIntl(RegionPicker)

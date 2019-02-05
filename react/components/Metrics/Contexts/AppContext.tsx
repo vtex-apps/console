@@ -13,7 +13,7 @@ export const AppContext = React.createContext<AppContextInterface>({
     chosenMajor: '',
     chosenMinor: '',
     chosenPatch: '',
-    production: true,
+    production: 'true',
     region: 'Any',
   },
   setAppControllers: (appControllers: AppController) => undefined,

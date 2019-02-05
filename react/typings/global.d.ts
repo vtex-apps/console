@@ -27,7 +27,7 @@ interface AppController {
   chosenMinor?: string
   chosenPatch?: string
   region?: string
-  production?: boolean
+  production?: string
 }
 
 interface TimeController {

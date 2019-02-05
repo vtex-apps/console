@@ -1,5 +1,6 @@
 import React from 'react'
 import { Query } from 'react-apollo'
+import { InjectedIntlProps, injectIntl } from 'react-intl'
 import { Dropdown } from 'vtex.styleguide'
 
 import { dropdownOptions } from '../../../../common/utils'
@@ -7,7 +8,7 @@ import appsQuery from '../../../../graphql/apps.graphql'
 import { AppContext } from '../../Contexts/AppContext'
 
 
-const AppNamePicker = () => {
+const AppNamePicker = ({ intl }: InjectedIntlProps) => {
   return (
     <AppContext.Consumer>
       {({ appControllers, setAppControllers }) => (
@@ -15,7 +16,7 @@ const AppNamePicker = () => {
           {({ loading, data: { appsWithStats } }) => !loading && appsWithStats &&
             <Dropdown
               value={appControllers.appName}
-              label="Available Apps"
+              label={intl.formatMessage({ id: 'console.available.apps' })}
               options={dropdownOptions(appsWithStats)}
               onChange={(_: Event, appName: string) => setAppControllers({
                 ...appControllers,
@@ -29,4 +30,4 @@ const AppNamePicker = () => {
   )
 }
 
-export default AppNamePicker
+export default injectIntl(AppNamePicker)

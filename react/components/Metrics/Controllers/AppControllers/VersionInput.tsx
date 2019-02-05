@@ -1,5 +1,6 @@
 import { any } from 'ramda'
 import React, { Component } from 'react'
+import { InjectedIntlProps, injectIntl } from 'react-intl'
 import * as semver from 'semver'
 import { Input } from 'vtex.styleguide'
 
@@ -19,8 +20,8 @@ const semverRangesRegex = [
 
 const isValidVersion = (version: string) => any((regex: RegExp) => regex.test(version), semverRangesRegex)
 
-export default class VersionInput extends Component<{}, State> {
-  constructor(props: {}) {
+class VersionInput extends Component<InjectedIntlProps, State> {
+  constructor(props: InjectedIntlProps) {
     super(props)
     this.state = {
       inputIsNotSemver: false,
@@ -38,7 +39,7 @@ export default class VersionInput extends Component<{}, State> {
       {({ appControllers, setAppControllers }) => (
         <Input
           placeholder="Ex: 1.0.x"
-          label="Version"
+          label={this.props.intl.formatMessage({ id: 'console.app.version' })}
           onChange={(event: any) => this.parseInputAndSetState(event.target.value, appControllers, setAppControllers)}
           errorMessage={this.state.inputIsNotSemver && 'Version is not in the SemVer spec'}
         />
@@ -76,3 +77,5 @@ export default class VersionInput extends Component<{}, State> {
     }
   }
 }
+
+export default injectIntl(VersionInput)

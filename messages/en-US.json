@@ -1,19 +1,17 @@
 {
   "console.menu.title": "Console",
   "console.submenu.metrics": "Metrics",
-  "console.submenu.errors": "Errors",
-  "console.submenu.evidences": "Evidences",
   "console.submenu.publishes": "Publishes",
-  "console.admin.metrics.datePicker.startDateTitle": "Start date",
-  "console.admin.metrics.datePicker.endDateTitle": "End date",
   "console.admin.tabs.metrics": "Metrics",
   "console.admin.tabs.errors": "Errors",
-  "console.admin.tabs.builds": "Build",
-  "console.submenu.kpis": "Kpis",
-  "console.admin.metrics.button.edit": "Edit",
-  "console.admin.metrics.button.save": "Save",
-  "console.admin.metrics.button.cancel": "Cancel",
   "console.admin.metrics.button.add": "Add New",
-  "console.controllers": "Controllers",
-  "console.newMetric": "New Metric"
+  "console.context": "Context",
+  "console.newMetric": "New Metric",
+  "console.available.apps": "Available Apps",
+  "console.app.version": "Version",
+  "console.app.region": "Region",
+  "console.app.environment": "Environment",
+  "console.any": "Any",
+  "console.envPicker.production": "Production",
+  "console.envPicker.development": "Development"
 }

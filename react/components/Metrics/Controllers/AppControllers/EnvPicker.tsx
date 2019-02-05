@@ -1,34 +1,37 @@
+import { map } from 'ramda'
 import React from 'react'
+import { InjectedIntlProps, injectIntl } from 'react-intl'
 import { Dropdown } from 'vtex.styleguide'
 
+import { formattedDropdownOptions } from '../../../../common/utils'
 import { AppContext } from '../../Contexts/AppContext'
 
 
 const options = [
   {
-    label: 'Any',
+    label: 'console.any',
     value: '',
   },
   {
-    label: 'Production',
-    value: true,
+    label: 'console.envPicker.production',
+    value: 'true',
   },
   {
-    label: 'Development',
-    value: false,
+    label: 'console.envPicker.development',
+    value: 'false',
   },
 ]
 
 
-const EnvPicker = () => {
+const EnvPicker = ({ intl }: InjectedIntlProps) => {
   return (
     <AppContext.Consumer>
       {({ appControllers, setAppControllers }) => (
         <Dropdown
           value={appControllers.production}
-          label="Environment"
-          options={options}
-          onChange={(_: Event, isProduction: boolean) => setAppControllers({
+          label={intl.formatMessage({ id: 'console.app.environment' })}
+          options={formattedDropdownOptions(options, intl)}
+          onChange={(_: Event, isProduction: string) => setAppControllers({
             ...appControllers,
             production: isProduction,
           })}
@@ -38,4 +41,4 @@ const EnvPicker = () => {
   )
 }
 
-export default EnvPicker
+export default injectIntl(EnvPicker)
