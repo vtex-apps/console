@@ -1,7 +1,7 @@
 import React from 'react'
 import { Dropdown } from 'vtex.styleguide'
 
-import { EnvContext } from '../../Contexts/EnvContext'
+import { AppContext } from '../../Contexts/AppContext'
 
 
 const options = [
@@ -22,19 +22,19 @@ const options = [
 
 const RegionPicker = () => {
   return (
-    <EnvContext.Consumer>
-      {({ envControllers, setEnvControllers }) => (
+    <AppContext.Consumer>
+      {({ appControllers, setAppControllers }) => (
         <Dropdown
-          value={envControllers.region}
+          value={appControllers.region}
           label="Region"
           options={options}
-          onChange={(_: Event, region: string) => setEnvControllers({
-            ...envControllers,
+          onChange={(_: Event, region: string) => setAppControllers({
+            ...appControllers,
             region,
           })}
         />
       )}
-    </EnvContext.Consumer>
+    </AppContext.Consumer>
   )
 }
 

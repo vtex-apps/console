@@ -4,29 +4,29 @@ import { Dropdown } from 'vtex.styleguide'
 
 import { dropdownOptions } from '../../../../common/utils'
 import appsQuery from '../../../../graphql/apps.graphql'
-import { EnvContext } from '../../Contexts/EnvContext'
+import { AppContext } from '../../Contexts/AppContext'
 
 
-const AppPicker = () => {
+const AppNamePicker = () => {
   return (
-    <EnvContext.Consumer>
-      {({ envControllers, setEnvControllers }) => (
+    <AppContext.Consumer>
+      {({ appControllers, setAppControllers }) => (
         <Query query={appsQuery} ssr={false}>
           {({ loading, data: { appsWithStats } }) => !loading && appsWithStats &&
             <Dropdown
-              value={envControllers.appName}
+              value={appControllers.appName}
               label="Available Apps"
               options={dropdownOptions(appsWithStats)}
-              onChange={(_: Event, appName: string) => setEnvControllers({
-                ...envControllers,
+              onChange={(_: Event, appName: string) => setAppControllers({
+                ...appControllers,
                 appName,
               })}
             />
           }
         </Query>
       )}
-    </EnvContext.Consumer>
+    </AppContext.Consumer>
   )
 }
 
-export default AppPicker
+export default AppNamePicker

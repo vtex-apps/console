@@ -7,13 +7,13 @@ import DateRange from './DateRange'
 import Relative from './Relative'
 
 
-type TimePeriod = 'DateRange' | 'Relative' | 'Empty'
+type TimeRange = 'DateRange' | 'Relative' | 'Empty'
 interface State {
   locale: string
   startDate: Date
   endDate: Date
   rangeStep: string
-  mode: TimePeriod
+  mode: TimeRange
 }
 
 
@@ -63,9 +63,9 @@ export default class TimeController extends Component<{}, State> {
           this.state.mode === 'Empty'
             ? (
               <Fragment>
-                <EmptyState title="Please set a time period">
+                <EmptyState title="Please set a time range">
                   <p>
-                    Please set a time period to analyze your metric
+                    Please set a time range to analyze your metric
                   </p>
                 </EmptyState>
                 <div className="pa4 mh2 flex justify-end">
@@ -74,7 +74,7 @@ export default class TimeController extends Component<{}, State> {
                     size="small"
                     onClick={() => this.setTimeMode('DateRange')}
                   >
-                    Set Time Period
+                    Set Time Range
                   </Button>
                 </div>
               </Fragment>
@@ -91,7 +91,7 @@ export default class TimeController extends Component<{}, State> {
                     onChange={(e: EventWithValue) => this.setState({
                       mode:
                         e.currentTarget
-                          ? e.currentTarget.value as TimePeriod
+                          ? e.currentTarget.value as TimeRange
                           : 'Empty',
                     })}
                   />

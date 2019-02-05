@@ -21,7 +21,7 @@ interface RenderContext {
   workspace: RenderRuntime['workspace']
 }
 
-interface EnvController {
+interface AppController {
   appName?: string
   chosenMajor?: string
   chosenMinor?: string
@@ -38,5 +38,5 @@ interface TimeController {
 
 type SetTimeControllers = (timeControllers: TimeController) => void
 
-type SetEnvControllers = (envControllers: EnvController) => void
+type SetAppControllers = (appControllers: AppController) => void
 

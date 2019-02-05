@@ -4,7 +4,7 @@ import { PageBlock } from 'vtex.styleguide'
 
 import { getAppVersion } from '../../../common/dataAnalysis'
 import { isNilOrEmpty } from '../../../common/dataAnalysis'
-import { EnvContext } from '../Contexts/EnvContext'
+import { AppContext } from '../Contexts/AppContext'
 import { TimeContext } from '../Contexts/TimeContext'
 
 
@@ -14,17 +14,17 @@ interface Props {
 
 
 const DataAnalysis = (props: Props) => {
-  const setContext = (metricParams: object, envControllers: EnvController) => {
+  const setAppParams = (metricParams: object, appControllers: AppController) => {
     return reject(isNilOrEmpty, {
       ...metricParams,
-      appName: envControllers.appName,
-      appVersion: getAppVersion(envControllers),
-      production: envControllers.production,
-      region: envControllers.region,
+      appName: appControllers.appName,
+      appVersion: getAppVersion(appControllers),
+      production: appControllers.production,
+      region: appControllers.region,
     })
   }
 
-  const setTimePeriod = (metricParams: object, timeControllers: TimeController) => {
+  const setTimeRange = (metricParams: object, timeControllers: TimeController) => {
     return reject(isNilOrEmpty, {
       ...metricParams,
       from: timeControllers.startDate,
@@ -36,8 +36,8 @@ const DataAnalysis = (props: Props) => {
   const { layout } = props
 
   return (
-    <EnvContext.Consumer>
-      {({ envControllers }) => (
+    <AppContext.Consumer>
+      {({ appControllers }) => (
         <TimeContext.Consumer>
           {({ timeControllers }) => (
             <div className="mt5" >
@@ -56,8 +56,8 @@ const DataAnalysis = (props: Props) => {
                       },
                     } = chartDescription
 
-                    metricParams = setContext(metricParams, envControllers)
-                    metricParams = setTimePeriod(metricParams, timeControllers)
+                    metricParams = setAppParams(metricParams, appControllers)
+                    metricParams = setTimeRange(metricParams, timeControllers)
 
                     return (
                       <PageBlock variation="full">
@@ -70,7 +70,7 @@ const DataAnalysis = (props: Props) => {
           )}
         </TimeContext.Consumer>
       )}
-    </EnvContext.Consumer>
+    </AppContext.Consumer>
   )
 }
 

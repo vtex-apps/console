@@ -1,24 +1,24 @@
 import { isEmpty, isNil, map } from 'ramda'
 
 
-export const getAppId = (envControllers: EnvController) => {
+export const getAppId = (appControllers: AppController) => {
   const {
     appName,
     chosenMajor,
     chosenMinor,
     chosenPatch,
-  } = envControllers
+  } = appControllers
   return appName ?
     `${appName}@${chosenMajor}.${chosenMinor}.${chosenPatch}` :
     null
 }
 
-export const getAppVersion = (envControllers: EnvController) => {
+export const getAppVersion = (appControllers: AppController) => {
   const {
     chosenMajor,
     chosenMinor,
     chosenPatch,
-  } = envControllers
+  } = appControllers
   return (chosenMajor && chosenMinor && chosenPatch) ?
     `${chosenMajor}.${chosenMinor}.${chosenPatch}` :
     null

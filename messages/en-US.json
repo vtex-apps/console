@@ -6,7 +6,6 @@
   "console.submenu.publishes": "Publishes",
   "console.admin.metrics.datePicker.startDateTitle": "Start date",
   "console.admin.metrics.datePicker.endDateTitle": "End date",
-  "console.admin.components.metrics.controllers": "Controllers",
   "console.admin.tabs.metrics": "Metrics",
   "console.admin.tabs.errors": "Errors",
   "console.admin.tabs.builds": "Build",
@@ -14,5 +13,7 @@
   "console.admin.metrics.button.edit": "Edit",
   "console.admin.metrics.button.save": "Save",
   "console.admin.metrics.button.cancel": "Cancel",
-  "console.admin.metrics.button.add": "Add New"
+  "console.admin.metrics.button.add": "Add New",
+  "console.controllers": "Controllers",
+  "console.newMetric": "New Metric"
 }

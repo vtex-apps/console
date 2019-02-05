@@ -1,16 +1,16 @@
 import React from 'react'
 
-import AppPicker from './appPicker'
-import ContextPicker from './contextPicker'
-import RegionPicker from './regionPicker'
-import VersionInput from './versionInput'
+import AppNamePicker from './AppNamePicker'
+import EnvPicker from './EnvPicker'
+import RegionPicker from './RegionPicker'
+import VersionInput from './VersionInput'
 
 
-const EnvControllers = () => {
+const AppControllers = () => {
   return (
     <div className="flex br4 bg-base flex-wrap w-100 pa5">
       <div className="w-40 pa4 mr2">
-        <AppPicker />
+        <AppNamePicker />
       </div>
       <div className="w-40 pa4 mr2">
         <VersionInput />
@@ -19,10 +19,10 @@ const EnvControllers = () => {
         <RegionPicker />
       </div>
       <div className="w-40 pa4 mr2">
-        <ContextPicker />
+        <EnvPicker />
       </div>
     </div>
   )
 }
 
-export default EnvControllers
+export default AppControllers

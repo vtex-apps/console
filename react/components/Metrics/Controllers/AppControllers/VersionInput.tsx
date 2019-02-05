@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import * as semver from 'semver'
 import { Input } from 'vtex.styleguide'
 
-import { EnvContext } from '../../Contexts/EnvContext'
+import { AppContext } from '../../Contexts/AppContext'
 
 
 interface State {
@@ -34,19 +34,19 @@ export default class VersionInput extends Component<{}, State> {
   }
 
   public render = () => (
-    <EnvContext.Consumer>
-      {({ envControllers, setEnvControllers }) => (
+    <AppContext.Consumer>
+      {({ appControllers, setAppControllers }) => (
         <Input
           placeholder="Ex: 1.0.x"
           label="Version"
-          onChange={(event: any) => this.parseInputAndSetState(event.target.value, envControllers, setEnvControllers)}
+          onChange={(event: any) => this.parseInputAndSetState(event.target.value, appControllers, setAppControllers)}
           errorMessage={this.state.inputIsNotSemver && 'Version is not in the SemVer spec'}
         />
       )}
-    </EnvContext.Consumer>
+    </AppContext.Consumer>
   )
 
-  private parseInputAndSetState = async (version: string, envControllers: EnvController, setEnvControllers: SetEnvControllers) => {
+  private parseInputAndSetState = async (version: string, appControllers: AppController, setAppControllers: SetAppControllers) => {
     const isValid = version.length === 0 || isValidVersion(version)
     if (!isValid) {
       await this.setStateAsync({ inputIsNotSemver: true })
@@ -67,8 +67,8 @@ export default class VersionInput extends Component<{}, State> {
         chosenPatch = patch
       }
 
-      setEnvControllers({
-        ...envControllers,
+      setAppControllers({
+        ...appControllers,
         chosenMajor,
         chosenMinor,
         chosenPatch,

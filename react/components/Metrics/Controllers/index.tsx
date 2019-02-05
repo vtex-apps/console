@@ -1,8 +1,8 @@
 import React from 'react'
 import { Button, PageBlock } from 'vtex.styleguide'
 
-import { InjectedIntlProps, injectIntl } from 'react-intl'
-import EnvControllers from './EnvControllers'
+import { FormattedMessage, InjectedIntlProps, injectIntl } from 'react-intl'
+import AppControllers from './AppControllers'
 import TimeControllers from './TimeControllers'
 
 
@@ -11,17 +11,17 @@ const Controllers = (props: InjectedIntlProps) => {
 
   return (
     <PageBlock
-      title={intl.formatMessage({ id: 'Controllers' })}
+      title={intl.formatMessage({ id: 'console.controllers' })}
       variation="half"
       titleAside={
         <div className="nv4 flex justify-end">
           <Button variation="primary" disabled >
-            New Metric
+            <FormattedMessage id="console.newMetric" />
           </Button>
         </div>
       }
     >
-      <EnvControllers />
+      <AppControllers />
       <TimeControllers />
     </PageBlock>
   )
