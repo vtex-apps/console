@@ -2,8 +2,8 @@ import { map, reject } from 'ramda'
 import React, { Component } from 'react'
 import { PageBlock } from 'vtex.styleguide'
 
-import { getAppVersion } from '../../../common/dataAnalysis'
 import { isNilOrEmpty } from '../../../common/dataAnalysis'
+import { getAppVersion } from '../../../common/utils'
 import { AppContext } from '../Contexts/AppContext'
 import { TimeContext } from '../Contexts/TimeContext'
 
@@ -18,7 +18,7 @@ const DataAnalysis: React.SFC<Props> = (props) => {
     return reject(isNilOrEmpty, {
       ...metricParams,
       appName: appControllers.appName,
-      appVersion: getAppVersion(appControllers),
+      appVersion: appControllers.appVersion,
       production: appControllers.production,
       region: appControllers.region,
     })

@@ -10,9 +10,7 @@ interface AppContextInterface {
 export const AppContext = React.createContext<AppContextInterface>({
   appControllers: {
     appName: '',
-    chosenMajor: '',
-    chosenMinor: '',
-    chosenPatch: '',
+    appVersion: '',
     production: 'true',
     region: 'Any',
   },

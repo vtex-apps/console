@@ -4,6 +4,7 @@ import { InjectedIntlProps, injectIntl } from 'react-intl'
 import * as semver from 'semver'
 import { Input } from 'vtex.styleguide'
 
+import { getAppVersion } from '../../../../common/utils'
 import { AppContext } from '../../Contexts/AppContext'
 
 
@@ -77,11 +78,10 @@ class VersionInput extends Component<InjectedIntlProps, State> {
       chosenPatch = patch
     }
 
+    const appVersion = getAppVersion(chosenMajor, chosenMinor, chosenPatch)
     setAppControllers({
       ...appControllers,
-      chosenMajor,
-      chosenMinor,
-      chosenPatch,
+      appVersion,
     })
   }
 }

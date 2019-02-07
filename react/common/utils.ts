@@ -8,6 +8,12 @@ export interface Option {
 }
 
 
+export const getAppVersion = (chosenMajor: string, chosenMinor: string, chosenPatch: string) => {
+  return (chosenMajor && chosenMinor && chosenPatch) ?
+    `${chosenMajor}.${chosenMinor}.${chosenPatch}` :
+    undefined
+}
+
 const strEq = (str1: string, str2: string) => str1 === str2
 
 export const dropdownOptions = (options: string[]) => compose(

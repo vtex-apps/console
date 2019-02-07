@@ -2,29 +2,6 @@ import { isEmpty, isNil, map } from 'ramda'
 import { InjectedIntl } from 'react-intl'
 
 
-export const getAppId = (appControllers: AppController) => {
-  const {
-    appName,
-    chosenMajor,
-    chosenMinor,
-    chosenPatch,
-  } = appControllers
-  return appName ?
-    `${appName}@${chosenMajor}.${chosenMinor}.${chosenPatch}` :
-    null
-}
-
-export const getAppVersion = (appControllers: AppController) => {
-  const {
-    chosenMajor,
-    chosenMinor,
-    chosenPatch,
-  } = appControllers
-  return (chosenMajor && chosenMinor && chosenPatch) ?
-    `${chosenMajor}.${chosenMinor}.${chosenPatch}` :
-    null
-}
-
 export const isNilOrEmpty = (x: any) => isEmpty(x) || isNil(x)
 
 const getFormattedTime = (date: any, intl: InjectedIntl, stepModifier: string) => {
