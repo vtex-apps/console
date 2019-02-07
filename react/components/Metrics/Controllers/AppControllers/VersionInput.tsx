@@ -34,47 +34,55 @@ class VersionInput extends Component<InjectedIntlProps, State> {
     })
   }
 
-  public render = () => (
-    <AppContext.Consumer>
-      {({ appControllers, setAppControllers }) => (
-        <Input
-          placeholder="Ex: 1.0.x"
-          label={this.props.intl.formatMessage({ id: 'console.app.version' })}
-          onChange={(event: any) => this.parseInputAndSetState(event.target.value, appControllers, setAppControllers)}
-          errorMessage={this.state.inputIsNotSemver && 'Version is not in the SemVer spec'}
-        />
-      )}
-    </AppContext.Consumer>
-  )
+  public render() {
+    return (
+      <AppContext.Consumer>
+        {({ appControllers, setAppControllers }) => (
+          <Input
+            placeholder="Ex: 1.0.x"
+            label={this.props.intl.formatMessage({ id: 'console.app.version' })}
+            onChange={(event: any) => this.parseInputAndSetState(event.target.value, appControllers, setAppControllers)}
+            errorMessage={this.state.inputIsNotSemver ? 'Version is not in the SemVer spec' : ''}
+          />
+        )}
+      </AppContext.Consumer>
+    )
+  }
 
-  private parseInputAndSetState = async (version: string, appControllers: AppController, setAppControllers: SetAppControllers) => {
+  private parseInputAndSetState = (version: string, appControllers: AppController, setAppControllers: SetAppControllers) => {
     const isValid = version.length === 0 || isValidVersion(version)
     if (!isValid) {
-      await this.setStateAsync({ inputIsNotSemver: true })
+      this.setState({ inputIsNotSemver: true })
     } else {
-      await this.setStateAsync({ inputIsNotSemver: false })
-      let chosenMajor = ''
-      let chosenMinor = ''
-      let chosenPatch = ''
-      try {
-        const { major, minor, patch } = semver.parse(version) as any
-        chosenMajor = major
-        chosenMinor = minor
-        chosenPatch = patch
-      } catch (err) {
-        const [major, minor, patch] = version.replace('x', '').split('.')
-        chosenMajor = major
-        chosenMinor = minor
-        chosenPatch = patch
-      }
-
-      setAppControllers({
-        ...appControllers,
-        chosenMajor,
-        chosenMinor,
-        chosenPatch,
-      })
+      this.setState(
+        { inputIsNotSemver: false },
+        () => this.updateAppControllers(version, appControllers, setAppControllers)
+      )
     }
+  }
+
+  private updateAppControllers = (version: string, appControllers: AppController, setAppControllers: SetAppControllers) => {
+    let chosenMajor = ''
+    let chosenMinor = ''
+    let chosenPatch = ''
+    try {
+      const { major, minor, patch } = semver.parse(version) as any
+      chosenMajor = major
+      chosenMinor = minor
+      chosenPatch = patch
+    } catch (err) {
+      const [major, minor, patch] = version.replace('x', '').split('.')
+      chosenMajor = major
+      chosenMinor = minor
+      chosenPatch = patch
+    }
+
+    setAppControllers({
+      ...appControllers,
+      chosenMajor,
+      chosenMinor,
+      chosenPatch,
+    })
   }
 }
 

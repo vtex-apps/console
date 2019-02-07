@@ -15,7 +15,7 @@ interface Props {
 }
 
 
-const DateRange = (props: Props) => {
+const Absolute: React.SFC<Props> = (props) => {
   return (
     <Fragment>
       <RangeExtremesPicker
@@ -33,4 +33,4 @@ const DateRange = (props: Props) => {
   )
 }
 
-export default DateRange
+export default Absolute

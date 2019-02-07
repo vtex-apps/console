@@ -1,8 +1,9 @@
 import React, { Fragment } from 'react'
+import { InjectedIntlProps, injectIntl } from 'react-intl'
 import { DatePicker } from 'vtex.styleguide'
 
 
-interface Props {
+interface Props extends InjectedIntlProps {
   locale: string
   startDate: Date
   endDate: Date
@@ -11,13 +12,13 @@ interface Props {
 }
 
 
-const RangeExtremesPicker = (props: Props) => {
+const RangeExtremesPicker: React.SFC<Props> = (props) => {
   return (
     <Fragment>
       <div className="pa4 mh2">
         <DatePicker
           name={'startDate'}
-          label={'From'}
+          label={props.intl.formatMessage({ id: 'console.date.picker.from' })}
           locale={props.locale}
           useTime={true}
           value={props.startDate}
@@ -27,7 +28,7 @@ const RangeExtremesPicker = (props: Props) => {
       <div className="pa4 mh2">
         <DatePicker
           name={'endDate'}
-          label={'To'}
+          label={props.intl.formatMessage({ id: 'console.date.picker.to' })}
           locale={props.locale}
           useTime={true}
           value={props.endDate}
@@ -38,4 +39,4 @@ const RangeExtremesPicker = (props: Props) => {
   )
 }
 
-export default RangeExtremesPicker
+export default injectIntl(RangeExtremesPicker)

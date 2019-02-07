@@ -6,7 +6,7 @@ import AppControllers from './AppControllers'
 import TimeControllers from './TimeControllers'
 
 
-const Controllers = (props: InjectedIntlProps) => {
+const Controllers: React.SFC<InjectedIntlProps> = (props) => {
   const { intl } = props
 
   return (

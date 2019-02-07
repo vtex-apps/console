@@ -1,4 +1,5 @@
 import { isEmpty, isNil, map } from 'ramda'
+import { InjectedIntl } from 'react-intl'
 
 
 export const getAppId = (appControllers: AppController) => {
@@ -26,7 +27,7 @@ export const getAppVersion = (appControllers: AppController) => {
 
 export const isNilOrEmpty = (x: any) => isEmpty(x) || isNil(x)
 
-const getFormattedTime = (date: any, intl: any, stepModifier: string) => {
+const getFormattedTime = (date: any, intl: InjectedIntl, stepModifier: string) => {
   switch (stepModifier) {
     case 's':
       return intl.formatTime(date, {
@@ -69,7 +70,7 @@ const getFormattedTime = (date: any, intl: any, stepModifier: string) => {
   }
 }
 
-export const addFormattedTime = (chartData: any, intl: any, stepModifier: string) => {
+export const addFormattedTime = (chartData: any, intl: InjectedIntl, stepModifier: string) => {
   return map((chartPoint: any) => ({
     ...chartPoint,
     formattedTime: getFormattedTime(chartPoint.date, intl, stepModifier),

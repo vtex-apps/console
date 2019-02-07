@@ -44,12 +44,12 @@ const calculateMeanOfCpuUsage = (chartData: any[]) => {
   }, chartData)
 }
 
-const CpuUsageLineChart = (props: Props) => {
+const CpuUsageLineChart: React.SFC<Props> = (props) => {
   const { name, metricParams, intl } = props
 
   return (
     <Fragment>
-      <BlockTitle title="Cpu usage (microseconds) over Time" />
+      <BlockTitle title={intl.formatMessage({ id: 'console.cpuUsage.lineChart' })} />
 
       <Query query={dataQuery} ssr={false} variables={{ name, params: metricParams }} >
         {({ loading, error, data: { data: rawChartData } }) => {

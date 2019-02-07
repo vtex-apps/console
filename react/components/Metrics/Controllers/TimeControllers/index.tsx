@@ -1,13 +1,13 @@
 import React, { Component, Fragment } from 'react'
 import { Button, EmptyState, RadioGroup } from 'vtex.styleguide'
 
-import { EventWithValue } from '../../../../typings/events'
+import { FormattedMessage, InjectedIntl, InjectedIntlProps, injectIntl } from 'react-intl'
 import { TimeContext } from '../../Contexts/TimeContext'
-import DateRange from './DateRange'
+import Absolute from './Absolute'
 import Relative from './Relative'
 
 
-type TimeRange = 'DateRange' | 'Relative' | 'Empty'
+type TimeRange = 'Absolute' | 'Relative' | 'Empty'
 interface State {
   locale: string
   startDate: Date
@@ -16,9 +16,14 @@ interface State {
   mode: TimeRange
 }
 
+interface Option {
+  label: string
+  value: string
+}
 
-export default class TimeController extends Component<{}, State> {
-  constructor(props: {}) {
+
+class TimeControllers extends Component<InjectedIntlProps, State> {
+  constructor(props: InjectedIntlProps) {
     super(props)
     this.state = {
       endDate: new Date(),
@@ -29,52 +34,26 @@ export default class TimeController extends Component<{}, State> {
     }
   }
 
-  public setStartDate = (startDate: Date) => {
-    this.setState({ startDate })
-  }
+  public render() {
+    const { intl } = this.props
+    const timeControllerOptions = this.setTimeControllerOptions(intl)
 
-  public setEndDate = (endDate: Date) => {
-    // always decrease one second to avoid taking the next bucket
-    endDate.setSeconds(endDate.getSeconds() - 1)
-    this.setState({ endDate })
-  }
-
-  public setRangeStep = (rangeStep: string) => {
-    this.setState({ rangeStep })
-  }
-
-  public isButtonActive = () => {
-    const startDate = this.state.startDate
-    const endDate = this.state.endDate
-    const currentTime = new Date()
-    return (startDate && endDate &&
-      startDate <= endDate &&
-      endDate <= currentTime)
-  }
-
-  public setTimeMode = (mode: any) => {
-    this.setState({ mode })
-  }
-
-  public render = () => {
     return (
       <div>
         {
           this.state.mode === 'Empty'
             ? (
               <Fragment>
-                <EmptyState title="Please set a time range">
-                  <p>
-                    Please set a time range to analyze your metric
-                  </p>
+                <EmptyState title={intl.formatMessage({ id: 'console.empty.time.range.headline' })}>
+                  <FormattedMessage id="console.empty.time.range.explanation" />
                 </EmptyState>
                 <div className="pa4 mh2 flex justify-end">
                   <Button
                     variation="primary"
                     size="small"
-                    onClick={() => this.setTimeMode('DateRange')}
+                    onClick={this.handleOnClickMode}
                   >
-                    Set Time Range
+                    <FormattedMessage id="console.button.set.time.range" />
                   </Button>
                 </div>
               </Fragment>
@@ -83,26 +62,18 @@ export default class TimeController extends Component<{}, State> {
                 <div className="w-40 pa2 mr1">
                   <RadioGroup
                     name="timeController"
-                    options={[
-                      { value: 'DateRange', label: 'DateRange' },
-                      { value: 'Relative', label: 'Relative' },
-                    ]}
+                    options={timeControllerOptions}
                     value={this.state.mode}
-                    onChange={(e: EventWithValue) => this.setState({
-                      mode:
-                        e.currentTarget
-                          ? e.currentTarget.value as TimeRange
-                          : 'Empty',
-                    })}
+                    onChange={this.handleOnChangeMode}
                   />
                 </div>
                 <div className="w-40 pa2 mr1">
                   <TimeContext.Consumer>
                     {({ timeControllers, setTimeControllers }) => (
                       <Fragment>
-                        {this.state.mode === 'DateRange'
+                        {this.state.mode === 'Absolute'
                           ? (
-                            <DateRange
+                            <Absolute
                               locale={this.state.locale}
                               startDate={this.state.startDate}
                               endDate={this.state.endDate}
@@ -119,18 +90,10 @@ export default class TimeController extends Component<{}, State> {
                           <Button
                             variation="primary"
                             size="small"
-                            disabled={!this.isButtonActive()}
-                            onClick={() => {
-                              return setTimeControllers({
-                                ...timeControllers,
-                                endDate: this.state.endDate,
-                                rangeStep: this.state.rangeStep,
-                                startDate: this.state.startDate,
-                              })
-                            }
-                            }
+                            disabled={!this.isButtonActive}
+                            onClick={() => this.handleOnClickTimeControllers(timeControllers, setTimeControllers)}
                           >
-                            Apply
+                            <FormattedMessage id="console.button.apply.time.range" />
                           </Button>
                         </div>
                       </Fragment>
@@ -143,4 +106,62 @@ export default class TimeController extends Component<{}, State> {
       </div>
     )
   }
+
+  private setStartDate = (startDate: Date) => {
+    this.setState({ startDate })
+  }
+
+  private setEndDate = (endDate: Date) => {
+    // always decrease one second to avoid taking the next bucket
+    endDate.setSeconds(endDate.getSeconds() - 1)
+    this.setState({ endDate })
+  }
+
+  private setRangeStep = (rangeStep: string) => {
+    this.setState({ rangeStep })
+  }
+
+  private setTimeMode = (mode: any) => {
+    this.setState({ mode })
+  }
+
+  private setTimeControllerOptions = (intl: InjectedIntl) => {
+    return [
+      { value: 'Absolute', label: intl.formatMessage({ id: 'console.time.controller.absolute' }) },
+      { value: 'Relative', label: intl.formatMessage({ id: 'console.time.controller.relative' }) },
+    ]
+  }
+
+  private handleOnClickMode = () => {
+    this.setTimeMode('Absolute')
+  }
+
+  private handleOnChangeMode = (e: React.ChangeEvent<HTMLInputElement>) => {
+    this.setState(
+      {
+        mode: e.currentTarget
+          ? e.currentTarget.value as TimeRange
+          : 'Absolute',
+      })
+  }
+
+  private handleOnClickTimeControllers = (timeControllers: TimeController, setTimeControllers: SetTimeControllers) => {
+    setTimeControllers({
+      ...timeControllers,
+      endDate: this.state.endDate,
+      rangeStep: this.state.rangeStep,
+      startDate: this.state.startDate,
+    })
+  }
+
+  private isButtonActive = () => {
+    const startDate = this.state.startDate
+    const endDate = this.state.endDate
+    const currentTime = new Date()
+    return (startDate && endDate &&
+      startDate <= endDate &&
+      endDate <= currentTime)
+  }
 }
+
+export default injectIntl(TimeControllers)

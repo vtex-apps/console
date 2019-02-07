@@ -1,6 +1,6 @@
 import { pluck } from 'ramda'
 import React, { Component } from 'react'
-import { injectIntl } from 'react-intl'
+import { InjectedIntlProps, injectIntl } from 'react-intl'
 import { withRuntimeContext } from 'render'
 import { PageHeader, Tab, Tabs } from 'vtex.styleguide'
 
@@ -8,21 +8,22 @@ import Errors from './components/Errors'
 import Metrics from './components/Metrics'
 import StylesContainer from './components/StylesContainer'
 
-const DivHeight = { minHeight: 'calc(100vh - 3em)' }
-type Props = {
-  runtime: RenderContext
-} & ReactIntl.InjectedIntlProps
-  & {
-    params: {
-      tab: string
-    }
+
+interface Props extends InjectedIntlProps {
+  params: {
+    tab: string
   }
+  runtime: RenderContext
+}
 
 interface Field {
   path: string
   name: string
   titleId: string
 }
+
+
+const DivHeight = { minHeight: 'calc(100vh - 3em)' }
 
 const fields: Field[] = [
   {
@@ -38,15 +39,12 @@ const fields: Field[] = [
 ]
 
 class Console extends Component<Props, {}> {
-  constructor(props: any) {
-    super(props)
-  }
 
   public componentDidMount() {
     window.postMessage({ action: { type: 'STOP_LOADING' } }, '*')
   }
 
-  public render = () => {
+  public render() {
     const {
       params: { tab },
       intl,

@@ -30,29 +30,15 @@ interface Props extends InjectedIntlProps {
   metricParams: any
 }
 
-const calculateMean = (value: any, key: string | number | symbol, obj: any) => {
-  const memoryMetrics = ['external', 'heapUsed', 'heapTotal', 'rss']
-  if (includes(key, memoryMetrics)) {
-    obj[key] = Math.round(obj[key] / obj.count)
-  }
-}
-
-const calculateMeanMemory = (chartData: any[]) => {
-  return map((chartPoint: any) => {
-    forEachObjIndexed(calculateMean, chartPoint)
-    return chartPoint
-  }, chartData)
-}
-
-const MemoryUsageLineChart = (props: Props) => {
+const MemoryUsageLineChart: React.SFC<Props> = (props) => {
   const { name, metricParams, intl } = props
 
   return (
     <Fragment>
-      <BlockTitle title="Memory (bytes) Consumption over Time" />
+      <BlockTitle title={intl.formatMessage({ id: 'console.memoryUsage.lineChart' })} />
 
       <Query query={dataQuery} ssr={false} variables={{ name, params: metricParams }} >
-        {({ loading, error, data: { data: rawChartData } }) => {
+        {({ loading, data: { data: rawChartData } }) => {
           let chartData: any
 
           if (!loading) {
@@ -61,7 +47,6 @@ const MemoryUsageLineChart = (props: Props) => {
               stepModifier = metricParams.interval[metricParams.interval.length - 1]
             }
             chartData = addFormattedTime(JSON.parse(rawChartData), intl, stepModifier)
-            chartData = calculateMeanMemory(chartData)
           }
 
           return (
@@ -75,7 +60,7 @@ const MemoryUsageLineChart = (props: Props) => {
                   <LineChart data={chartData}>
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="formattedTime" />>
-                      <YAxis
+                    <YAxis
                       type="number"
                       tick={<CustomYAxisTick />}
                     />

@@ -23,7 +23,7 @@ const options = [
 ]
 
 
-const RegionPicker = ({ intl }: InjectedIntlProps) => {
+const RegionPicker: React.SFC<InjectedIntlProps> = ({ intl }) => {
   return (
     <AppContext.Consumer>
       {({ appControllers, setAppControllers }) => (

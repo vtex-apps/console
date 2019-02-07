@@ -23,7 +23,7 @@ const options = [
 ]
 
 
-const EnvPicker = ({ intl }: InjectedIntlProps) => {
+const EnvPicker: React.SFC<InjectedIntlProps> = ({ intl }) => {
   return (
     <AppContext.Consumer>
       {({ appControllers, setAppControllers }) => (

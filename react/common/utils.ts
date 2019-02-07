@@ -1,7 +1,8 @@
 import { compose, map, uniqWith } from 'ramda'
+import { InjectedIntl } from 'react-intl'
 
 
-interface Option {
+export interface Option {
   label: string
   value: string
 }
@@ -14,10 +15,10 @@ export const dropdownOptions = (options: string[]) => compose(
   uniqWith(strEq)
 )(options)
 
-export const formattedDropdownOptions = (options: Option[], intl: any) => map(
+export const formattedDropdownOptions = (options: Option[], intl: InjectedIntl) => map(
   (option: Option) => {
     return {
-      label: intl.formatMessage({ id: option.label }),
+      label: intl.formatMessage({ id: option.label, defaultMessage: option.label }),
       value: option.value,
     }
   },

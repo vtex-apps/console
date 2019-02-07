@@ -4,7 +4,7 @@ import React from 'react'
 const Relative = () => {
   return (
     <div className="pa4 mh2" >
-      Comming soon!
+      Coming soon!
     </div>
   )
 }

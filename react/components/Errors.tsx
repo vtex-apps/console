@@ -6,7 +6,7 @@ const Errors = () => {
   return (
     <EmptyState title="Coming Soon">
       <p>
-        Comming soon!
+        Coming soon!
       </p>
     </EmptyState>
   )

@@ -8,7 +8,7 @@ import appsQuery from '../../../../graphql/apps.graphql'
 import { AppContext } from '../../Contexts/AppContext'
 
 
-const AppNamePicker = ({ intl }: InjectedIntlProps) => {
+const AppNamePicker: React.SFC<InjectedIntlProps> = ({ intl }) => {
   return (
     <AppContext.Consumer>
       {({ appControllers, setAppControllers }) => (

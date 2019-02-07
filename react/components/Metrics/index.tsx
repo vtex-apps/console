@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { FormattedMessage, InjectedIntlProps, injectIntl } from 'react-intl'
 import { EmptyState } from 'vtex.styleguide'
 
 import layoutContent from '../../common/layoutContent'
@@ -15,8 +16,8 @@ interface State {
 }
 
 
-class Metrics extends Component<{}, State> {
-  constructor(props: any) {
+class Metrics extends Component<InjectedIntlProps, State> {
+  constructor(props: InjectedIntlProps) {
     super(props)
     this.state = {
       appControllers: {
@@ -35,15 +36,7 @@ class Metrics extends Component<{}, State> {
     }
   }
 
-  public setAppControllers = (appControllers: AppController) => {
-    this.setState({ appControllers })
-  }
-
-  public setTimeControllers = (timeControllers: TimeController) => {
-    this.setState({ timeControllers })
-  }
-
-  public render = () => {
+  public render() {
     const { appControllers: { appName } } = this.state
     const { timeControllers: { startDate, endDate } } = this.state
     const appContextValue = {
@@ -65,10 +58,8 @@ class Metrics extends Component<{}, State> {
                 ? (
                   <DataAnalysis layout={layoutContent} />
                 ) : (
-                  <EmptyState title="Please select an app">
-                    <p>
-                      Please select an app to be analyzed
-                    </p>
+                  <EmptyState title={this.props.intl.formatMessage({ id: 'console.empty.app.headline' })}>
+                    <FormattedMessage id="console.empty.app.explanation" />
                   </EmptyState>
                 )
               }
@@ -78,6 +69,14 @@ class Metrics extends Component<{}, State> {
       </div>
     )
   }
+
+  private setAppControllers = (appControllers: AppController) => {
+    this.setState({ appControllers })
+  }
+
+  private setTimeControllers = (timeControllers: TimeController) => {
+    this.setState({ timeControllers })
+  }
 }
 
-export default Metrics
+export default injectIntl(Metrics)

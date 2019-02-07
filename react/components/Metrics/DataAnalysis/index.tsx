@@ -13,7 +13,7 @@ interface Props {
 }
 
 
-const DataAnalysis = (props: Props) => {
+const DataAnalysis: React.SFC<Props> = (props) => {
   const setAppParams = (metricParams: object, appControllers: AppController) => {
     return reject(isNilOrEmpty, {
       ...metricParams,
@@ -46,6 +46,7 @@ const DataAnalysis = (props: Props) => {
                   (chartDescription) => {
                     const {
                       ChartType,
+                      id,
                       storedash: {
                         name,
                       },
@@ -60,7 +61,7 @@ const DataAnalysis = (props: Props) => {
                     metricParams = setTimeRange(metricParams, timeControllers)
 
                     return (
-                      <PageBlock variation="full">
+                      <PageBlock key={id} variation="full">
                         <ChartType name={name} metricParams={metricParams} />
                       </PageBlock>
                     )

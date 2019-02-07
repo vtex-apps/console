@@ -1,68 +1,37 @@
-import React, { Component } from 'react'
-import { FormattedNumber, InjectedIntlProps, injectIntl  } from 'react-intl'
+import { map } from 'ramda'
+import React from 'react'
+import { FormattedNumber, InjectedIntlProps, injectIntl } from 'react-intl'
+import { TooltipProps } from 'recharts'
 import { PageBlock } from 'vtex.styleguide'
 
 
-interface Props extends InjectedIntlProps {
-  active?: boolean
-  label?: string
-  payload?: any
-  type?: string
-}
+type Props = InjectedIntlProps & TooltipProps
 
+const CustomTooltip: React.SFC<Props> = (props) => {
+  const { active, payload, label } = props
 
-const CustomTooltip = (props: Props) => {
-  const { active } = props
-
-  if (active) {
-    const { payload, label } = props
-
-    return (
+  return active
+    ? (
       <PageBlock>
         <div className="t-small">
           <div className="pa2">
             {label}
           </div>
-          <div className="flex justify-between" >
-            <div className="pa2" style={{ color: payload[0].color }} >
-              {`${payload[0].dataKey}:  `}
-            </div>
-            <div className="pa2" >
-              <FormattedNumber value={payload[0].value} />
-            </div>
-          </div>
-
-          <div className="flex justify-between" >
-            <div className="pa2" style={{ color: payload[1].color }} >
-              {`${payload[1].dataKey}:  `}
-            </div>
-            <div className="pa2" >
-              <FormattedNumber value={payload[1].value} />
-            </div>
-          </div>
-
-          <div className="flex justify-between" >
-            <div className="pa2" style={{ color: payload[2].color }} >
-              {`${payload[2].dataKey}:  `}
-            </div>
-            <div className="pa2" >
-              <FormattedNumber value={payload[2].value} />
-            </div>
-          </div>
-
-          <div className="flex justify-between" >
-            <div className="pa2" style={{ color: payload[3].color }} >
-              {`${payload[3].dataKey}:  `}
-            </div>
-            <div className="pa2" >
-              <FormattedNumber value={payload[3].value} />
-            </div>
-          </div>
+          {
+            map((dataPoint) => (
+              <div key={dataPoint.name} className="flex justify-between" >
+                <div className="pa2" style={{ color: dataPoint.color }} >
+                  {`${dataPoint.dataKey}:  `}
+                </div>
+                <div className="pa2" >
+                  <FormattedNumber value={Number(dataPoint.value)} />
+                </div>
+              </div>
+            ), payload || [])
+          }
         </div>
       </PageBlock>
-    )
-  }
-  return null
+    ) : null
 }
 
 export default injectIntl(CustomTooltip)

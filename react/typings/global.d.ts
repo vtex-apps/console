@@ -21,6 +21,15 @@ interface RenderContext {
   workspace: RenderRuntime['workspace']
 }
 
+interface NavigateOptions {
+  page?: string
+  params?: any
+  query?: any
+  to?: string
+  scrollOptions?: RenderScrollOptions
+  fallbackToWindowLocation?: boolean
+}
+
 interface AppController {
   appName?: string
   chosenMajor?: string
