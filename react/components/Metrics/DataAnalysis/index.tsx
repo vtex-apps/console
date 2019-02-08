@@ -25,7 +25,6 @@ const DataAnalysis: React.SFC<Props> = (props) => {
   }
 
   const setTimeRange = (metricParams: object, timeControllers: TimeController, chartType: string) => {
-    console.log('setTimeRange chartType', chartType)
     return reject(isNilOrEmpty, {
       ...metricParams,
       from: timeControllers.startDate,
@@ -59,12 +58,8 @@ const DataAnalysis: React.SFC<Props> = (props) => {
                       },
                     } = chartDescription
 
-                    console.log(chartType)
-
                     metricParams = setAppParams(metricParams, appControllers)
                     metricParams = setTimeRange(metricParams, timeControllers, chartType)
-
-                    console.log({metricParams})
 
                     return (
                       <PageBlock key={id} variation="full">

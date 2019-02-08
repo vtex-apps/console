@@ -1,8 +1,10 @@
 import { map } from 'ramda'
 import React from 'react'
-import { FormattedNumber, InjectedIntlProps, injectIntl } from 'react-intl'
+import { InjectedIntlProps, injectIntl } from 'react-intl'
 import { TooltipPayload, TooltipProps } from 'recharts'
 import { PageBlock } from 'vtex.styleguide'
+
+import { abbrPerc } from '../../../../common/dataAnalysis'
 import RenderTooltip from './RenderTooltip'
 
 
@@ -17,7 +19,6 @@ const getColor = (dataPoint: TooltipPayload) => {
 }
 
 const CustomTooltip: React.SFC<Props> = (props) => {
-  // console.log('CustomTooltip props', props)
   const { active, intl, name, payload, label } = props
 
   return active
@@ -34,13 +35,7 @@ const CustomTooltip: React.SFC<Props> = (props) => {
               const itemLabel: string = String(item.dataKey)
               let itemValue: string
               if (name === 'cpuUsageLineChart') {
-                itemValue = intl.formatNumber(
-                  Number(item.value),
-                  {
-                    minimumFractionDigits: 2,
-                    style: 'percent',
-                  }
-                )
+                itemValue = abbrPerc(item.value, intl)
               } else {
                 itemValue = intl.formatNumber(Number(item.value))
               }

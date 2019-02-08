@@ -68,7 +68,7 @@ const LatencyLineChart: React.SFC<Props> = (props) => {
                     <XAxis dataKey="formattedTime" />>
                       <YAxis
                       type="number"
-                      tick={<CustomYAxisTick />}
+                      tick={<CustomYAxisTick name="latencyLineChart" />}
                     />
                     <Legend />
                     <Tooltip content={<CustomTooltip name="latencyLineChart" />} />

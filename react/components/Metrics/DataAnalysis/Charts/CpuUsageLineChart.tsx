@@ -59,7 +59,7 @@ const CpuUsageLineChart: React.SFC<Props> = (props) => {
                     <XAxis dataKey="formattedTime" />>
                       <YAxis
                       type="number"
-                      tick={<CustomYAxisTick />}
+                      tick={<CustomYAxisTick name="cpuUsageLineChart" />}
                     />
                     <Legend />
                     <Tooltip content={<CustomTooltip name="cpuUsageLineChart" />} />

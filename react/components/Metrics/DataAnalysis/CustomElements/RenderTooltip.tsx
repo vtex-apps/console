@@ -1,5 +1,5 @@
 import React from 'react'
-import { FormattedNumber, InjectedIntlProps, injectIntl } from 'react-intl'
+import { InjectedIntlProps, injectIntl } from 'react-intl'
 
 
 interface Props extends InjectedIntlProps {

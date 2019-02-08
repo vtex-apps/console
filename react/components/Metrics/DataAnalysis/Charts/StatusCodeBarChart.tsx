@@ -71,7 +71,7 @@ const StatusCodeBarChart: React.SFC<Props> = (props) => {
                     <XAxis dataKey="httpStatus" />>
                     <YAxis
                       type="number"
-                      tick={<CustomYAxisTick />}
+                      tick={<CustomYAxisTick name="statusCodeBarChart" />}
                     />
                     <Tooltip content={<CustomTooltip name="statusCodeBarChart" />} />
                     <Bar dataKey="count" >

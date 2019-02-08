@@ -79,3 +79,13 @@ export const abbrNum = (value: number, decPlaces: number): string => {
 
   return tickValue
 }
+
+export const abbrPerc = (value: any, intl: InjectedIntl): string => {
+  return intl.formatNumber(
+    Number(value),
+    {
+      minimumFractionDigits: 2,
+      style: 'percent',
+    }
+  )
+}

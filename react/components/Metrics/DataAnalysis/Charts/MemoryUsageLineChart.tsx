@@ -62,7 +62,7 @@ const MemoryUsageLineChart: React.SFC<Props> = (props) => {
                     <XAxis dataKey="formattedTime" />>
                     <YAxis
                       type="number"
-                      tick={<CustomYAxisTick />}
+                      tick={<CustomYAxisTick name="memoryUsageLineChart" />}
                     />
                     <Legend />
                     <Tooltip content={<CustomTooltip name="memoryUsageLineChart" />} />
