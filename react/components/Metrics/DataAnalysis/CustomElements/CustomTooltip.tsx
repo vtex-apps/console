@@ -3,9 +3,10 @@ import React from 'react'
 import { FormattedNumber, InjectedIntlProps, injectIntl } from 'react-intl'
 import { TooltipPayload, TooltipProps } from 'recharts'
 import { PageBlock } from 'vtex.styleguide'
+import RenderTooltip from './RenderTooltip'
 
 
-type Props = InjectedIntlProps & TooltipProps
+type Props = InjectedIntlProps & TooltipProps & { name: string }
 
 
 const getColor = (dataPoint: TooltipPayload) => {
@@ -16,7 +17,8 @@ const getColor = (dataPoint: TooltipPayload) => {
 }
 
 const CustomTooltip: React.SFC<Props> = (props) => {
-  const { active, payload, label } = props
+  // console.log('CustomTooltip props', props)
+  const { active, intl, name, payload, label } = props
 
   return active
     ? (
@@ -26,16 +28,31 @@ const CustomTooltip: React.SFC<Props> = (props) => {
             {label}
           </div>
           {
-            map((dataPoint) => (
-              <div key={dataPoint.name} className="flex justify-between" >
-                <div className="pa2" style={{ color: getColor(dataPoint) }} >
-                  {`${dataPoint.dataKey}:  `}
-                </div>
-                <div className="pa2" >
-                  <FormattedNumber value={Number(dataPoint.value)} />
-                </div>
-              </div>
-            ), payload || [])
+            map((item) => {
+              const itemId: string = item.name
+              const itemLabelColor: string = getColor(item) || ''
+              const itemLabel: string = String(item.dataKey)
+              let itemValue: string
+              if (name === 'cpuUsageLineChart') {
+                itemValue = intl.formatNumber(
+                  Number(item.value),
+                  {
+                    minimumFractionDigits: 2,
+                    style: 'percent',
+                  }
+                )
+              } else {
+                itemValue = intl.formatNumber(Number(item.value))
+              }
+              return (
+                <RenderTooltip
+                  id={itemId}
+                  label={itemLabel}
+                  labelColor={itemLabelColor}
+                  value={itemValue}
+                />
+              )
+            }, payload || [])
           }
         </div>
       </PageBlock>

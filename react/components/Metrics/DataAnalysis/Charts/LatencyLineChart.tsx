@@ -71,7 +71,7 @@ const LatencyLineChart: React.SFC<Props> = (props) => {
                       tick={<CustomYAxisTick />}
                     />
                     <Legend />
-                    <Tooltip content={<CustomTooltip />} />
+                    <Tooltip content={<CustomTooltip name="latencyLineChart" />} />
                     {/* { this.drawLatencyLine() } */}
                   </LineChart>
                 </ResponsiveContainer>

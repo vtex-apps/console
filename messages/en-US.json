@@ -21,7 +21,7 @@
   "console.date.picker.from": "From",
   "console.date.picker.to": "To",
   "console.range.step.picker.stepSize": "Step",
-  "console.cpuUsage.lineChart": "Cpu usage (microseconds) over Time",
+  "console.cpuUsage.lineChart": "Cpu usage (percentage) over Time",
   "console.latency.lineChart": "Latency (miliseconds) over Time",
   "console.memoryUsage.lineChart": "Memory (bytes) consumption over Time",
   "console.empty.app.headline": "Please select an app",

@@ -73,11 +73,11 @@ const StatusCodeBarChart: React.SFC<Props> = (props) => {
                       type="number"
                       tick={<CustomYAxisTick />}
                     />
-                    <Tooltip content={<CustomTooltip />} />
+                    <Tooltip content={<CustomTooltip name="statusCodeBarChart" />} />
                     <Bar dataKey="count" >
                       {
                         chartData.map((entry: DataStatusCode, index: number) => (
-                          <Cell key={`cell-${index}`} fill={colors[index % 20]} />
+                          <Cell key={`cell-${index}`} fill={colors[index % 20]}  />
                         ))
                       }
                     </Bar>

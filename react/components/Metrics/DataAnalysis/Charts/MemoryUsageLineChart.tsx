@@ -65,7 +65,7 @@ const MemoryUsageLineChart: React.SFC<Props> = (props) => {
                       tick={<CustomYAxisTick />}
                     />
                     <Legend />
-                    <Tooltip content={<CustomTooltip />} />
+                    <Tooltip content={<CustomTooltip name="memoryUsageLineChart" />} />
                     <Line type="monotone" dataKey="external" stroke="Green" />
                     <Line type="monotone" dataKey="heapUsed" stroke="Navy" />
                     <Line type="monotone" dataKey="heapTotal" stroke="Maroon" />
