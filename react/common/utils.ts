@@ -8,6 +8,12 @@ export interface Option {
 }
 
 
+export const adjustStartDateHour = () => {
+  const date = new Date()
+  date.setHours(date.getHours() - 1)
+  return date
+}
+
 export const getAppVersion = (chosenMajor: string, chosenMinor: string, chosenPatch: string) => {
   return (chosenMajor && chosenMinor && chosenPatch) ?
     `${chosenMajor}.${chosenMinor}.${chosenPatch}` :

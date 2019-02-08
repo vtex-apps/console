@@ -19,6 +19,12 @@ interface State {
 }
 
 
+const adjustStartDateHour = () => {
+  const date = new Date()
+  date.setHours(date.getHours() - 1)
+  return date
+}
+
 class TimeControllers extends Component<InjectedIntlProps, State> {
   constructor(props: InjectedIntlProps) {
     super(props)
@@ -27,7 +33,7 @@ class TimeControllers extends Component<InjectedIntlProps, State> {
       locale: 'pt-BR',
       mode: 'Empty',
       rangeStep: '',
-      startDate: new Date(),
+      startDate: adjustStartDateHour(),
     }
   }
 

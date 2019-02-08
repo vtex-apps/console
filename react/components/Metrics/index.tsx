@@ -22,9 +22,7 @@ class Metrics extends Component<InjectedIntlProps, State> {
     this.state = {
       appControllers: {
         appName: '',
-        chosenMajor: '',
-        chosenMinor: '',
-        chosenPatch: '',
+        appVersion: '',
         production: '',
         region: '',
       },

@@ -33,5 +33,6 @@
   "console.rangeStepPicker.stepModifier.hours": "",
   "console.rangeStepPicker.stepModifier.days": "",
   "console.rangeStepPicker.stepModifier.months": "",
-  "console.rangeStepPicker.stepModifier.years": ""
+  "console.rangeStepPicker.stepModifier.years": "",
+  "console.statusCode.barChart": ""
 }

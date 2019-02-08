@@ -34,5 +34,6 @@
   "console.rangeStepPicker.stepModifier.hours": "Hours",
   "console.rangeStepPicker.stepModifier.days": "Days",
   "console.rangeStepPicker.stepModifier.months": "Months",
-  "console.rangeStepPicker.stepModifier.years": "Years"
+  "console.rangeStepPicker.stepModifier.years": "Years",
+  "console.statusCode.barChart": "Http Status Code Distribution"
 }
