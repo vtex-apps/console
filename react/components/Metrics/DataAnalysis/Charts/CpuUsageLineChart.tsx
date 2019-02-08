@@ -30,20 +30,6 @@ interface Props extends InjectedIntlProps {
 }
 
 
-const calculateMean = (value: any, key: string | number | symbol, obj: any) => {
-  const cpuMetrics = ['system', 'used']
-  if (includes(key, cpuMetrics)) {
-    obj[key] = Math.round(obj[key] / obj.count)
-  }
-}
-
-const calculateMeanOfCpuUsage = (chartData: any[]) => {
-  return map((chartPoint: any) => {
-    forEachObjIndexed(calculateMean, chartPoint)
-    return chartPoint
-  }, chartData)
-}
-
 const CpuUsageLineChart: React.SFC<Props> = (props) => {
   const { name, metricParams, intl } = props
 
@@ -58,7 +44,6 @@ const CpuUsageLineChart: React.SFC<Props> = (props) => {
           if (!loading) {
             const stepModifier = metricParams.interval[metricParams.interval.length - 1]
             chartData = addFormattedTime(JSON.parse(rawChartData), intl, stepModifier)
-            chartData = calculateMeanOfCpuUsage(chartData)
           }
 
           return (
