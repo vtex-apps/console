@@ -1,11 +1,19 @@
 import { map } from 'ramda'
 import React from 'react'
 import { FormattedNumber, InjectedIntlProps, injectIntl } from 'react-intl'
-import { TooltipProps } from 'recharts'
+import { TooltipPayload, TooltipProps } from 'recharts'
 import { PageBlock } from 'vtex.styleguide'
 
 
 type Props = InjectedIntlProps & TooltipProps
+
+
+const getColor = (dataPoint: TooltipPayload) => {
+  if (dataPoint.color === undefined) {
+    return dataPoint.fill
+  }
+  return dataPoint.color
+}
 
 const CustomTooltip: React.SFC<Props> = (props) => {
   const { active, payload, label } = props
@@ -20,7 +28,7 @@ const CustomTooltip: React.SFC<Props> = (props) => {
           {
             map((dataPoint) => (
               <div key={dataPoint.name} className="flex justify-between" >
-                <div className="pa2" style={{ color: dataPoint.color }} >
+                <div className="pa2" style={{ color: getColor(dataPoint) }} >
                   {`${dataPoint.dataKey}:  `}
                 </div>
                 <div className="pa2" >
