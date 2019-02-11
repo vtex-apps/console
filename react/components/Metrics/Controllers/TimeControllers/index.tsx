@@ -80,7 +80,14 @@ class TimeControllers extends Component<InjectedIntlProps, State> {
                               handleEndDate={this.setEndDate}
                             />
                           ) : (
-                            <Relative />
+                            <Relative
+                              startDate={this.state.startDate}
+                              endDate={this.state.endDate}
+                              rangeStep={this.state.rangeStep}
+                              handleRangeStep={this.setRangeStep}
+                              handleStartDate={this.setStartDate}
+                              handleEndDate={this.setEndDate}
+                            />
                           )
                         }
                         <div className="pa4 mh2">

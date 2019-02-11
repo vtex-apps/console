@@ -34,5 +34,12 @@
   "console.rangeStepPicker.stepModifier.days": "",
   "console.rangeStepPicker.stepModifier.months": "",
   "console.rangeStepPicker.stepModifier.years": "",
-  "console.statusCode.barChart": ""
+  "console.statusCode.barChart": "",
+  "console.time.controller.relative.earliest": "",
+  "console.time.controller.relative.earliestModifier.seconds.ago": "",
+  "console.time.controller.relative.earliestModifier.minutes.ago": "",
+  "console.time.controller.relative.earliestModifier.hours.ago": "",
+  "console.time.controller.relative.earliestModifier.days.ago": "",
+  "console.time.controller.relative.earliestModifier.months.ago": "",
+  "console.time.controller.relative.earliestModifier.years.ago": ""
 }

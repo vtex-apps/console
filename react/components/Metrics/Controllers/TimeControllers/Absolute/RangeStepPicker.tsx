@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { InjectedIntl, InjectedIntlProps, injectIntl } from 'react-intl'
+import { InjectedIntlProps, injectIntl } from 'react-intl'
 import { Dropdown, NumericStepper } from 'vtex.styleguide'
 
 import { formattedDropdownOptions } from '../../../../../common/utils'

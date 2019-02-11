@@ -35,5 +35,12 @@
   "console.rangeStepPicker.stepModifier.days": "Dias",
   "console.rangeStepPicker.stepModifier.months": "Meses",
   "console.rangeStepPicker.stepModifier.years": "Anos",
-  "console.statusCode.barChart": "Distribuição de Http Status Code"
+  "console.statusCode.barChart": "Distribuição de Http Status Code",
+  "console.time.controller.relative.earliest": "De",
+  "console.time.controller.relative.earliestModifier.seconds.ago": "Segundos Atrás",
+  "console.time.controller.relative.earliestModifier.minutes.ago": "Minutos Atrás",
+  "console.time.controller.relative.earliestModifier.hours.ago": "Horas Atrás",
+  "console.time.controller.relative.earliestModifier.days.ago": "Dias Atrás",
+  "console.time.controller.relative.earliestModifier.months.ago": "Meses Atrás",
+  "console.time.controller.relative.earliestModifier.years.ago": "Anos Atrás"
 }

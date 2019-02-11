@@ -35,5 +35,12 @@
   "console.rangeStepPicker.stepModifier.days": "Days",
   "console.rangeStepPicker.stepModifier.months": "Months",
   "console.rangeStepPicker.stepModifier.years": "Years",
-  "console.statusCode.barChart": "Http Status Code Distribution"
+  "console.statusCode.barChart": "Http Status Code Distribution",
+  "console.time.controller.relative.earliest": "From",
+  "console.time.controller.relative.earliestModifier.seconds.ago": "Seconds Ago",
+  "console.time.controller.relative.earliestModifier.minutes.ago": "Minutes Ago",
+  "console.time.controller.relative.earliestModifier.hours.ago": "Hours Ago",
+  "console.time.controller.relative.earliestModifier.days.ago": "Days Ago",
+  "console.time.controller.relative.earliestModifier.months.ago": "Months Ago",
+  "console.time.controller.relative.earliestModifier.years.ago": "Years Ago"
 }
