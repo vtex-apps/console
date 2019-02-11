@@ -21,28 +21,31 @@ interface RenderContext {
   workspace: RenderRuntime['workspace']
 }
 
-interface Controllers {
-  chosenAppName?: string
-  endDate?: Moment
-  startDate?: Moment
-  region: string
-  production: string
-  chosenMajor: string
-  chosenMinor: string
-  chosenPatch: string
+interface NavigateOptions {
+  page?: string
+  params?: any
+  query?: any
+  to?: string
+  scrollOptions?: RenderScrollOptions
+  fallbackToWindowLocation?: boolean
 }
 
-interface LayoutContainer {
-  cacheId: String
-  layout: Layout[]
+interface AppController {
+  appName?: string
+  chosenMajor?: string
+  chosenMinor?: string
+  chosenPatch?: string
+  region?: string
+  production?: string
 }
 
-interface Layout {
-  spec: String
-  specLocator: SpecLocator
+interface TimeController {
+  startDate?: Date
+  endDate?: Date
+  rangeStep?: string
 }
 
-interface SpecLocator {
-  appId: string
-  specName: string
-}
+type SetTimeControllers = (timeControllers: TimeController) => void
+
+type SetAppControllers = (appControllers: AppController) => void
+

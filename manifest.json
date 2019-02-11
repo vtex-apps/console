@@ -9,15 +9,15 @@
     "vtex.admin": "1.x",
     "vtex.console-graphql": "0.x",
     "vtex.render-runtime": "7.x",
-    "vtex.styleguide": "7.x",
+    "vtex.styleguide": "8.x",
     "vtex.builder-log": "0.x"
   },
   "scripts": {
     "postreleasy": "vtex publish --public"
   },
   "builders": {
-    "vega": "0.x",
     "react": "2.x",
-    "pages": "0.x"
+    "pages": "0.x",
+    "messages": "1.x"
   }
 }

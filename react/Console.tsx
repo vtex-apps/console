@@ -1,6 +1,6 @@
 import { pluck } from 'ramda'
 import React, { Component } from 'react'
-import { injectIntl } from 'react-intl'
+import { InjectedIntlProps, injectIntl } from 'react-intl'
 import { withRuntimeContext } from 'render'
 import { PageHeader, Tab, Tabs } from 'vtex.styleguide'
 
@@ -8,14 +8,12 @@ import Errors from './components/Errors'
 import Metrics from './components/Metrics'
 import StylesContainer from './components/StylesContainer'
 
-const DivHeight = { minHeight: 'calc(100vh - 3em)'}
-type Props = {
-  runtime: RenderContext
-} & ReactIntl.InjectedIntlProps
-& {
+
+interface Props extends InjectedIntlProps {
   params: {
     tab: string
   }
+  runtime: RenderContext
 }
 
 interface Field {
@@ -23,6 +21,9 @@ interface Field {
   name: string
   titleId: string
 }
+
+
+const DivHeight = { minHeight: 'calc(100vh - 3em)' }
 
 const fields: Field[] = [
   {
@@ -34,44 +35,41 @@ const fields: Field[] = [
     name: 'errors',
     path: 'errors',
     titleId: 'console.admin.tabs.errors',
-  }
+  },
 ]
 
 class Console extends Component<Props, {}> {
-  constructor(props: any) {
-    super(props)
-  }
 
-  public componentDidMount () {
+  public componentDidMount() {
     window.postMessage({ action: { type: 'STOP_LOADING' } }, '*')
   }
 
-  public render = () => {
+  public render() {
     const {
-      params: {tab},
+      params: { tab },
       intl,
       runtime: { navigate },
     } = this.props
 
-    if (!pluck('name',fields).includes(tab)) {
+    if (!pluck('name', fields).includes(tab)) {
       navigate({ to: '/admin/console/metrics' })
     }
 
     return (
       <div className="bg-muted-5" style={DivHeight}>
         <div className="w-90 center">
-        <PageHeader title="IO Console" />
-        <Tabs>
-        {fields.map(({name, path, titleId}: Field) => (
-          <Tab
-            key={name}
-            label={intl.formatMessage({ id: titleId })}
-            active={tab === path}
-            onClick={() => navigate({ to: `/admin/console/${path}` })}
-          />
-        ))}
-        </Tabs>
-      </div>
+          <PageHeader title="IO Console" />
+          <Tabs>
+            {fields.map(({ name, path, titleId }: Field) => (
+              <Tab
+                key={name}
+                label={intl.formatMessage({ id: titleId })}
+                active={tab === path}
+                onClick={() => navigate({ to: `/admin/console/${path}` })}
+              />
+            ))}
+          </Tabs>
+        </div>
         <div>
           <StylesContainer>
             {tab === 'metrics' && <Metrics />}
@@ -81,7 +79,6 @@ class Console extends Component<Props, {}> {
       </div>
     )
   }
-
 }
 
 export default withRuntimeContext(injectIntl(Console))

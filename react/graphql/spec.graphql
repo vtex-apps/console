@@ -1,3 +1,0 @@
-query getSpecSchema($specName: String!, $appId: String!) {
-  spec(specName: $specName, appId: $appId)
-}
