@@ -2,8 +2,9 @@ import React, { Component } from 'react'
 import { InjectedIntl, InjectedIntlProps, injectIntl } from 'react-intl'
 import { Dropdown, NumericStepper } from 'vtex.styleguide'
 
-import { formattedDropdownOptions, Option } from '../../../../../common/utils'
+import { formattedDropdownOptions } from '../../../../../common/utils'
 import { EventWithValue } from '../../../../../typings/events'
+import { mapTime, noOp, stepModifierOptions } from './utils'
 
 
 type RangeStep = 'Full' | 'Seconds' | 'Minutes' | 'Hours' | 'Days' | 'Months' | 'Years'
@@ -18,15 +19,6 @@ interface State {
   stepModifier: RangeStep
 }
 
-
-const mapTime = {
-  'Days': 'd',
-  'Hours': 'h',
-  'Minutes': 'm',
-  'Months': 'M',
-  'Seconds': 's',
-  'Years': 'y',
-}
 
 class RangeStepPicker extends Component<Props, State> {
   constructor(props: Props) {
@@ -45,7 +37,6 @@ class RangeStepPicker extends Component<Props, State> {
 
   public render() {
     const { intl } = this.props
-    const stepModifierOptions: Option[] = this.setStepModifierOptions()
 
     return (
       <div className="flex flex-colunm items-end pa4 mh0">
@@ -55,7 +46,7 @@ class RangeStepPicker extends Component<Props, State> {
               label={this.props.intl.formatMessage({ id: 'console.range.step.picker.stepSize' })}
               size="small"
               value={0}
-              onChange={() => undefined}
+              onChange={noOp}
             />
           ) : (
             <NumericStepper
@@ -91,18 +82,6 @@ class RangeStepPicker extends Component<Props, State> {
       const rangeStep = this.state.stepSize + mapTime[this.state.stepModifier]
       this.props.handleRangeStep(rangeStep)
     }
-  }
-
-  private setStepModifierOptions = () => {
-    return [
-      { value: 'Full', label: 'console.rangeStepPicker.stepModifier.full' },
-      { value: 'Seconds', label: 'console.rangeStepPicker.stepModifier.seconds' },
-      { value: 'Minutes', label: 'console.rangeStepPicker.stepModifier.minutes' },
-      { value: 'Hours', label: 'console.rangeStepPicker.stepModifier.hours' },
-      { value: 'Days', label: 'console.rangeStepPicker.stepModifier.days' },
-      { value: 'Months', label: 'console.rangeStepPicker.stepModifier.months' },
-      { value: 'Years', label: 'console.rangeStepPicker.stepModifier.years' },
-    ]
   }
 }
 

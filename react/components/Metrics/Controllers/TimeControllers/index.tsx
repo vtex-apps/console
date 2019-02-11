@@ -1,10 +1,12 @@
 import React, { Component, Fragment } from 'react'
+import { FormattedMessage, InjectedIntlProps, injectIntl } from 'react-intl'
 import { Button, EmptyState, RadioGroup } from 'vtex.styleguide'
 
-import { FormattedMessage, InjectedIntl, InjectedIntlProps, injectIntl } from 'react-intl'
+import { formattedDropdownOptions } from '../../../../common/utils'
 import { TimeContext } from '../../Contexts/TimeContext'
 import Absolute from './Absolute'
 import Relative from './Relative'
+import { timeControllerOptions } from './utils'
 
 
 type TimeRange = 'Absolute' | 'Relative' | 'Empty'
@@ -14,11 +16,6 @@ interface State {
   endDate: Date
   rangeStep: string
   mode: TimeRange
-}
-
-interface Option {
-  label: string
-  value: string
 }
 
 
@@ -36,7 +33,6 @@ class TimeControllers extends Component<InjectedIntlProps, State> {
 
   public render() {
     const { intl } = this.props
-    const timeControllerOptions = this.setTimeControllerOptions(intl)
 
     return (
       <div>
@@ -62,7 +58,7 @@ class TimeControllers extends Component<InjectedIntlProps, State> {
                 <div className="w-40 pa2 mr1">
                   <RadioGroup
                     name="timeController"
-                    options={timeControllerOptions}
+                    options={formattedDropdownOptions(timeControllerOptions, intl)}
                     value={this.state.mode}
                     onChange={this.handleOnChangeMode}
                   />
@@ -123,13 +119,6 @@ class TimeControllers extends Component<InjectedIntlProps, State> {
 
   private setTimeMode = (mode: any) => {
     this.setState({ mode })
-  }
-
-  private setTimeControllerOptions = (intl: InjectedIntl) => {
-    return [
-      { value: 'Absolute', label: intl.formatMessage({ id: 'console.time.controller.absolute' }) },
-      { value: 'Relative', label: intl.formatMessage({ id: 'console.time.controller.relative' }) },
-    ]
   }
 
   private handleOnClickMode = () => {
