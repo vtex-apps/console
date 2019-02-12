@@ -32,6 +32,7 @@ interface DataStatusCode {
 }
 
 interface Props extends InjectedIntlProps {
+  appId: string
   name: string
   metricParams: any
 }
@@ -40,13 +41,13 @@ interface Props extends InjectedIntlProps {
 const colors = ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd', '#8c564b', '#e377c2', '#7f7f7f', '#bcbd22', '#17becf']
 
 const StatusCodeBarChart: React.SFC<Props> = (props) => {
-  const { name, metricParams, intl } = props
+  const { appId, name, metricParams, intl } = props
 
   return (
     <Fragment>
       <BlockTitle title={intl.formatMessage({ id: 'console.statusCode.barChart' })} />
 
-      <Query query={dataQuery} ssr={false} variables={{ name, params: metricParams }} >
+      <Query query={dataQuery} ssr={false} variables={{ appId, name, params: metricParams }} >
         {({ loading, data: { data: rawChartData } }) => {
           let chartData: any
 

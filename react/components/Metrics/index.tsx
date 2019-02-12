@@ -5,6 +5,7 @@ import { withRuntimeContext } from 'render'
 import { EmptyState } from 'vtex.styleguide'
 
 import layoutContent from '../../common/layoutContent'
+import { getAppId } from '../../common/utils'
 import { AppContext } from './Contexts/AppContext'
 import { TimeContext } from './Contexts/TimeContext'
 
@@ -31,7 +32,8 @@ class Metrics extends Component<Props, State> {
   }
 
   public render() {
-    const { appControllers: { appName } } = this.state
+    const { runtime: { account } } = this.props
+    const { appControllers: { appName, appVersion } } = this.state
     const { timeControllers: { startDate, endDate } } = this.state
     const appContextValue = {
       appControllers: this.state.appControllers,
@@ -50,7 +52,7 @@ class Metrics extends Component<Props, State> {
             <div className="w-100">
               {appName && startDate && endDate && Array.isArray(layoutContent)
                 ? (
-                  <DataAnalysis layout={layoutContent} />
+                  <DataAnalysis layout={layoutContent} appId={getAppId(account, appName, appVersion || '')}/>
                 ) : (
                   <EmptyState title={this.props.intl.formatMessage({ id: 'console.empty.app.headline' })}>
                     <FormattedMessage id="console.empty.app.explanation" />

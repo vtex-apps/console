@@ -45,6 +45,10 @@ export const adjustStartDateHour = () => {
   return date
 }
 
+export const getAppId = (account: string, appName: string, appVersion: string) => {
+  return `${account}.${appName}@${appVersion}`
+}
+
 export const getAppVersion = (chosenMajor: string, chosenMinor: string, chosenPatch: string) => {
   return (chosenMajor && chosenMinor && chosenPatch) ?
     `${chosenMajor}.${chosenMinor}.${chosenPatch}` :

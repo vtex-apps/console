@@ -2,6 +2,7 @@ import { has } from 'ramda'
 import React, { Fragment } from 'react'
 import { Query } from 'react-apollo'
 import { InjectedIntlProps, injectIntl } from 'react-intl'
+import { withRuntimeContext } from 'render'
 import { Spinner } from 'vtex.styleguide'
 
 import dataQuery from '../../../../graphql/data.graphql'
@@ -25,19 +26,20 @@ import {
 
 
 interface Props extends InjectedIntlProps {
+  appId: string
   name: string
   metricParams: any
 }
 
 
 const CpuUsageLineChart: React.SFC<Props> = (props) => {
-  const { name, metricParams, intl } = props
+  const { appId, name, metricParams, intl } = props
 
   return (
     <Fragment>
       <BlockTitle title={intl.formatMessage({ id: 'console.cpuUsage.lineChart' })} />
 
-      <Query query={dataQuery} ssr={false} variables={{ name, params: metricParams }} >
+      <Query query={dataQuery} ssr={false} variables={{ appId, name, params: metricParams }} >
         {({ loading, error, data: { data: rawChartData } }) => {
           let chartData: any
 
@@ -74,4 +76,4 @@ const CpuUsageLineChart: React.SFC<Props> = (props) => {
   )
 }
 
-export default injectIntl(CpuUsageLineChart)
+export default withRuntimeContext(injectIntl(CpuUsageLineChart))
