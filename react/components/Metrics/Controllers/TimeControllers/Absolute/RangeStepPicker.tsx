@@ -5,6 +5,7 @@ import { Dropdown, NumericStepper } from 'vtex.styleguide'
 import { formattedDropdownOptions } from '../../../../../common/utils'
 import { EventWithValue } from '../../../../../typings/events'
 import { mapTime, noOp, stepModifierOptions } from './utils'
+import { mapTimeInverse } from './utils'
 
 
 type RangeStep = 'Full' | 'Seconds' | 'Minutes' | 'Hours' | 'Days' | 'Months' | 'Years'
@@ -16,17 +17,14 @@ interface Props extends InjectedIntlProps {
 
 interface State {
   stepSize: number
-  stepModifier: RangeStep
+  stepModifier: string
 }
 
 
 class RangeStepPicker extends Component<Props, State> {
   constructor(props: Props) {
     super(props)
-    this.state = {
-      stepModifier: 'Full',
-      stepSize: 0,
-    }
+    this.state = this.setStateFromRangeStep()
   }
 
   public componentDidUpdate(_: Props, prevState: State) {
@@ -37,6 +35,8 @@ class RangeStepPicker extends Component<Props, State> {
 
   public render() {
     const { intl } = this.props
+    const stepModifierOptions: Option[] = this.setStepModifierOptions()
+    console.log('this.state', this.state)
 
     return (
       <div className="flex flex-colunm items-end pa4 mh0">
@@ -65,6 +65,22 @@ class RangeStepPicker extends Component<Props, State> {
         />
       </div>
     )
+  }
+
+  private setStateFromRangeStep = () => {
+    let stepModifier: RangeStep = 'Full'
+    let stepSize: number = 0
+    if (this.props.rangeStep) {
+      const stepSizePart: number = Number(this.props.rangeStep[0])
+      const stepModifierPart: string = this.props.rangeStep[1]
+
+      stepModifier = mapTimeInverse[stepModifierPart]
+      stepSize = stepSizePart
+    }
+    return {
+      stepModifier,
+      stepSize,
+    }
   }
 
   private handleStepSize = (e: EventWithValue) => {

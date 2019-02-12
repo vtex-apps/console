@@ -21,3 +21,11 @@ export const stepModifierOptions: Option[] = [
   { value: 'Months', label: 'console.rangeStepPicker.stepModifier.months' },
   { value: 'Years', label: 'console.rangeStepPicker.stepModifier.years' },
 ]
+export const mapTimeInverse = {
+  'M': 'Months',
+  'd': 'Days',
+  'h': 'Hours',
+  'm': 'Minutes',
+  's': 'Seconds',
+  'y': 'Years',
+}
