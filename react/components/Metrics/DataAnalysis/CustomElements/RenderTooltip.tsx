@@ -3,7 +3,6 @@ import { InjectedIntlProps, injectIntl } from 'react-intl'
 
 
 interface Props extends InjectedIntlProps {
-  id: string
   label: string
   labelColor: string
   value: string
@@ -11,10 +10,10 @@ interface Props extends InjectedIntlProps {
 
 
 const RenderTooltip: React.SFC<Props> = (props) => {
-  const { id, label, labelColor, value } = props
+  const { label, labelColor, value } = props
 
   return (
-    <div key={id} className="flex justify-between" >
+    <div className="flex justify-between" >
       <div className="pa2" style={{ color: labelColor }} >
         {`${label}:  `}
       </div>

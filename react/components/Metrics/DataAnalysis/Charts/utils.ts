@@ -9,7 +9,7 @@ export const getChartData = (rawChartData: string, metricParams: any, intl: Inje
     stepModifier = metricParams.interval[metricParams.interval.length - 1]
   }
   let chartData = JSON.parse(rawChartData)
-  if (has('date', chartData[0])) {
+  if (chartData[0] && has('date', chartData[0])) {
     chartData = addFormattedTime(chartData, intl, stepModifier)
   }
   return chartData

@@ -41,7 +41,7 @@ const CustomTooltip: React.SFC<Props> = (props) => {
               }
               return (
                 <RenderTooltip
-                  id={itemId}
+                  key={itemId}
                   label={itemLabel}
                   labelColor={itemLabelColor}
                   value={itemValue}
