@@ -1,5 +1,7 @@
+import { Location } from 'history'
 import React, { Component } from 'react'
 import { FormattedMessage, InjectedIntlProps, injectIntl } from 'react-intl'
+import { withRuntimeContext } from 'render'
 import { EmptyState } from 'vtex.styleguide'
 
 import layoutContent from '../../common/layoutContent'
@@ -10,28 +12,22 @@ import Controllers from './Controllers'
 import DataAnalysis from './DataAnalysis'
 
 
+interface Props extends InjectedIntlProps {
+  runtime: RenderContext
+}
+
 interface State {
   appControllers: AppController
   timeControllers: TimeController
 }
 
 
-class Metrics extends Component<InjectedIntlProps, State> {
-  constructor(props: InjectedIntlProps) {
+class Metrics extends Component<Props, State> {
+  private searchParams: URLSearchParams = new URLSearchParams()
+  constructor(props: Props) {
     super(props)
-    this.state = {
-      appControllers: {
-        appName: '',
-        appVersion: '',
-        production: '',
-        region: '',
-      },
-      timeControllers: {
-        endDate: undefined,
-        rangeStep: '',
-        startDate: undefined,
-      },
-    }
+    this.props.runtime.history.listen(this.listenChangesInHistoryLocation)
+    this.state = this.stateFromUrl(this.props.runtime.history.location)
   }
 
   public render() {
@@ -69,12 +65,69 @@ class Metrics extends Component<InjectedIntlProps, State> {
   }
 
   private setAppControllers = (appControllers: AppController) => {
-    this.setState({ appControllers })
+    if (appControllers.appName) {
+      this.searchParams.set('appName', appControllers.appName)
+    }
+    if (appControllers.appVersion) {
+      this.searchParams.set('appVersion', appControllers.appVersion)
+    }
+    if (appControllers.production) {
+      this.searchParams.set('production', appControllers.production)
+    }
+    if (appControllers.region) {
+      this.searchParams.set('region', appControllers.region)
+    }
+
+    this.changeCurrentLocationInHistory()
   }
 
   private setTimeControllers = (timeControllers: TimeController) => {
-    this.setState({ timeControllers })
+    if (timeControllers.startDate) {
+      this.searchParams.set('startDate', timeControllers.startDate.toString())
+    }
+    if (timeControllers.endDate) {
+      this.searchParams.set('endDate', timeControllers.endDate.toString())
+    }
+    if (timeControllers.rangeStep) {
+      this.searchParams.set('rangeStep', timeControllers.rangeStep)
+    }
+    if (timeControllers.mode) {
+      this.searchParams.set('mode', timeControllers.mode)
+    }
+
+    this.changeCurrentLocationInHistory()
+  }
+
+  private changeCurrentLocationInHistory = () => {
+    const { runtime: { history } } = this.props
+    const newRelativePathQuery = history.location.pathname + '?' + this.searchParams.toString()
+    history.push(newRelativePathQuery)
+  }
+
+  private listenChangesInHistoryLocation = (location: Location<any>) => {
+    this.setState(this.stateFromUrl(location))
+  }
+
+  private stateFromUrl = (location: Location<any>) => {
+    this.searchParams = new URLSearchParams(location.search)
+    const startDate = this.searchParams.get('startDate')
+    const endDate = this.searchParams.get('endDate')
+    const mode = this.searchParams.get('mode')
+    return {
+      appControllers: {
+        appName: this.searchParams.get('appName') || '',
+        appVersion: this.searchParams.get('appVersion') || '',
+        production: this.searchParams.get('production') || '',
+        region: this.searchParams.get('region') || '',
+      },
+      timeControllers: {
+        endDate: endDate ? new Date(endDate) : undefined,
+        mode: mode as TimeRange,
+        rangeStep: this.searchParams.get('rangeStep') || '',
+        startDate: startDate ? new Date(startDate) : undefined,
+      },
+    }
   }
 }
 
-export default injectIntl(Metrics)
+export default withRuntimeContext(injectIntl(Metrics))
