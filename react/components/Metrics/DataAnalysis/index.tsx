@@ -9,7 +9,6 @@ import { TimeContext } from '../Contexts/TimeContext'
 
 
 interface Props {
-  appId: string
   layout: any[]
 }
 
@@ -34,7 +33,7 @@ const DataAnalysis: React.SFC<Props> = (props) => {
     })
   }
 
-  const { appId, layout } = props
+  const { layout } = props
 
   return (
     <AppContext.Consumer>
@@ -64,7 +63,7 @@ const DataAnalysis: React.SFC<Props> = (props) => {
 
                     return (
                       <PageBlock key={id} variation="full">
-                        <ChartComponent appId={appId} name={name} metricParams={metricParams} />
+                        <ChartComponent name={name} metricParams={metricParams} />
                       </PageBlock>
                     )
                   }, layout)

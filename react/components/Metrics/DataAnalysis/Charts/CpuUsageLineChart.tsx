@@ -26,20 +26,19 @@ import {
 
 
 interface Props extends InjectedIntlProps {
-  appId: string
   name: string
   metricParams: any
 }
 
 
 const CpuUsageLineChart: React.SFC<Props> = (props) => {
-  const { appId, name, metricParams, intl } = props
+  const { name, metricParams, intl } = props
 
   return (
     <Fragment>
       <BlockTitle title={intl.formatMessage({ id: 'console.cpuUsage.lineChart' })} />
 
-      <Query query={dataQuery} ssr={false} variables={{ appId, name, params: metricParams }} >
+      <Query query={dataQuery} ssr={false} variables={{ name, params: metricParams }} >
         {({ loading, error, data: { data: rawChartData } }) => {
           let chartData: any
 
@@ -64,8 +63,8 @@ const CpuUsageLineChart: React.SFC<Props> = (props) => {
                     />
                     <Legend />
                     <Tooltip content={<CustomTooltip name="cpuUsageLineChart" />} />
-                    <Line type="monotone" dataKey="system" stroke="Green" />
-                    <Line type="monotone" dataKey="user" stroke="Navy" />
+                    <Line type="monotone" dataKey="summary.system" stroke="Green" />
+                    <Line type="monotone" dataKey="summary.user" stroke="Navy" />
                   </LineChart>
                 </ResponsiveContainer>
               )

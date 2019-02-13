@@ -24,7 +24,6 @@ import {
 
 
 interface Props extends InjectedIntlProps {
-  appId: string
   name: string
   metricParams: any
 }
@@ -40,13 +39,13 @@ const calculateMeanLatency = (chartData: any[]) => {
 }
 
 const LatencyLineChart: React.SFC<Props> = (props) => {
-  const { appId, name, metricParams, intl } = props
+  const { name, metricParams, intl } = props
 
   return (
     <Fragment>
       <BlockTitle title={intl.formatMessage({ id: 'console.latency.lineChart' })} />
 
-      <Query query={dataQuery} ssr={false} variables={{ appId, name, params: metricParams }} >
+      <Query query={dataQuery} ssr={false} variables={{ name, params: metricParams }} >
         {({ loading, data: { data: rawChartData } }) => {
           let chartData: any
 

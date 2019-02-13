@@ -26,19 +26,18 @@ import {
 
 
 interface Props extends InjectedIntlProps {
-  appId: string
   name: string
   metricParams: any
 }
 
 const MemoryUsageLineChart: React.SFC<Props> = (props) => {
-  const { appId, name, metricParams, intl } = props
+  const { name, metricParams, intl } = props
 
   return (
     <Fragment>
       <BlockTitle title={intl.formatMessage({ id: 'console.memoryUsage.lineChart' })} />
 
-      <Query query={dataQuery} ssr={false} variables={{ appId, name, params: metricParams }} >
+      <Query query={dataQuery} ssr={false} variables={{ name, params: metricParams }} >
         {({ loading, data: { data: rawChartData } }) => {
           let chartData: any
 
@@ -63,10 +62,10 @@ const MemoryUsageLineChart: React.SFC<Props> = (props) => {
                     />
                     <Legend />
                     <Tooltip content={<CustomTooltip name="memoryUsageLineChart" />} />
-                    <Line type="monotone" dataKey="external" stroke="Green" />
-                    <Line type="monotone" dataKey="heapUsed" stroke="Navy" />
-                    <Line type="monotone" dataKey="heapTotal" stroke="Maroon" />
-                    <Line type="monotone" dataKey="rss" stroke="Orange" />
+                    <Line type="monotone" dataKey="summary.external" stroke="Green" />
+                    <Line type="monotone" dataKey="summary.heapUsed" stroke="Navy" />
+                    <Line type="monotone" dataKey="summary.heapTotal" stroke="Maroon" />
+                    <Line type="monotone" dataKey="summary.rss" stroke="Orange" />
                   </LineChart>
                 </ResponsiveContainer>
               )

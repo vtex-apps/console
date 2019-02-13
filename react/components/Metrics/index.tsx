@@ -5,10 +5,8 @@ import { withRuntimeContext } from 'render'
 import { EmptyState } from 'vtex.styleguide'
 
 import layoutContent from '../../common/layoutContent'
-import { getAppId } from '../../common/utils'
 import { AppContext } from './Contexts/AppContext'
 import { TimeContext } from './Contexts/TimeContext'
-
 import Controllers from './Controllers'
 import DataAnalysis from './DataAnalysis'
 
@@ -45,14 +43,16 @@ class Metrics extends Component<Props, State> {
     }
 
     return (
-      <div className="flex flex-wrap w-100">
-        <AppContext.Provider value={appContextValue}>
-          <TimeContext.Provider value={timeContextValue} >
-            <Controllers />
+      <AppContext.Provider value={appContextValue}>
+        <TimeContext.Provider value={timeContextValue} >
+          <div className="flex flex-wrap w-100">
+            <div className="w-100">
+              <Controllers />
+            </div>
             <div className="w-100">
               {appName && startDate && endDate && Array.isArray(layoutContent)
                 ? (
-                  <DataAnalysis layout={layoutContent} appId={getAppId(account, appName, appVersion || '')}/>
+                  <DataAnalysis layout={layoutContent} />
                 ) : (
                   <EmptyState title={this.props.intl.formatMessage({ id: 'console.empty.app.headline' })}>
                     <FormattedMessage id="console.empty.app.explanation" />
@@ -60,9 +60,9 @@ class Metrics extends Component<Props, State> {
                 )
               }
             </div>
-          </TimeContext.Provider>
-        </AppContext.Provider>
-      </div>
+          </div>
+        </TimeContext.Provider>
+      </AppContext.Provider>
     )
   }
 
