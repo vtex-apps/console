@@ -72,7 +72,7 @@ class RangeStepPicker extends Component<Props, State> {
       const stepSizePart: number = Number(this.props.rangeStep[0])
       const stepModifierPart: string = this.props.rangeStep[1]
 
-      stepModifier = mapTimeInverse[stepModifierPart]
+      stepModifier = mapTimeInverse[stepModifierPart] as RangeStep
       stepSize = stepSizePart
     }
     return {

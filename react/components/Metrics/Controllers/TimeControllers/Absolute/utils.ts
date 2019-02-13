@@ -1,9 +1,13 @@
 import { Option } from '../../../../../common/utils'
 
 
+interface StringDictionary {
+  [index: string]: string
+}
+
 export const noOp = () => undefined
 
-export const mapTime = {
+export const mapTime: StringDictionary = {
   'Days': 'd',
   'Hours': 'h',
   'Minutes': 'm',
@@ -21,7 +25,8 @@ export const stepModifierOptions: Option[] = [
   { value: 'Months', label: 'console.rangeStepPicker.stepModifier.months' },
   { value: 'Years', label: 'console.rangeStepPicker.stepModifier.years' },
 ]
-export const mapTimeInverse = {
+
+export const mapTimeInverse: StringDictionary = {
   'M': 'Months',
   'd': 'Days',
   'h': 'Hours',
