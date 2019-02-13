@@ -17,19 +17,22 @@ interface Props {
 
 const Absolute: React.SFC<Props> = (props) => {
   return (
-    <Fragment>
-      <RangeExtremesPicker
-        locale={props.locale}
-        startDate={props.startDate}
-        endDate={props.endDate}
-        handleStartDate={props.handleStartDate}
-        handleEndDate={props.handleEndDate}
-      />
-      <RangeStepPicker
-        rangeStep={props.rangeStep}
-        handleRangeStep={props.handleRangeStep}
-      />
-    </Fragment>
+    <div className="flex flex-wrap">
+      <Fragment>
+        <RangeExtremesPicker
+          locale={props.locale}
+          startDate={props.startDate}
+          endDate={props.endDate}
+          handleStartDate={props.handleStartDate}
+          handleEndDate={props.handleEndDate}
+        />
+        <RangeStepPicker
+          rangeStep={props.rangeStep}
+          handleRangeStep={props.handleRangeStep}
+        />
+      </Fragment>
+    </div>
+
   )
 }
 

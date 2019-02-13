@@ -56,8 +56,8 @@ class TimeControllers extends Component<Props, State> {
             </div>
           </Fragment>
         ) : (
-          <div className="flex flex-wrap mh1">
-            <div className="w-40 pa2 mr1">
+          <div className="flex flex-wrap w-100 mh1">
+            <div className="w-20 pa2 mr4">
               <RadioGroup
                 name="timeController"
                 options={timeControllerOptions}
@@ -65,7 +65,7 @@ class TimeControllers extends Component<Props, State> {
                 onChange={this.handleOnChangeMode}
               />
             </div>
-            <div className="w-40 pa2 mr1">
+            <div className="pa2 mr1">
               <Fragment>
                 {timeControllers.mode === 'absolute'
                   ? (
@@ -89,7 +89,7 @@ class TimeControllers extends Component<Props, State> {
                     />
                   )
                 }
-                <div className="pa4 mh2">
+                <div className="flex content-end pa4 mr1">
                   <Button
                     variation="primary"
                     size="small"

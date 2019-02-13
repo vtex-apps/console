@@ -9,16 +9,16 @@ import VersionInput from './VersionInput'
 const AppControllers = () => {
   return (
     <div className="flex br4 bg-base flex-wrap w-100 pa5">
-      <div className="w-40 pa4 mr2">
+      <div className="pa4">
         <AppNamePicker />
       </div>
-      <div className="w-40 pa4 mr2">
+      <div className="pa4">
         <VersionInput />
       </div>
-      <div className="w-40 pa4 mr2">
+      <div className="pa4">
         <RegionPicker />
       </div>
-      <div className="w-40 pa4 mr2">
+      <div className="pa4">
         <EnvPicker />
       </div>
     </div>

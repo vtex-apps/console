@@ -38,7 +38,7 @@ class RangeStepPicker extends Component<Props, State> {
     const stepModifierOptions: Option[] = this.setStepModifierOptions()
 
     return (
-      <div className="flex flex-colunm items-end pa4 mh0">
+      <div className="flex flex-colunm items-end pa4">
         {this.state.stepModifier === 'Full'
           ? (
             <NumericStepper
