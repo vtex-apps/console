@@ -56,15 +56,15 @@ const CpuUsageLineChart: React.SFC<Props> = (props) => {
                 >
                   <LineChart data={chartData}>
                     <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="formattedTime" />>
+                    <XAxis dataKey="formattedTime" domain={['auto', 'auto']}/>>
                       <YAxis
                       type="number"
                       tick={<CustomYAxisTick name="cpuUsageLineChart" />}
                     />
                     <Legend />
                     <Tooltip content={<CustomTooltip name="cpuUsageLineChart" />} />
-                    <Line type="monotone" dataKey="summary.system" stroke="Green" />
-                    <Line type="monotone" dataKey="summary.user" stroke="Navy" />
+                    <Line name="system" type="monotone" dataKey="summary.system" stroke="Green" />
+                    <Line name="user" type="monotone" dataKey="summary.user" stroke="Navy" />
                   </LineChart>
                 </ResponsiveContainer>
               )

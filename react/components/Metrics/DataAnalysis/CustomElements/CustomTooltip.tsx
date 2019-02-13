@@ -30,9 +30,8 @@ const CustomTooltip: React.SFC<Props> = (props) => {
           </div>
           {
             map((item) => {
-              const itemId: string = item.name
               const itemLabelColor: string = getColor(item) || ''
-              const itemLabel: string = String(item.dataKey)
+              const itemLabel: string = String(item.name)
               let itemValue: string
               if (name === 'cpuUsageLineChart') {
                 itemValue = abbrPerc(item.value, intl)
@@ -41,7 +40,7 @@ const CustomTooltip: React.SFC<Props> = (props) => {
               }
               return (
                 <RenderTooltip
-                  key={itemId}
+                  key={itemLabel}
                   label={itemLabel}
                   labelColor={itemLabelColor}
                   value={itemValue}

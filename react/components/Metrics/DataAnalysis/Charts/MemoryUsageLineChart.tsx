@@ -62,10 +62,10 @@ const MemoryUsageLineChart: React.SFC<Props> = (props) => {
                     />
                     <Legend />
                     <Tooltip content={<CustomTooltip name="memoryUsageLineChart" />} />
-                    <Line type="monotone" dataKey="summary.external" stroke="Green" />
-                    <Line type="monotone" dataKey="summary.heapUsed" stroke="Navy" />
-                    <Line type="monotone" dataKey="summary.heapTotal" stroke="Maroon" />
-                    <Line type="monotone" dataKey="summary.rss" stroke="Orange" />
+                    <Line name="external" type="monotone" dataKey="summary.external" stroke="Green" />
+                    <Line name="heapUsed" type="monotone" dataKey="summary.heapUsed" stroke="Navy" />
+                    <Line name="heapTotal" type="monotone" dataKey="summary.heapTotal" stroke="Maroon" />
+                    <Line name="rss" type="monotone" dataKey="summary.rss" stroke="Orange" />
                   </LineChart>
                 </ResponsiveContainer>
               )
