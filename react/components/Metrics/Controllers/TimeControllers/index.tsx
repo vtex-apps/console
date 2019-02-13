@@ -55,7 +55,7 @@ class TimeControllers extends Component<Props, State> {
           </Fragment>
         ) : (
           <div className="flex flex-wrap w-100 mh1">
-            <div className="w-20 pa2 mr4">
+            <div className="pa2 mr4">
               <RadioGroup
                 name="timeController"
                 options={formattedDropdownOptions(timeControllerOptions, intl)}
