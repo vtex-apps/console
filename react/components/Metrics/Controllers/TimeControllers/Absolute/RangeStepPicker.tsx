@@ -35,7 +35,6 @@ class RangeStepPicker extends Component<Props, State> {
 
   public render() {
     const { intl } = this.props
-    const stepModifierOptions: Option[] = this.setStepModifierOptions()
 
     return (
       <div className="flex flex-colunm items-end pa4">
