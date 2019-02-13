@@ -14,10 +14,11 @@ import { getChartData } from './utils'
 
 
 import {
+  Bar,
+  BarChart,
   CartesianGrid,
+  Cell,
   Legend,
-  Line,
-  LineChart,
   ResponsiveContainer,
   Tooltip,
   XAxis,
@@ -25,17 +26,25 @@ import {
 } from 'recharts'
 
 
+interface DataStatusCode {
+  httpStatus: number
+  count: number
+}
+
 interface Props extends InjectedIntlProps {
   name: string
   metricParams: any
 }
 
-const MemoryUsageLineChart: React.SFC<Props> = (props) => {
+
+const colors = ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd', '#8c564b', '#e377c2', '#7f7f7f', '#bcbd22', '#17becf']
+
+const StatusCodeBarChart: React.SFC<Props> = (props) => {
   const { name, metricParams, intl } = props
 
   return (
     <Fragment>
-      <BlockTitle title={intl.formatMessage({ id: 'console.memoryUsage.lineChart' })} />
+      <BlockTitle title={intl.formatMessage({ id: 'console.statusCode.barChart' })} />
 
       <Query query={dataQuery} ssr={false} variables={{ name, params: metricParams }} >
         {({ loading, data: { data: rawChartData } }) => {
@@ -53,20 +62,22 @@ const MemoryUsageLineChart: React.SFC<Props> = (props) => {
                   width={CHART_PROPERTIES.width}
                   height={CHART_PROPERTIES.height}
                 >
-                  <LineChart data={chartData}>
+                  <BarChart data={chartData} >
                     <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="formattedTime" />>
+                    <XAxis dataKey="httpStatus" />>
                     <YAxis
                       type="number"
-                      tick={<CustomYAxisTick name="memoryUsageLineChart" />}
+                      tick={<CustomYAxisTick name="statusCodeBarChart" />}
                     />
-                    <Legend />
-                    <Tooltip content={<CustomTooltip name="memoryUsageLineChart" />} />
-                    <Line type="monotone" dataKey="external" stroke="Green" />
-                    <Line type="monotone" dataKey="heapUsed" stroke="Navy" />
-                    <Line type="monotone" dataKey="heapTotal" stroke="Maroon" />
-                    <Line type="monotone" dataKey="rss" stroke="Orange" />
-                  </LineChart>
+                    <Tooltip content={<CustomTooltip name="statusCodeBarChart" />} />
+                    <Bar dataKey="count" >
+                      {
+                        chartData.map((entry: DataStatusCode, index: number) => (
+                          <Cell key={`cell-${index}`} fill={colors[index % 20]}  />
+                        ))
+                      }
+                    </Bar>
+                  </BarChart>
                 </ResponsiveContainer>
               )
           )
@@ -76,4 +87,4 @@ const MemoryUsageLineChart: React.SFC<Props> = (props) => {
   )
 }
 
-export default injectIntl(MemoryUsageLineChart)
+export default injectIntl(StatusCodeBarChart)

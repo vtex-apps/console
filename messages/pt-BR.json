@@ -21,7 +21,7 @@
   "console.date.picker.from": "De",
   "console.date.picker.to": "Até",
   "console.range.step.picker.stepSize": "Passo",
-  "console.cpuUsage.lineChart": "Uso de Cpu (microsegundos) durante o Tempo",
+  "console.cpuUsage.lineChart": "Uso de Cpu (percentual) durante o Tempo",
   "console.latency.lineChart": "Latência (milisegundos) durante o Tempo",
   "console.memoryUsage.lineChart": "Consumo de Memória (bytes) durante o Tempo",
   "console.empty.app.headline": "Por favor selecione uma app",
@@ -34,5 +34,6 @@
   "console.rangeStepPicker.stepModifier.hours": "Horas",
   "console.rangeStepPicker.stepModifier.days": "Dias",
   "console.rangeStepPicker.stepModifier.months": "Meses",
-  "console.rangeStepPicker.stepModifier.years": "Anos"
+  "console.rangeStepPicker.stepModifier.years": "Anos",
+  "console.statusCode.barChart": "Distribuição de Http Status Code"
 }

@@ -32,9 +32,7 @@ interface NavigateOptions {
 
 interface AppController {
   appName?: string
-  chosenMajor?: string
-  chosenMinor?: string
-  chosenPatch?: string
+  appVersion?: string
   region?: string
   production?: string
 }

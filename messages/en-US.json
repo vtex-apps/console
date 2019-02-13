@@ -21,7 +21,7 @@
   "console.date.picker.from": "From",
   "console.date.picker.to": "To",
   "console.range.step.picker.stepSize": "Step",
-  "console.cpuUsage.lineChart": "Cpu usage (microseconds) over Time",
+  "console.cpuUsage.lineChart": "Cpu usage (percentage) over Time",
   "console.latency.lineChart": "Latency (miliseconds) over Time",
   "console.memoryUsage.lineChart": "Memory (bytes) consumption over Time",
   "console.empty.app.headline": "Please select an app",
@@ -34,5 +34,6 @@
   "console.rangeStepPicker.stepModifier.hours": "Hours",
   "console.rangeStepPicker.stepModifier.days": "Days",
   "console.rangeStepPicker.stepModifier.months": "Months",
-  "console.rangeStepPicker.stepModifier.years": "Years"
+  "console.rangeStepPicker.stepModifier.years": "Years",
+  "console.statusCode.barChart": "Http Status Code Distribution"
 }

@@ -3,6 +3,7 @@ import { FormattedMessage, InjectedIntlProps, injectIntl } from 'react-intl'
 import { Button, EmptyState, RadioGroup } from 'vtex.styleguide'
 
 import { formattedDropdownOptions } from '../../../../common/utils'
+import { adjustStartDateHour } from '../../../../common/utils'
 import { TimeContext } from '../../Contexts/TimeContext'
 import Absolute from './Absolute'
 import Relative from './Relative'
@@ -27,7 +28,7 @@ class TimeControllers extends Component<InjectedIntlProps, State> {
       locale: 'pt-BR',
       mode: 'Empty',
       rangeStep: '',
-      startDate: new Date(),
+      startDate: adjustStartDateHour(),
     }
   }
 

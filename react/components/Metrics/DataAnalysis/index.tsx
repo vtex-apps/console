@@ -2,8 +2,8 @@ import { map, reject } from 'ramda'
 import React, { Component } from 'react'
 import { PageBlock } from 'vtex.styleguide'
 
-import { getAppVersion } from '../../../common/dataAnalysis'
 import { isNilOrEmpty } from '../../../common/dataAnalysis'
+import { getAppVersion } from '../../../common/utils'
 import { AppContext } from '../Contexts/AppContext'
 import { TimeContext } from '../Contexts/TimeContext'
 
@@ -18,17 +18,17 @@ const DataAnalysis: React.SFC<Props> = (props) => {
     return reject(isNilOrEmpty, {
       ...metricParams,
       appName: appControllers.appName,
-      appVersion: getAppVersion(appControllers),
+      appVersion: appControllers.appVersion,
       production: appControllers.production,
       region: appControllers.region,
     })
   }
 
-  const setTimeRange = (metricParams: object, timeControllers: TimeController) => {
+  const setTimeRange = (metricParams: object, timeControllers: TimeController, chartType: string) => {
     return reject(isNilOrEmpty, {
       ...metricParams,
       from: timeControllers.startDate,
-      interval: timeControllers.rangeStep,
+      interval: (chartType === 'BarChart') ? '' : timeControllers.rangeStep,
       to: timeControllers.endDate,
     })
   }
@@ -45,7 +45,8 @@ const DataAnalysis: React.SFC<Props> = (props) => {
                 map(
                   (chartDescription) => {
                     const {
-                      ChartType,
+                      ChartComponent,
+                      chartType,
                       id,
                       storedash: {
                         name,
@@ -58,11 +59,11 @@ const DataAnalysis: React.SFC<Props> = (props) => {
                     } = chartDescription
 
                     metricParams = setAppParams(metricParams, appControllers)
-                    metricParams = setTimeRange(metricParams, timeControllers)
+                    metricParams = setTimeRange(metricParams, timeControllers, chartType)
 
                     return (
                       <PageBlock key={id} variation="full">
-                        <ChartType name={name} metricParams={metricParams} />
+                        <ChartComponent name={name} metricParams={metricParams} />
                       </PageBlock>
                     )
                   }, layout)
