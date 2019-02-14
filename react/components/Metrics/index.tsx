@@ -53,8 +53,8 @@ class Metrics extends Component<Props, State> {
                 ? (
                   <DataAnalysis layout={layoutContent} />
                 ) : (
-                  <EmptyState title={this.props.intl.formatMessage({ id: 'console.empty.app.headline' })}>
-                    <FormattedMessage id="console.empty.app.explanation" />
+                  <EmptyState title={this.props.intl.formatMessage({ id: 'console.empty.context.headline' })}>
+                    <FormattedMessage id="console.empty.context.explanation" />
                   </EmptyState>
                 )
               }
