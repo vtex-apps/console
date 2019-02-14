@@ -26,7 +26,7 @@ class Relative extends Component<Props, State> {
   constructor(props: Props) {
     super(props)
     this.state = {
-      earliestModifier: 'Hours Ago',
+      earliestModifier: 'Days Ago',
       earliestSize: 1,
     }
     this.constructTimeRange()
