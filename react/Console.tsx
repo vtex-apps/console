@@ -31,11 +31,6 @@ const fields: Field[] = [
     path: 'metrics',
     titleId: 'console.admin.tabs.metrics',
   },
-  {
-    name: 'errors',
-    path: 'errors',
-    titleId: 'console.admin.tabs.errors',
-  },
 ]
 
 class Console extends Component<Props, {}> {
@@ -73,7 +68,6 @@ class Console extends Component<Props, {}> {
         <div>
           <StylesContainer>
             {tab === 'metrics' && <Metrics />}
-            {tab === 'errors' && <Errors />}
           </StylesContainer>
         </div>
       </div>
