@@ -39,7 +39,7 @@ const DataAnalysis: React.SFC<Props> = (props) => {
       {({ appControllers }) => (
         <TimeContext.Consumer>
           {({ timeControllers }) => (
-            <div className="mt5" >
+            <div className="flex flex-wrap mt5 w-100" >
               {
                 map(
                   (chartDescription) => {
@@ -61,9 +61,11 @@ const DataAnalysis: React.SFC<Props> = (props) => {
                     metricParams = setTimeRange(metricParams, timeControllers, chartType)
 
                     return (
-                      <PageBlock key={id} variation="full">
-                        <ChartComponent name={name} metricParams={metricParams} />
-                      </PageBlock>
+                      <div className="w-33 pa4">
+                        <PageBlock key={id} variation="full">
+                          <ChartComponent name={name} metricParams={metricParams} />
+                        </PageBlock>
+                      </div>
                     )
                   }, layout)
               }
