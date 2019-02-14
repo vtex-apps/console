@@ -28,15 +28,6 @@ interface Props extends InjectedIntlProps {
   metricParams: any
 }
 
-const calculateMeanLatency = (chartData: any[]) => {
-  return map((chartPoint: any) => {
-    const meanLatency = chartPoint.sum / chartPoint.count
-    return {
-      ...chartPoint,
-      meanLatency,
-    }
-  }, chartData)
-}
 
 const LatencyLineChart: React.SFC<Props> = (props) => {
   const { name, metricParams, intl } = props

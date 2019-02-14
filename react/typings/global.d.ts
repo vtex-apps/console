@@ -40,7 +40,6 @@ interface AppController {
 interface TimeController {
   startDate?: Date
   endDate?: Date
-  rangeStep?: string
   mode?: TimeRange
 }
 

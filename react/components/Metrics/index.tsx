@@ -30,7 +30,6 @@ class Metrics extends Component<Props, State> {
   }
 
   public render() {
-    const { runtime: { account } } = this.props
     const { appControllers: { appName, appVersion } } = this.state
     const { timeControllers: { startDate, endDate } } = this.state
     const appContextValue = {
@@ -90,9 +89,6 @@ class Metrics extends Component<Props, State> {
     if (timeControllers.endDate) {
       this.searchParams.set('endDate', timeControllers.endDate.toString())
     }
-    if (timeControllers.rangeStep) {
-      this.searchParams.set('rangeStep', timeControllers.rangeStep)
-    }
     if (timeControllers.mode) {
       this.searchParams.set('mode', timeControllers.mode)
     }
@@ -125,7 +121,6 @@ class Metrics extends Component<Props, State> {
       timeControllers: {
         endDate: endDate ? new Date(endDate) : undefined,
         mode: mode as TimeRange,
-        rangeStep: this.searchParams.get('rangeStep') || '',
         startDate: startDate ? new Date(startDate) : undefined,
       },
     }

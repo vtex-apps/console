@@ -12,7 +12,6 @@ export const TimeContext = React.createContext<TimeContextInterface>({
   timeControllers: {
     endDate: new Date(),
     mode: undefined,
-    rangeStep: '',
     startDate: new Date(),
   },
 })

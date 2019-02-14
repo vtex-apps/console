@@ -21,7 +21,7 @@ export const adjustStartDate = (earliestSize: number, earliestModifier: string) 
       startDate.setHours(startDate.getHours() - earliestSize)
       return startDate
     case 'Days Ago':
-      startDate.setDate(startDate.getDay() - earliestSize)
+      startDate.setDate(startDate.getDate() - earliestSize)
       return startDate
     case 'Months Ago':
       startDate.setMonth(startDate.getMonth() - earliestSize)
@@ -35,14 +35,16 @@ export const adjustStartDate = (earliestSize: number, earliestModifier: string) 
   }
 }
 
-export const setInterval = (earliestModifier: string) => {
-  return '1' + earliestModifier
-}
-
 export const adjustStartDateHour = () => {
   const date = new Date()
   date.setHours(date.getHours() - 1)
   return date
+}
+
+export const adjustEndDate = (endDate: Date) => {
+  // always decrease one second to avoid taking the next bucket
+  endDate.setSeconds(endDate.getSeconds() - 1)
+  return endDate
 }
 
 export const getAppVersion = (chosenMajor: string, chosenMinor: string, chosenPatch: string) => {
