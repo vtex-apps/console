@@ -8,7 +8,7 @@ import VersionInput from './VersionInput'
 
 const AppControllers = () => {
   return (
-    <div className="flex br4 bg-base flex-wrap w-100 pa5">
+    <div className="flex br4 bg-base flex-wrap w-100 pa2">
       <div className="pa4">
         <AppNamePicker />
       </div>
