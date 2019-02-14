@@ -2,6 +2,7 @@ import { has } from 'ramda'
 import React, { Fragment } from 'react'
 import { Query } from 'react-apollo'
 import { InjectedIntlProps, injectIntl } from 'react-intl'
+import { withRuntimeContext } from 'render'
 import { Spinner } from 'vtex.styleguide'
 
 import dataQuery from '../../../../graphql/data.graphql'
@@ -55,15 +56,15 @@ const CpuUsageLineChart: React.SFC<Props> = (props) => {
                 >
                   <LineChart data={chartData}>
                     <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="formattedTime" />>
+                    <XAxis dataKey="formattedTime" domain={['auto', 'auto']}/>>
                       <YAxis
                       type="number"
                       tick={<CustomYAxisTick name="cpuUsageLineChart" />}
                     />
                     <Legend />
                     <Tooltip content={<CustomTooltip name="cpuUsageLineChart" />} />
-                    <Line type="monotone" dataKey="system" stroke="Green" />
-                    <Line type="monotone" dataKey="user" stroke="Navy" />
+                    <Line name="system" type="monotone" dataKey="summary.system" stroke="Green" />
+                    <Line name="user" type="monotone" dataKey="summary.user" stroke="Navy" />
                   </LineChart>
                 </ResponsiveContainer>
               )
@@ -74,4 +75,4 @@ const CpuUsageLineChart: React.SFC<Props> = (props) => {
   )
 }
 
-export default injectIntl(CpuUsageLineChart)
+export default withRuntimeContext(injectIntl(CpuUsageLineChart))

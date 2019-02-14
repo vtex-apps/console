@@ -4,6 +4,27 @@ import { InjectedIntl } from 'react-intl'
 
 export const isNilOrEmpty = (x: any) => isEmpty(x) || isNil(x)
 
+const periodName: string[] = ['s', 'm', 'h', 'd', 'M', 'y']
+
+const periodDuration: number[] = [1, 60, 60 * 60, 24 * 60 * 60, 30 * 24 * 60 * 60, 12 * 30 * 24 * 60 * 60]
+
+const adjustRangeStep = (rangeStepSize: number): string => {
+  let i: number = 1
+  while (i <= periodName.length && rangeStepSize > periodDuration[i]) {
+    i++
+  }
+  i--
+  rangeStepSize = Math.round(rangeStepSize / periodDuration[i])
+  return rangeStepSize + periodName[i]
+}
+
+export const getRangeStep = (startDate: Date, endDate: Date): string => {
+  const elapsedTime: number = ((endDate.getTime() + 1000) - startDate.getTime()) / 1000
+  const rangeStepSize = Math.round(elapsedTime / 12)
+  const rangeStep = adjustRangeStep(rangeStepSize)
+  return rangeStep
+}
+
 const getFormattedTime = (date: any, intl: InjectedIntl, stepModifier: string) => {
   switch (stepModifier) {
     case 's':
@@ -20,6 +41,7 @@ const getFormattedTime = (date: any, intl: InjectedIntl, stepModifier: string) =
     case 'h':
       return intl.formatTime(date, {
         hour: 'numeric',
+        minute: 'numeric',
       })
     case 'd':
       return intl.formatDate(date, {

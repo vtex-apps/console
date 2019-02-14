@@ -64,13 +64,13 @@ const StatusCodeBarChart: React.SFC<Props> = (props) => {
                 >
                   <BarChart data={chartData} >
                     <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="httpStatus" />>
+                    <XAxis dataKey="key.httpStatus" />>
                     <YAxis
                       type="number"
                       tick={<CustomYAxisTick name="statusCodeBarChart" />}
                     />
                     <Tooltip content={<CustomTooltip name="statusCodeBarChart" />} />
-                    <Bar dataKey="count" >
+                    <Bar name="count" dataKey="summary.count" >
                       {
                         chartData.map((entry: DataStatusCode, index: number) => (
                           <Cell key={`cell-${index}`} fill={colors[index % 20]}  />

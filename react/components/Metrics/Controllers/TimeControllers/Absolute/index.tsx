@@ -1,36 +1,45 @@
 import React, { Fragment } from 'react'
+import { InjectedIntlProps, injectIntl } from 'react-intl'
+import { DatePicker } from 'vtex.styleguide'
 
-import RangeExtremesPicker from './RangeExtremesPicker'
-import RangeStepPicker from './RangeStepPicker'
 
-
-interface Props {
+interface Props extends InjectedIntlProps {
   locale: string
   startDate: Date
   endDate: Date
-  rangeStep: string
   handleStartDate: (date: Date) => void
   handleEndDate: (date: Date) => void
-  handleRangeStep: (rangeStep: string) => void
 }
 
 
 const Absolute: React.SFC<Props> = (props) => {
   return (
-    <Fragment>
-      <RangeExtremesPicker
-        locale={props.locale}
-        startDate={props.startDate}
-        endDate={props.endDate}
-        handleStartDate={props.handleStartDate}
-        handleEndDate={props.handleEndDate}
-      />
-      <RangeStepPicker
-        rangeStep={props.rangeStep}
-        handleRangeStep={props.handleRangeStep}
-      />
-    </Fragment>
+    <div className="flex flex-wrap">
+      <Fragment>
+        <div className="pa4 mh2">
+          <DatePicker
+            name={'startDate'}
+            label={props.intl.formatMessage({ id: 'console.date.picker.from' })}
+            locale={props.locale}
+            useTime={true}
+            value={props.startDate}
+            onChange={props.handleStartDate}
+          />
+        </div>
+        <div className="pa4 mh2">
+          <DatePicker
+            name={'endDate'}
+            label={props.intl.formatMessage({ id: 'console.date.picker.to' })}
+            locale={props.locale}
+            useTime={true}
+            value={props.endDate}
+            onChange={props.handleEndDate}
+          />
+        </div>
+      </Fragment>
+    </div>
+
   )
 }
 
-export default Absolute
+export default injectIntl(Absolute)

@@ -40,7 +40,7 @@ class VersionInput extends Component<InjectedIntlProps, State> {
       <AppContext.Consumer>
         {({ appControllers, setAppControllers }) => (
           <Input
-            placeholder="Ex: 1.0.x"
+            placeholder={appControllers.appVersion || 'Ex: 1.0.x'}
             label={this.props.intl.formatMessage({ id: 'console.app.version' })}
             onChange={(event: any) => this.parseInputAndSetState(event.target.value, appControllers, setAppControllers)}
             errorMessage={this.state.inputIsNotSemver ? 'Version is not in the SemVer spec' : ''}
@@ -78,7 +78,7 @@ class VersionInput extends Component<InjectedIntlProps, State> {
       chosenPatch = patch
     }
 
-    const appVersion = getAppVersion(chosenMajor, chosenMinor, chosenPatch)
+    const appVersion = getAppVersion(String(chosenMajor), String(chosenMinor), String(chosenPatch))
     setAppControllers({
       ...appControllers,
       appVersion,

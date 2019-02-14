@@ -1,9 +1,8 @@
 import { map, reject } from 'ramda'
-import React, { Component } from 'react'
+import React from 'react'
 import { PageBlock } from 'vtex.styleguide'
 
-import { isNilOrEmpty } from '../../../common/dataAnalysis'
-import { getAppVersion } from '../../../common/utils'
+import { getRangeStep, isNilOrEmpty } from '../../../common/dataAnalysis'
 import { AppContext } from '../Contexts/AppContext'
 import { TimeContext } from '../Contexts/TimeContext'
 
@@ -28,7 +27,7 @@ const DataAnalysis: React.SFC<Props> = (props) => {
     return reject(isNilOrEmpty, {
       ...metricParams,
       from: timeControllers.startDate,
-      interval: (chartType === 'BarChart') ? '' : timeControllers.rangeStep,
+      interval: (chartType === 'BarChart') ? '' : getRangeStep(timeControllers.startDate!, timeControllers.endDate!),
       to: timeControllers.endDate,
     })
   }

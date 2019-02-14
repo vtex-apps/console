@@ -2,105 +2,97 @@ import React, { Component, Fragment } from 'react'
 import { FormattedMessage, InjectedIntlProps, injectIntl } from 'react-intl'
 import { Button, EmptyState, RadioGroup } from 'vtex.styleguide'
 
-import { formattedDropdownOptions } from '../../../../common/utils'
-import { adjustStartDateHour } from '../../../../common/utils'
-import { TimeContext } from '../../Contexts/TimeContext'
+import { adjustEndDate, adjustStartDateHour, formattedDropdownOptions } from '../../../../common/utils'
 import Absolute from './Absolute'
 import Relative from './Relative'
 import { timeControllerOptions } from './utils'
 
 
-type TimeRange = 'Absolute' | 'Relative' | 'Empty'
+interface Props extends InjectedIntlProps {
+  timeControllers: TimeController
+  setTimeControllers: SetTimeControllers
+}
+
 interface State {
   locale: string
   startDate: Date
   endDate: Date
-  rangeStep: string
-  mode: TimeRange
 }
 
 
-class TimeControllers extends Component<InjectedIntlProps, State> {
-  constructor(props: InjectedIntlProps) {
+class TimeControllers extends Component<Props, State> {
+  constructor(props: Props) {
     super(props)
     this.state = {
-      endDate: new Date(),
+      endDate: this.props.timeControllers.endDate || new Date(),
       locale: 'pt-BR',
-      mode: 'Empty',
-      rangeStep: '',
-      startDate: adjustStartDateHour(),
+      startDate: this.props.timeControllers.startDate || adjustStartDateHour(),
     }
   }
 
   public render() {
-    const { intl } = this.props
+    const { intl, timeControllers } = this.props
+    const { locale, startDate, endDate } = this.state
 
     return (
-      <div>
-        {
-          this.state.mode === 'Empty'
-            ? (
-              <Fragment>
-                <EmptyState title={intl.formatMessage({ id: 'console.empty.time.range.headline' })}>
-                  <FormattedMessage id="console.empty.time.range.explanation" />
-                </EmptyState>
-                <div className="pa4 mh2 flex justify-end">
-                  <Button
-                    variation="primary"
-                    size="small"
-                    onClick={this.handleOnClickMode}
-                  >
-                    <FormattedMessage id="console.button.set.time.range" />
-                  </Button>
-                </div>
-              </Fragment>
-            ) : (
-              <div className="flex flex-wrap mh1">
-                <div className="w-40 pa2 mr1">
-                  <RadioGroup
-                    name="timeController"
-                    options={formattedDropdownOptions(timeControllerOptions, intl)}
-                    value={this.state.mode}
-                    onChange={this.handleOnChangeMode}
+      !timeControllers.mode
+        ? (
+          <Fragment>
+            <EmptyState title={intl.formatMessage({ id: 'console.empty.time.range.headline' })}>
+              <FormattedMessage id="console.empty.time.range.explanation" />
+            </EmptyState>
+            <div className="pa4 mh2 flex justify-end">
+              <Button
+                variation="primary"
+                size="small"
+                onClick={this.handleOnClickMode}
+              >
+                <FormattedMessage id="console.button.set.time.range" />
+              </Button>
+            </div>
+          </Fragment>
+        ) : (
+          <div className="flex flex-row">
+            <div className="pa2 mr4">
+              <RadioGroup
+                name="timeController"
+                options={formattedDropdownOptions(timeControllerOptions, intl)}
+                value={timeControllers.mode}
+                onChange={this.handleOnChangeMode}
+              />
+            </div>
+            <div className="flex items-center flex-wrap w-100">
+              {timeControllers.mode === 'absolute'
+                ? (
+                  <Absolute
+                    startDate={startDate}
+                    endDate={endDate}
+                    handleStartDate={this.setStartDate}
+                    handleEndDate={this.setEndDate}
+                    locale={locale}
                   />
-                </div>
-                <div className="w-40 pa2 mr1">
-                  <TimeContext.Consumer>
-                    {({ timeControllers, setTimeControllers }) => (
-                      <Fragment>
-                        {this.state.mode === 'Absolute'
-                          ? (
-                            <Absolute
-                              locale={this.state.locale}
-                              startDate={this.state.startDate}
-                              endDate={this.state.endDate}
-                              rangeStep={this.state.rangeStep}
-                              handleRangeStep={this.setRangeStep}
-                              handleStartDate={this.setStartDate}
-                              handleEndDate={this.setEndDate}
-                            />
-                          ) : (
-                            <Relative />
-                          )
-                        }
-                        <div className="pa4 mh2">
-                          <Button
-                            variation="primary"
-                            size="small"
-                            disabled={!this.isButtonActive}
-                            onClick={() => this.handleOnClickTimeControllers(timeControllers, setTimeControllers)}
-                          >
-                            <FormattedMessage id="console.button.apply.time.range" />
-                          </Button>
-                        </div>
-                      </Fragment>
-                    )}
-                  </TimeContext.Consumer>
-                </div>
+                ) : (
+                  <Relative
+                    startDate={startDate}
+                    endDate={endDate}
+                    handleStartDate={this.setStartDate}
+                    handleEndDate={this.setEndDate}
+                  />
+                )
+              }
+              <div className="content-end pa4 mr1 mh4">
+                <Button
+                  variation="primary"
+                  size="small"
+                  disabled={!this.isButtonActive}
+                  onClick={this.handleOnClickTimeControllers}
+                >
+                  <FormattedMessage id="console.button.apply.time.range" />
+                </Button>
               </div>
-            )
-        }
-      </div>
+            </div>
+          </div>
+        )
     )
   }
 
@@ -109,37 +101,29 @@ class TimeControllers extends Component<InjectedIntlProps, State> {
   }
 
   private setEndDate = (endDate: Date) => {
-    // always decrease one second to avoid taking the next bucket
-    endDate.setSeconds(endDate.getSeconds() - 1)
-    this.setState({ endDate })
-  }
-
-  private setRangeStep = (rangeStep: string) => {
-    this.setState({ rangeStep })
-  }
-
-  private setTimeMode = (mode: any) => {
-    this.setState({ mode })
+    this.setState({ endDate: adjustEndDate(endDate) })
   }
 
   private handleOnClickMode = () => {
-    this.setTimeMode('Absolute')
+    this.props.setTimeControllers({
+      ...this.props.timeControllers,
+      mode: 'absolute',
+    })
   }
 
   private handleOnChangeMode = (e: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState(
-      {
-        mode: e.currentTarget
-          ? e.currentTarget.value as TimeRange
-          : 'Absolute',
-      })
+    this.props.setTimeControllers({
+      ...this.props.timeControllers,
+      mode: e.currentTarget
+        ? e.currentTarget.value as TimeRange
+        : 'absolute',
+    })
   }
 
-  private handleOnClickTimeControllers = (timeControllers: TimeController, setTimeControllers: SetTimeControllers) => {
-    setTimeControllers({
-      ...timeControllers,
+  private handleOnClickTimeControllers = () => {
+    this.props.setTimeControllers({
+      ...this.props.timeControllers,
       endDate: this.state.endDate,
-      rangeStep: this.state.rangeStep,
       startDate: this.state.startDate,
     })
   }

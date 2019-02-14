@@ -7,7 +7,7 @@ interface RenderContext {
   extensions: RenderRuntime['extensions']
   fetchComponent: (component: string) => Promise<void>
   getSettings: (app: string) => any
-  history: History | null
+  history: any | null
   navigate: (options: NavigateOptions) => boolean
   onPageChanged: (location: Location) => void
   page: RenderRuntime['page']
@@ -40,8 +40,10 @@ interface AppController {
 interface TimeController {
   startDate?: Date
   endDate?: Date
-  rangeStep?: string
+  mode?: TimeRange
 }
+
+type TimeRange = 'absolute' | 'relative'
 
 type SetTimeControllers = (timeControllers: TimeController) => void
 
