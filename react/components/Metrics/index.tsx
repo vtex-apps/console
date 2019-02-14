@@ -30,7 +30,7 @@ class Metrics extends Component<Props, State> {
   }
 
   public render() {
-    const { appControllers: { appName, appVersion } } = this.state
+    const { appControllers: { appName } } = this.state
     const { timeControllers: { startDate, endDate } } = this.state
     const appContextValue = {
       appControllers: this.state.appControllers,
@@ -77,6 +77,18 @@ class Metrics extends Component<Props, State> {
     }
     if (appControllers.region) {
       this.searchParams.set('region', appControllers.region)
+    }
+
+    if (!appControllers.appVersion && this.searchParams.has('appVersion')) {
+      this.searchParams.delete('appVersion')
+    }
+
+    if (!appControllers.production && this.searchParams.has('production')) {
+      this.searchParams.delete('production')
+    }
+
+    if (!appControllers.region && this.searchParams.has('region')) {
+      this.searchParams.delete('region')
     }
 
     this.changeCurrentLocationInHistory()
