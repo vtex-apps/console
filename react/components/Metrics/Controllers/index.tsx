@@ -14,13 +14,6 @@ const Controllers: React.SFC<InjectedIntlProps> = (props) => {
     <PageBlock
       title={intl.formatMessage({ id: 'console.context' })}
       variation="half"
-      titleAside={
-        <div className="nv4 flex justify-end">
-          <Button variation="primary" disabled >
-            <FormattedMessage id="console.newMetric" />
-          </Button>
-        </div>
-      }
     >
       <AppControllers />
       <TimeContext.Consumer>
