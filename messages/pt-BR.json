@@ -29,6 +29,7 @@
   "console.time.controller.absolute": "Absoluto",
   "console.time.controller.relative": "Relativo",
   "console.statusCode.barChart": "Distribuição de Http Status Code",
+  "console.statusCode.lineChart": "Http Status Code (percentual) durante o tempo",
   "console.time.controller.relative.earliest": "De",
   "console.time.controller.relative.earliestModifier.seconds.ago": "Segundos Atrás",
   "console.time.controller.relative.earliestModifier.minutes.ago": "Minutos Atrás",

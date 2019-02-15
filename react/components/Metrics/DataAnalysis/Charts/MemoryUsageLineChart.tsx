@@ -1,4 +1,3 @@
-import { has } from 'ramda'
 import React, { Fragment } from 'react'
 import { Query } from 'react-apollo'
 import { InjectedIntlProps, injectIntl } from 'react-intl'
@@ -55,7 +54,7 @@ const MemoryUsageLineChart: React.SFC<Props> = (props) => {
                 >
                   <LineChart data={chartData}>
                     <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="formattedTime" />>
+                    <XAxis dataKey="formattedTime" />
                     <YAxis
                       type="number"
                       tick={<CustomYAxisTick name="memoryUsageLineChart" />}

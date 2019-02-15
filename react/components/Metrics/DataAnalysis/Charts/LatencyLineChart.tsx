@@ -54,8 +54,8 @@ const LatencyLineChart: React.SFC<Props> = (props) => {
                 >
                   <LineChart data={chartData}>
                     <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="formattedTime" />>
-                      <YAxis
+                    <XAxis dataKey="formattedTime" />
+                    <YAxis
                       type="number"
                       tick={<CustomYAxisTick name="latencyLineChart" />}
                     />

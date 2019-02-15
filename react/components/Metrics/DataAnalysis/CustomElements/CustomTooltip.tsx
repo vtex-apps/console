@@ -33,7 +33,7 @@ const CustomTooltip: React.SFC<Props> = (props) => {
               const itemLabelColor: string = getColor(item) || ''
               const itemLabel: string = String(item.name)
               let itemValue: string
-              if (name === 'cpuUsageLineChart') {
+              if (name === 'cpuUsageLineChart' || name === 'statusCodeLineChart') {
                 itemValue = abbrPerc(item.value, intl)
               } else {
                 itemValue = intl.formatNumber(Number(item.value))

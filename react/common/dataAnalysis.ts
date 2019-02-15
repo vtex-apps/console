@@ -106,7 +106,7 @@ export const abbrPerc = (value: any, intl: InjectedIntl): string => {
   return intl.formatNumber(
     Number(value),
     {
-      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
       style: 'percent',
     }
   )

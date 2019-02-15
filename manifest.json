@@ -13,7 +13,6 @@
     "vtex.builder-log": "0.x"
   },
   "scripts": {
-    "postreleasy": "vtex publish --public"
   },
   "builders": {
     "react": "2.x",

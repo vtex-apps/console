@@ -18,7 +18,7 @@ const CustomYAxisTick: React.SFC<Props> = (props) => {
   const { name, intl, x, y, payload, toFixed, textAnchor = 'middle' } = props
   let tickValue: string
 
-  if (name === 'cpuUsageLineChart') {
+  if (name === 'cpuUsageLineChart' || name === 'statusCodeLineChart') {
     tickValue = abbrPerc(payload.value, intl)
   } else {
     tickValue = abbrNum(toFixed ? payload.value.toFixed(toFixed) : payload.value, 0)

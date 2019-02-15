@@ -28,6 +28,7 @@
   "console.time.controller.absolute": "",
   "console.time.controller.relative": "",
   "console.statusCode.barChart": "",
+  "console.statusCode.lineChart": "",
   "console.time.controller.relative.earliest": "",
   "console.time.controller.relative.earliestModifier.seconds.ago": "",
   "console.time.controller.relative.earliestModifier.minutes.ago": "",
