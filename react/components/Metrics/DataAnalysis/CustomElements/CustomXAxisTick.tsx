@@ -10,11 +10,13 @@ interface Props {
 
 const CustomXAxisTick: React.SFC<Props> = (props) => {
   const { x, y, payload } = props
-  return (<g transform={`translate(${x},${y})`}>
-    <text x={0} y={15} dy={0} textAnchor="middle" fill="#666" className="f6">
-      {payload.value}
-    </text>
-  </g>)
+  return (
+    <g transform={`translate(${x},${y})`}>
+      <text x={0} y={0} dy={5} textAnchor="middle" fill="#666" className="f6">
+        {payload.value}
+      </text>
+    </g>
+  )
 }
 
 export default CustomXAxisTick

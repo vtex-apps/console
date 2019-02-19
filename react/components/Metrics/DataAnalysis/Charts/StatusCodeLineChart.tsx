@@ -1,28 +1,16 @@
-import { map } from 'ramda'
 import React, { Fragment } from 'react'
 import { Query } from 'react-apollo'
 import { InjectedIntlProps, injectIntl } from 'react-intl'
+import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
 import { withRuntimeContext } from 'render'
 import { Spinner } from 'vtex.styleguide'
 
+import { CHART_PROPERTIES, colors } from '../../../../common/constants'
+import { getFormattedTime, getStepModifier, mapIndexed } from '../../../../common/dataAnalysis'
 import dataQuery from '../../../../graphql/data.graphql'
-
-import { CHART_PROPERTIES } from '../../../../common/constants'
 import BlockTitle from '../CustomElements/BlockTitle'
 import CustomTooltip from '../CustomElements/CustomTooltip'
 import CustomYAxisTick from '../CustomElements/CustomYAxisTick'
-import { colors, getChartData, mapIndexed } from './utils'
-
-import {
-  CartesianGrid,
-  Legend,
-  Line,
-  LineChart,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from 'recharts'
 
 
 interface Props extends InjectedIntlProps {
@@ -40,9 +28,10 @@ const StatusCodeLineChart: React.SFC<Props> = (props) => {
       <Query query={dataQuery} ssr={false} variables={{ name, params: metricParams }} >
         {({ loading, error, data: { data: rawChartData } }) => {
           let chartData: any
+          const stepModifier = getStepModifier(metricParams)
 
           if (!loading) {
-            chartData = getChartData(rawChartData, metricParams, intl)
+            chartData = JSON.parse(rawChartData)
           }
 
           return (
@@ -58,6 +47,7 @@ const StatusCodeLineChart: React.SFC<Props> = (props) => {
                     <XAxis
                       dataKey="label"
                       allowDuplicatedCategory={false}
+                      tickFormatter={(rawDate: string) => getFormattedTime(rawDate, intl, stepModifier)}
                     />
                     <YAxis
                       type="number"
@@ -65,19 +55,21 @@ const StatusCodeLineChart: React.SFC<Props> = (props) => {
                       tick={<CustomYAxisTick name="statusCodeLineChart" />}
                     />
                     <Legend />
-                    <Tooltip content={<CustomTooltip name="statusCodeLineChart" />} />
+                    <Tooltip
+                      content={<CustomTooltip name="statusCodeLineChart" stepModifier={stepModifier} />}
+                    />
                     {
                       mapIndexed(
                         (chartLine: any, index: number) => (
                           <Line
+                            isAnimationActive={false}
                             dataKey="value"
                             data={chartLine.data}
                             name={chartLine.name}
                             key={chartLine.name}
                             stroke={colors[index % 20]}
                           />
-                        ), chartData
-                      )
+                        ), chartData)
                     }
                   </LineChart>
                 </ResponsiveContainer>
