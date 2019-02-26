@@ -1,8 +1,10 @@
-import { isEmpty, isNil, map } from 'ramda'
+import { addIndex, has, isEmpty, isNil, map } from 'ramda'
 import { InjectedIntl } from 'react-intl'
 
 
 export const isNilOrEmpty = (x: any) => isEmpty(x) || isNil(x)
+
+export const mapIndexed = addIndex(map)
 
 const periodName: string[] = ['s', 'm', 'h', 'd', 'M', 'y']
 
@@ -25,7 +27,15 @@ export const getRangeStep = (startDate: Date, endDate: Date): string => {
   return rangeStep
 }
 
-const getFormattedTime = (date: any, intl: InjectedIntl, stepModifier: string) => {
+export const getStepModifier = (metricParams: any): string => {
+  let stepModifier = ''
+  if (has('interval', metricParams)) {
+    stepModifier = metricParams.interval[metricParams.interval.length - 1]
+  }
+  return stepModifier
+}
+
+export const getFormattedTime = (date: any, intl: InjectedIntl, stepModifier: string): string => {
   switch (stepModifier) {
     case 's':
       return intl.formatTime(date, {
@@ -69,12 +79,6 @@ const getFormattedTime = (date: any, intl: InjectedIntl, stepModifier: string) =
   }
 }
 
-export const addFormattedTime = (chartData: any, intl: InjectedIntl, stepModifier: string) => {
-  return map((chartPoint: any) => ({
-    ...chartPoint,
-    formattedTime: getFormattedTime(chartPoint.date, intl, stepModifier),
-  }), chartData)
-}
 
 // Source: stackoverflow.com/questions/2685911/is-there-a-way-to-round-numbers-into-a-reader-friendly-format-e-g-1-1k
 export const abbrNum = (value: number, decPlaces: number): string => {
@@ -106,7 +110,7 @@ export const abbrPerc = (value: any, intl: InjectedIntl): string => {
   return intl.formatNumber(
     Number(value),
     {
-      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
       style: 'percent',
     }
   )

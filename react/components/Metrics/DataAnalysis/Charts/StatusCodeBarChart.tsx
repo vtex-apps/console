@@ -1,29 +1,15 @@
-import { has } from 'ramda'
 import React, { Fragment } from 'react'
 import { Query } from 'react-apollo'
 import { InjectedIntlProps, injectIntl } from 'react-intl'
+import { Bar, BarChart, CartesianGrid, Cell, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
 import { Spinner } from 'vtex.styleguide'
 
+import { CHART_PROPERTIES, colors } from '../../../../common/constants'
+import { getStepModifier } from '../../../../common/dataAnalysis'
 import dataQuery from '../../../../graphql/data.graphql'
-
-import { CHART_PROPERTIES } from '../../../../common/constants'
 import BlockTitle from '../CustomElements/BlockTitle'
 import CustomTooltip from '../CustomElements/CustomTooltip'
 import CustomYAxisTick from '../CustomElements/CustomYAxisTick'
-import { getChartData } from './utils'
-
-
-import {
-  Bar,
-  BarChart,
-  CartesianGrid,
-  Cell,
-  Legend,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from 'recharts'
 
 
 interface DataStatusCode {
@@ -37,8 +23,6 @@ interface Props extends InjectedIntlProps {
 }
 
 
-const colors = ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd', '#8c564b', '#e377c2', '#7f7f7f', '#bcbd22', '#17becf']
-
 const StatusCodeBarChart: React.SFC<Props> = (props) => {
   const { name, metricParams, intl } = props
 
@@ -49,9 +33,11 @@ const StatusCodeBarChart: React.SFC<Props> = (props) => {
       <Query query={dataQuery} ssr={false} variables={{ name, params: metricParams }} >
         {({ loading, data: { data: rawChartData } }) => {
           let chartData: any
+          const stepModifier = getStepModifier(metricParams)
 
           if (!loading) {
-            chartData = getChartData(rawChartData, metricParams, intl)
+            chartData = JSON.parse(rawChartData)
+            console.log({chartData})
           }
 
           return (
@@ -64,12 +50,12 @@ const StatusCodeBarChart: React.SFC<Props> = (props) => {
                 >
                   <BarChart data={chartData} >
                     <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="key.httpStatus" />>
+                    <XAxis dataKey="key.httpStatus" />
                     <YAxis
                       type="number"
                       tick={<CustomYAxisTick name="statusCodeBarChart" />}
                     />
-                    <Tooltip content={<CustomTooltip name="statusCodeBarChart" />} />
+                    <Tooltip content={<CustomTooltip name="statusCodeBarChart" stepModifier={stepModifier} />} />
                     <Bar name="count" dataKey="summary.count" >
                       {
                         chartData.map((entry: DataStatusCode, index: number) => (
