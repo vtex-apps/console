@@ -12,11 +12,11 @@
     "vtex.styleguide": "8.x",
     "vtex.builder-log": "0.x"
   },
-  "scripts": {
-  },
+  "scripts": {},
   "builders": {
     "react": "2.x",
     "pages": "0.x",
-    "messages": "1.x"
+    "messages": "1.x",
+    "docs": "0.x"
   }
 }
