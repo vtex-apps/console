@@ -1,7 +1,7 @@
 {
   "name": "console",
   "vendor": "vtex",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "title": "IO Console",
   "description": "VTEX developer console",
   "mustUpdateAt": "2019-10-16",
